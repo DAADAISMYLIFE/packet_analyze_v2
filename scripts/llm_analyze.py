@@ -132,24 +132,47 @@ def enforce_review(verdict):
     return verdict
 
 
+def p(*a):
+    """flush 강제 — Colab/노트북에서 진행상황이 실시간으로 흐르게."""
+    print(*a, flush=True)
+
+
+def _preview(obj, n=200):
+    """tool 인자/결과를 한 줄로 줄여 미리보기 (공백 정리 + 길이 제한)."""
+    s = obj if isinstance(obj, str) else json.dumps(obj, ensure_ascii=False)
+    s = " ".join(s.split())
+    return s[:n] + ("…" if len(s) > n else "")
+
+
 def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
     from openai import OpenAI
     client = OpenAI(base_url=base_url, api_key=api_key)
     drill = tools_mod.DrillDownTools(name)
     all_tools = tools_mod.TOOL_SCHEMAS + [SUBMIT_VERDICT_TOOL]
     messages = build_messages(ev)
+    trace = []   # tool 호출 기록 → verdict에 저장(사후 측정용)
+
+    p(f"\n{'=' * 60}")
+    p(f"  LLM 분석 시작: {name}")
+    p(f"  model={model}  max_rounds={max_rounds}  tools={len(tools_mod.TOOL_SCHEMAS)}개")
+    p(f"{'=' * 60}")
 
     for r in range(max_rounds):
+        p(f"\n── round {r} " + "─" * 40)
         resp = client.chat.completions.create(
             model=model, messages=messages, tools=all_tools,
             tool_choice="auto", temperature=temperature)
         msg = resp.choices[0].message
         messages.append(msg.model_dump(exclude_none=True))
 
+        # 모델이 내놓은 텍스트(추론/진행 설명)가 있으면 표시
+        if msg.content and msg.content.strip():
+            p(f"  💭 {_preview(msg.content, 400)}")
+
         if not msg.tool_calls:
-            # 도구 없이 텍스트만 → 한 번 더 유도
+            p("  ⚠️  tool 호출 없음 → submit_verdict 유도")
             messages.append({"role": "user",
-                             "content": "submit_verdict 도구로 판정을 제출하라."})
+                             "content": "분석을 마쳤으면 submit_verdict 도구를 호출해 최종 판정을 제출하라."})
             continue
 
         for tc in msg.tool_calls:
@@ -158,16 +181,26 @@ def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
                 args = json.loads(tc.function.arguments or "{}")
             except json.JSONDecodeError:
                 args = {}
+
             if fn == "submit_verdict":
-                print(f"[round {r}] ✅ submit_verdict")
-                return enforce_review(args)
+                p("  ✅ submit_verdict 호출 — 최종 판정 제출")
+                verdict = enforce_review(args)
+                verdict["tool_trace"] = trace
+                verdict["rounds_used"] = r + 1
+                return verdict
+
             # 드릴다운 도구 실행
             result = tools_mod.dispatch(drill, fn, args)
-            print(f"[round {r}] 🔧 {fn}({args}) -> {len(str(result))}자")
+            size = len(json.dumps(result, ensure_ascii=False))
+            trace.append({"round": r, "tool": fn, "args": args, "result_size": size})
+            p(f"  🔧 {fn}({_preview(args, 120)})")
+            p(f"      → ({size}자) {_preview(result, 220)}")
             messages.append({"role": "tool", "tool_call_id": tc.id,
                              "content": json.dumps(result, ensure_ascii=False)})
 
-    return {"error": "max_rounds 초과 — 판정 미제출", "needs_review": True}
+    p("\n  ❌ max_rounds 초과 — 판정 미제출")
+    return {"error": "max_rounds 초과 — 판정 미제출", "needs_review": True,
+            "tool_trace": trace, "rounds_used": max_rounds}
 
 
 def main():
@@ -202,8 +235,22 @@ def main():
     out = os.path.join(ROOT, "report", f"{args.name}.verdict.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(verdict, f, ensure_ascii=False, indent=2)
-    print(f"\n[+] verdict -> {out}")
-    print(json.dumps(verdict, ensure_ascii=False, indent=2)[:600])
+
+    # tool 사용 요약 — "진짜 드릴다운 했나"를 한눈에 (verdict.json에도 tool_trace로 저장됨)
+    from collections import Counter
+    trace = verdict.get("tool_trace", [])
+    p(f"\n{'=' * 60}")
+    if trace:
+        c = Counter(t["tool"] for t in trace)
+        p(f"[tool 사용] 총 {len(trace)}회 / {verdict.get('rounds_used','?')}라운드")
+        for tool, n in c.most_common():
+            p(f"   - {tool}: {n}회")
+    else:
+        p(f"[tool 사용] 0회 ❌ — 모델이 evidence만으로 판정 (드릴다운 안 함, {verdict.get('rounds_used','?')}라운드)")
+    p(f"{'=' * 60}")
+
+    p(f"\n[+] verdict -> {out}")
+    p(json.dumps(verdict, ensure_ascii=False, indent=2)[:600])
 
 
 if __name__ == "__main__":
