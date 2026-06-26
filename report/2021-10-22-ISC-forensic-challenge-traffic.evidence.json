@@ -1,0 +1,2190 @@
+{
+  "meta": {
+    "pcap": "2021-10-22-ISC-forensic-challenge-traffic",
+    "input_packets": 84542,
+    "flows": 3230,
+    "alert_events": 1073,
+    "alert_buckets": {
+      "info": 65,
+      "threat": 611,
+      "suspicious": 397
+    },
+    "alert_signatures": 27,
+    "status": "OK",
+    "warnings": []
+  },
+  "ids_alerts": {
+    "by_signature": [
+      {
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Malware Command and Control Activity Detected",
+        "count": 597,
+        "distinct_flows": 105,
+        "src_ips": [
+          "10.10.22.157"
+        ],
+        "dst_ips": [
+          "37.0.10.22"
+        ],
+        "dports": [
+          1187
+        ]
+      },
+      {
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M1",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156"
+        ],
+        "dports": [
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M2",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156"
+        ],
+        "dports": [
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET MALWARE Likely Evil EXE download from MSXMLHTTP non-exe extension M2",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156"
+        ],
+        "dports": [
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET RPC DCERPC SVCCTL - Remote Service Control Manager Access",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Attempted User Privilege Gain",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "10.10.22.157",
+          "10.10.22.158",
+          "10.10.22.22"
+        ],
+        "dports": [
+          135
+        ]
+      },
+      {
+        "signature": "ET MALWARE VNCStartServer BOT Variant CnC Beacon",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Malware Command and Control Activity Detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "45.153.241.142"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET MALWARE VNCStartServer USR Variant CnC Beacon",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Malware Command and Control Activity Detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "45.153.241.142"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET DYN_DNS DNS Query to DynDNS Domain *.ddns .net",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 308,
+        "distinct_flows": 302,
+        "src_ips": [
+          "10.10.22.157"
+        ],
+        "dst_ips": [
+          "8.8.8.8"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET HUNTING Observed DNS Query for EmerDNS TLD (.bazar)",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 15,
+        "distinct_flows": 15,
+        "src_ips": [
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "130.61.64.122",
+          "51.158.108.203"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET HUNTING SUSPICIOUS Dotted Quad Host MZ Response",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156"
+        ],
+        "dports": [
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET HUNTING Request to .TOP Domain with Minimal Headers",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 2,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "172.67.139.101"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET DNS Query for .cc TLD",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 2,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "10.10.22.22"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "10.10.22.22"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET JA3 Hash - [Abuse.ch] Possible Dridex",
+        "bucket": "suspicious",
+        "severity": 3,
+        "category": "Unknown Traffic",
+        "count": 65,
+        "distinct_flows": 65,
+        "src_ips": [
+          "10.10.22.156",
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "140.82.49.12",
+          "162.210.220.137",
+          "194.15.112.173",
+          "201.137.10.225",
+          "207.246.112.221"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET HUNTING Possible EXE Download From Suspicious TLD",
+        "bucket": "suspicious",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "172.67.139.101"
+        ],
+        "dst_ips": [
+          "10.10.22.158"
+        ],
+        "dports": [
+          49758
+        ]
+      },
+      {
+        "signature": "ET INFO PE EXE or DLL Windows file download HTTP",
+        "bucket": "info",
+        "severity": 1,
+        "category": "Potential Corporate Privacy Violation",
+        "count": 4,
+        "distinct_flows": 4,
+        "src_ips": [
+          "172.67.139.101",
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156",
+          "10.10.22.158"
+        ],
+        "dports": [
+          49758,
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET INFO IP Check Domain (myexternalip .com in TLS SNI)",
+        "bucket": "info",
+        "severity": 1,
+        "category": "Potential Corporate Privacy Violation",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "34.117.59.81"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET INFO HTTP Request to a *.top domain",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "172.67.139.101"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO Executable Retrieved With Minimal HTTP Headers - Potential Second Stage Download",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "172.67.139.101"
+        ],
+        "dst_ips": [
+          "10.10.22.158"
+        ],
+        "dports": [
+          49758
+        ]
+      },
+      {
+        "signature": "ET INFO Observed DNS Query to .biz TLD",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "10.10.22.22"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET INFO External IP Address Lookup Domain (ipify .org) in TLS SNI",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 27,
+        "distinct_flows": 27,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "23.21.76.7",
+          "50.17.218.95",
+          "54.243.250.193",
+          "54.243.29.214"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET INFO External IP Lookup Domain (ipify .org) in DNS Lookup",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 10,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.10.22.156"
+        ],
+        "dst_ips": [
+          "10.10.22.22"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET INFO NTLM Session Setup Request - Negotiate",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.10.22.156",
+          "10.10.22.157",
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "10.10.22.157",
+          "10.10.22.22"
+        ],
+        "dports": [
+          445
+        ]
+      },
+      {
+        "signature": "ET INFO NTLMv1 Session Setup Response - Challenge",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.10.22.157",
+          "10.10.22.22"
+        ],
+        "dst_ips": [
+          "10.10.22.156",
+          "10.10.22.157",
+          "10.10.22.158"
+        ],
+        "dports": [
+          49713,
+          49719,
+          49722,
+          49999,
+          50091
+        ]
+      },
+      {
+        "signature": "ET INFO NTLM Session Setup Request - Auth",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.10.22.156",
+          "10.10.22.157",
+          "10.10.22.158"
+        ],
+        "dst_ips": [
+          "10.10.22.157",
+          "10.10.22.22"
+        ],
+        "dports": [
+          445
+        ]
+      },
+      {
+        "signature": "ET INFO EXE - Served Attached HTTP",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 4,
+        "distinct_flows": 4,
+        "src_ips": [
+          "172.67.139.101",
+          "178.23.190.8",
+          "190.14.37.244",
+          "194.36.191.35"
+        ],
+        "dst_ips": [
+          "10.10.22.156",
+          "10.10.22.158"
+        ],
+        "dports": [
+          49758,
+          49766,
+          49768,
+          49769
+        ]
+      },
+      {
+        "signature": "ET INFO Packed Executable Download",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "172.67.139.101"
+        ],
+        "dst_ips": [
+          "10.10.22.158"
+        ],
+        "dports": [
+          49758
+        ]
+      }
+    ],
+    "by_flow": [
+      {
+        "count": 66,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:J3BR8x7CXtLmTztIMKY9WlLEP+U=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 336.6,
+          "bytes": 349132,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 65,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:boQ6i8kuiZq1O6KFl86R39enM28=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 334.62,
+          "bytes": 856,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 64,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:hMvm9Ux8tpdTjJD4/z7atDXVErI=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 330.75,
+          "bytes": 844,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 64,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:tBssKJUkNTlt/eK7FhzrqU4EuC8=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 330.63,
+          "bytes": 844,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 64,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:hJy6xKZ70Z30ZIr3jbrhkVGMC0Q=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 331.75,
+          "bytes": 844,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 63,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:Za1b99rHwOx1zQmWQy/M541c3MA=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 331.17,
+          "bytes": 832,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 63,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:eDBjxTWR9wCXlubSbmwSzE1w5Ag=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 333.25,
+          "bytes": 832,
+          "conn_state": "RSTO"
+        }
+      },
+      {
+        "count": 33,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:17q1XF0YZQ/dCHuPx8sWeFOq0cI=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 171.55,
+          "bytes": 472,
+          "conn_state": "RSTR"
+        }
+      },
+      {
+        "count": 18,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:VJO5i5IC7RE4aBvA2Wm2/1cn4nE=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 91.99,
+          "bytes": 292,
+          "conn_state": "S1"
+        }
+      },
+      {
+        "count": 2,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:xRZED3KkH2D75qULtfhH/dXcvq8=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 12.35,
+          "bytes": 100,
+          "conn_state": "RSTR"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M1",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:uAUrKkSLD7robr5KHWlkOi9nlb8=",
+        "src": "190.14.37.244",
+        "dst": "10.10.22.156",
+        "dport": 49766,
+        "flow": {
+          "service": "http",
+          "duration_s": 109.98,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:uAUrKkSLD7robr5KHWlkOi9nlb8=",
+        "src": "190.14.37.244",
+        "dst": "10.10.22.156",
+        "dport": 49766,
+        "flow": {
+          "service": "http",
+          "duration_s": 109.98,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from MSXMLHTTP non-exe extension M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:uAUrKkSLD7robr5KHWlkOi9nlb8=",
+        "src": "190.14.37.244",
+        "dst": "10.10.22.156",
+        "dport": 49766,
+        "flow": {
+          "service": "http",
+          "duration_s": 109.98,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M1",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:KYC/NaueiGAR2Gyzq8eh8tBbV3o=",
+        "src": "194.36.191.35",
+        "dst": "10.10.22.156",
+        "dport": 49768,
+        "flow": {
+          "service": "http",
+          "duration_s": 104.86,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:KYC/NaueiGAR2Gyzq8eh8tBbV3o=",
+        "src": "194.36.191.35",
+        "dst": "10.10.22.156",
+        "dport": 49768,
+        "flow": {
+          "service": "http",
+          "duration_s": 104.86,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from MSXMLHTTP non-exe extension M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:KYC/NaueiGAR2Gyzq8eh8tBbV3o=",
+        "src": "194.36.191.35",
+        "dst": "10.10.22.156",
+        "dport": 49768,
+        "flow": {
+          "service": "http",
+          "duration_s": 104.86,
+          "bytes": 911990,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M1",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:4/Zy2XgOtdLSseVSD/6CsFbH6oo=",
+        "src": "178.23.190.8",
+        "dst": "10.10.22.156",
+        "dport": 49769,
+        "flow": {
+          "service": "http",
+          "duration_s": 102.89,
+          "bytes": 911989,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:4/Zy2XgOtdLSseVSD/6CsFbH6oo=",
+        "src": "178.23.190.8",
+        "dst": "10.10.22.156",
+        "dport": 49769,
+        "flow": {
+          "service": "http",
+          "duration_s": 102.89,
+          "bytes": 911989,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Likely Evil EXE download from MSXMLHTTP non-exe extension M2",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:4/Zy2XgOtdLSseVSD/6CsFbH6oo=",
+        "src": "178.23.190.8",
+        "dst": "10.10.22.156",
+        "dport": 49769,
+        "flow": {
+          "service": "http",
+          "duration_s": 102.89,
+          "bytes": 911989,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE NanoCore RAT CnC 7",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:xfquN4Qd5mPj2fX5tD7TINrCaOE=",
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 0.33,
+          "bytes": 88,
+          "conn_state": "RSTR"
+        }
+      }
+    ],
+    "bucket_counts": {
+      "info": 65,
+      "threat": 611,
+      "suspicious": 397
+    },
+    "noise_truncated": 0
+  },
+  "conn": {
+    "flow_groups": 326,
+    "beaconing": [
+      {
+        "src": "10.10.22.157",
+        "dst": "224.0.0.251",
+        "dport": 5353,
+        "service": "dns",
+        "conns": 7,
+        "bytes": 616,
+        "community_id": "1:YQxsgmU9/jrgEwnE6/nytNhZsA8=",
+        "interval_cv": 0.0004,
+        "avg_interval_s": 899.86,
+        "flag": "beacon",
+        "why": "간격 CV=0.0004 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "224.0.0.251",
+        "dport": 5353,
+        "service": "dns",
+        "conns": 7,
+        "bytes": 616,
+        "community_id": "1:S8zKd7cRT4S4jZWu8+3LOaTGkGI=",
+        "interval_cv": 0.0004,
+        "avg_interval_s": 899.86,
+        "flag": "beacon",
+        "why": "간격 CV=0.0004 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "224.0.0.252",
+        "dport": 5355,
+        "service": "dns",
+        "conns": 7,
+        "bytes": 0,
+        "community_id": "1:egWhTdd4Sjeya9NUMPCxKJD++lE=",
+        "interval_cv": 0.0004,
+        "avg_interval_s": 899.85,
+        "flag": "beacon",
+        "why": "간격 CV=0.0004 (규칙적)"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 123,
+        "service": "udp",
+        "conns": 6,
+        "bytes": 1440,
+        "community_id": "1:bwLnZw1XPj9aXGT61W7yD0fKKkk=",
+        "interval_cv": 0.0,
+        "avg_interval_s": 1024.03,
+        "flag": "beacon",
+        "why": "간격 CV=0.0000 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 123,
+        "service": "udp",
+        "conns": 6,
+        "bytes": 1440,
+        "community_id": "1:bAzA23+ZwUu8Zuw6w1JoFOY43qY=",
+        "interval_cv": 0.0004,
+        "avg_interval_s": 1024.23,
+        "flag": "beacon",
+        "why": "간격 CV=0.0004 (규칙적)"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 123,
+        "service": "udp",
+        "conns": 6,
+        "bytes": 1440,
+        "community_id": "1:QX6JuO9yfl9r8rqnj842kWicgHs=",
+        "interval_cv": 0.0003,
+        "avg_interval_s": 1024.18,
+        "flag": "beacon",
+        "why": "간격 CV=0.0003 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.1",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:yij6clGHMI20NOPLIQfrO9tjGQE=",
+        "interval_cv": 0.0106,
+        "avg_interval_s": 0.51,
+        "flag": "beacon",
+        "why": "간격 CV=0.0106 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.1",
+        "dport": 139,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:U7oxhnd4sILtoESoTOuz2DTuJl8=",
+        "interval_cv": 0.0036,
+        "avg_interval_s": 0.51,
+        "flag": "beacon",
+        "why": "간격 CV=0.0036 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.1",
+        "dport": 80,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:WVcrvbmCMzQk3TT3uR2we8oXt2w=",
+        "interval_cv": 0.0154,
+        "avg_interval_s": 0.51,
+        "flag": "beacon",
+        "why": "간격 CV=0.0154 (규칙적)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "50.77.156.245",
+        "dport": 25,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:BtKLe3fYf75IvF5wOhpy17R6V80=",
+        "interval_cv": 0.0223,
+        "avg_interval_s": 0.61,
+        "flag": "beacon",
+        "why": "간격 CV=0.0223 (규칙적)"
+      }
+    ],
+    "top_talkers_external": [
+      {
+        "src": "10.10.22.156",
+        "dst": "72.247.207.22",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 9837648,
+        "community_id": "1:bvXAWfH7O3QbsJhPNb/B1QdBonI=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "204.79.197.200",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 13,
+        "bytes": 8714486,
+        "community_id": "1:pLottPlAf1ZAIvp7GCyJ8Jtr2YM=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "201.137.10.225",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 23,
+        "bytes": 7648114,
+        "community_id": "1:Cu/l247lXilJuY6AOehquM6ISmM=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "194.15.112.173",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 21,
+        "bytes": 3365116,
+        "community_id": "1:DYKPH5DxAQmGRPEff7W4J7iEylo=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "207.246.112.221",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 11,
+        "bytes": 2798059,
+        "community_id": "1:yfKd1cZojUa78rnQn+6GTDo86Mg=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "23.111.114.52",
+        "dport": 65400,
+        "service": "tcp",
+        "conns": 1,
+        "bytes": 1066592,
+        "community_id": "1:Hwb5w4b0vo2MPspdZPas79NHB08=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "194.36.191.35",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 911990,
+        "community_id": "1:KYC/NaueiGAR2Gyzq8eh8tBbV3o=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "190.14.37.244",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 911990,
+        "community_id": "1:uAUrKkSLD7robr5KHWlkOi9nlb8=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "178.23.190.8",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 911989,
+        "community_id": "1:4/Zy2XgOtdLSseVSD/6CsFbH6oo=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "13.107.21.200",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 11,
+        "bytes": 838720,
+        "community_id": "1:bMs546ZJfOJa3PnqxgaEe2rFHrw=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "104.16.10.88",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 632411,
+        "community_id": "1:QhyLBZ1op/N728MpzkXrJDMF300=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "37.0.10.22",
+        "dport": 1187,
+        "service": "tcp",
+        "conns": 610,
+        "bytes": 401788,
+        "community_id": "1:J3BR8x7CXtLmTztIMKY9WlLEP+U=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "172.67.139.101",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 339072,
+        "community_id": "1:OVbD2/sk4O1DL4Cg2wMnSb/Xdcc=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "68.186.192.69",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 297726,
+        "community_id": "1:I7rcObd9D0gh8+kWy5cepi1HSCI=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "37.252.0.102",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 258849,
+        "community_id": "1:tCek2yb9wLGBg5ocSxQcXxMH7tw=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "193.70.18.144",
+        "dport": 25,
+        "service": "smtp,ssl",
+        "conns": 36,
+        "bytes": 240822,
+        "community_id": "1:NhJk50dzipbj5xmJ5ORBt7N3T+c=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "204.79.197.200",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 156133,
+        "community_id": "1:YofZScBu5Y2WazvCdNFc8V1FiAI=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "34.120.119.232",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 126753,
+        "community_id": "1:shPkoU1oJrHv6mpOPQRbAbKYTcw=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "20.83.81.162",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 69128,
+        "community_id": "1:okPIjyb/JVm0un0tMxjv8xnao5A=",
+        "external": true
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "20.83.81.162",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 69113,
+        "community_id": "1:LD4XumhUcWrxiF+xSOKT7nHshz0=",
+        "external": true
+      }
+    ],
+    "lateral_movement": [
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 23,
+        "bytes": 53185,
+        "community_id": "1:+eQZEpsuGuQa7X+TZj9bZJPR7ss=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "tcp",
+        "conns": 37,
+        "bytes": 108164,
+        "community_id": "1:L/hBROGtlPyZxuTtyYaeGwJPy70=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 10,
+        "bytes": 8992,
+        "community_id": "1:B6jrC67gfNu+UAul0xh6DurSFM4=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 24,
+        "bytes": 56720,
+        "community_id": "1:J+Vh7CrWh9fIZwXVNOj13AcgVSs=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 108,
+        "bytes": 148765,
+        "community_id": "1:Vv8OQTJRvZCpCgwnhpXAeEAhpX4=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 14,
+        "bytes": 11136,
+        "community_id": "1:ToQxevMEO5Jb32f8oCEenxPWrl8=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 29,
+        "bytes": 69828,
+        "community_id": "1:RhJk8bzQao82B0/VW+rrPUYH4co=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 40,
+        "bytes": 106344,
+        "community_id": "1:U5URGECIZjCgAhFJwUf2/FAa0FU=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 12,
+        "bytes": 10304,
+        "community_id": "1:CPET+hyKeiiNCH7PDkfaTA++Z70=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 11,
+        "bytes": 116216,
+        "community_id": "1:gtt5P+Vdn/FJSd6ZXOOrI2bKIO4=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 9,
+        "bytes": 93214,
+        "community_id": "1:t18DJ1HGnERH0E3SF/7cpXq3Upo=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 10,
+        "bytes": 95926,
+        "community_id": "1:Z8aJ1WdNaNs4lEe5mStFb7nLa24=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.157",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm",
+        "conns": 1,
+        "bytes": 3138,
+        "community_id": "1:cJqKI4nDmp5Z58KsIFrYc5LSIrU=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.158",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm",
+        "conns": 1,
+        "bytes": 3138,
+        "community_id": "1:oTA+x7WjWt/dkEVRa4YPAhFqMlo=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.157",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 1,
+        "bytes": 508,
+        "community_id": "1:Dshgi0RZRpKOGQokBVBxdpCk4Nk=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.158",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 1,
+        "bytes": 508,
+        "community_id": "1:igvUvwQGvPsvt1q3sEl+nIMC0QE=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.1",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:yij6clGHMI20NOPLIQfrO9tjGQE=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      }
+    ],
+    "port_scans": []
+  },
+  "enrichment": {
+    "dns": {
+      "records": 1308,
+      "unique_queries": 182,
+      "suspicious": [
+        {
+          "query": "desktop-nz875r4.local",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.enemywatch.net",
+          "entropy": 3.56,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.forestdnszones.enemywatch.net",
+          "entropy": 3.56,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.domaindnszones.enemywatch.net",
+          "entropy": 3.56,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.enemywatch.net",
+          "entropy": 3.56,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.enemywatch.net",
+          "entropy": 3.56,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-nz875r4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-NZ875R4",
+          "entropy": 3.91,
+          "src": "10.10.22.157",
+          "why": "고엔트로피(3.9) DGA 의심"
+        }
+      ]
+    },
+    "files": {
+      "records": 118,
+      "malware_candidates": [
+        {
+          "count": 3,
+          "sha256": "95928b331e9942e4709b41ec8b59eb6f9e068f53ef2eeb15009feafd4ff5138d",
+          "md5": "fdc89b23e17d46173806407132b2903c",
+          "size": 911360,
+          "mime": "application/x-dosexec"
+        },
+        {
+          "count": 1,
+          "sha256": "11f3d84aad7131fe124155c9edfceb594649e87de1ee03383f470442d6ed69a1",
+          "md5": "9c9b58c38841af6f89ff90a746d63cec",
+          "size": 337420,
+          "mime": "application/x-dosexec"
+        }
+      ],
+      "incomplete_executables": 0
+    },
+    "http": {
+      "records": 16,
+      "suspicious": [
+        {
+          "host": "sobolpand.top",
+          "uri": "/034g100/main.php",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.10.22.158",
+          "dst": "172.67.139.101",
+          "why": "실행파일 다운로드"
+        },
+        {
+          "host": "190.14.37.244",
+          "uri": "/44491.6090605324.dat",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.10.22.156",
+          "dst": "190.14.37.244",
+          "why": "실행파일 다운로드"
+        },
+        {
+          "host": "194.36.191.35",
+          "uri": "/44491.6090605324.dat",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.10.22.156",
+          "dst": "194.36.191.35",
+          "why": "실행파일 다운로드"
+        },
+        {
+          "host": "178.23.190.8",
+          "uri": "/44491.6090605324.dat",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.10.22.156",
+          "dst": "178.23.190.8",
+          "why": "실행파일 다운로드"
+        }
+      ],
+      "top_host_ua": [
+        {
+          "host": "ctldl.windowsupdate.com",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 7
+        },
+        {
+          "host": "x1.c.lencr.org",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 3
+        },
+        {
+          "host": "sobolpand.top",
+          "ua": "",
+          "count": 2
+        },
+        {
+          "host": "190.14.37.244",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; T",
+          "count": 1
+        },
+        {
+          "host": "194.36.191.35",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; T",
+          "count": 1
+        },
+        {
+          "host": "178.23.190.8",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; T",
+          "count": 1
+        },
+        {
+          "host": "www.kqzyfj.com",
+          "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "count": 1
+        }
+      ]
+    },
+    "ssl": {
+      "records": 409,
+      "top_ja3": [],
+      "bad_validation": []
+    }
+  },
+  "other_protocols": {
+    "dce_rpc": {
+      "records": 321,
+      "top_values": {
+        "named_pipe": {
+          "49667": 166,
+          "\\pipe\\lsass": 73,
+          "135": 62,
+          "49671": 17,
+          "49699": 1,
+          "49696": 1,
+          "49679": 1
+        },
+        "endpoint": {
+          "drsuapi": 161,
+          "samr": 73,
+          "epmapper": 62,
+          "netlogon": 17,
+          "lsarpc": 5,
+          "svcctl": 3
+        },
+        "operation": {
+          "ept_map": 62,
+          "DRSCrackNames": 56,
+          "DRSBind": 49,
+          "DRSUnbind": 49,
+          "SamrCloseHandle": 20,
+          "SamrOpenDomain": 9,
+          "SamrConnect5": 6,
+          "SamrEnumerateDomainsInSamServer": 6,
+          "SamrLookupDomainInSamServer": 6,
+          "SamrLookupNamesInDomain": 6
+        }
+      }
+    },
+    "dhcp": {
+      "records": 3,
+      "top_values": {
+        "uids": {
+          "['CDHkWD2x1uVwOCIwb4', 'CGd1Rv4hzdCHm27oZi']": 2,
+          "['CrBg5z26QikNoXgbZ4', 'CiwIbQ1wYzr5bg0g3']": 1
+        },
+        "client_addr": {
+          "10.10.22.157": 1,
+          "10.10.22.156": 1,
+          "10.10.22.158": 1
+        },
+        "server_addr": {
+          "10.10.22.22": 3
+        },
+        "mac": {
+          "00:18:71:3b:a8:69": 1,
+          "00:23:ae:fd:02:01": 1,
+          "00:0e:35:30:b7:21": 1
+        },
+        "host_name": {
+          "DESKTOP-NZ875R4": 1,
+          "DESKTOP-CFA3367": 1,
+          "DESKTOP-87WCE26": 1
+        },
+        "client_fqdn": {
+          "DESKTOP-NZ875R4.enemywatch.net": 1,
+          "DESKTOP-CFA3367.enemywatch.net": 1,
+          "DESKTOP-87WCE26.enemywatch.net": 1
+        },
+        "domain": {
+          "enemywatch.net": 3
+        },
+        "requested_addr": {
+          "10.10.22.157": 1,
+          "10.10.22.156": 1,
+          "10.10.22.158": 1
+        },
+        "assigned_addr": {
+          "10.10.22.157": 1,
+          "10.10.22.156": 1,
+          "10.10.22.158": 1
+        },
+        "lease_time": {
+          "604800.0": 3
+        },
+        "msg_types": {
+          "['REQUEST', 'ACK']": 3
+        },
+        "duration": {
+          "0.0005910396575927734": 1,
+          "0.0005860328674316406": 1,
+          "0.0007638931274414062": 1
+        }
+      }
+    },
+    "kerberos": {
+      "records": 129,
+      "top_values": {
+        "request_type": {
+          "TGS": 44,
+          "AS": 32
+        },
+        "client": {
+          "DESKTOP-87WCE26$/ENEMYWATCH.NET": 13,
+          "DESKTOP-CFA3367$/ENEMYWATCH.NET": 11,
+          "DESKTOP-NZ875R4$/ENEMYWATCH.NET": 10,
+          "kevin.henderson/ENEMYWATCH.NET": 5,
+          "desktop-nz875r4$/enemywatch.net": 4,
+          "desktop-cfa3367$/enemywatch.net": 4,
+          "desktop-87wce26$/enemywatch.net": 4,
+          "desktop-87wce26$/ENEMYWATCH.NET": 4,
+          "marcus.cobb/ENEMYWATCH.NET": 4,
+          "agnes.warren/ENEMYWATCH.NET": 4
+        },
+        "service": {
+          "krbtgt/ENEMYWATCH.NET": 32,
+          "krbtgt/enemywatch.net": 6,
+          "LDAP/ENEMYWATCH-DC.enemywatch.net/enemywatch.net": 6,
+          "ldap/enemywatch-dc.enemywatch.net/enemywatch.net": 5,
+          "cifs/ENEMYWATCH-DC.enemywatch.net": 4,
+          "cifs/ENEMYWATCH-DC.enemywatch.net/enemywatch.net": 3,
+          "krbtgt/ENEMYWATCH": 3,
+          "cifs/ENEMYWATCH-DC": 3,
+          "LDAP/ENEMYWATCH-DC.enemywatch.net": 2,
+          "cifs/ENEMYWATCH.NET": 2
+        },
+        "success": {
+          "True": 57,
+          "False": 19
+        },
+        "error_msg": {
+          "KDC_ERR_PREAUTH_REQUIRED": 16,
+          "KDC_ERR_S_PRINCIPAL_UNKNOWN": 3
+        },
+        "till": {
+          "2136422885.0": 76
+        },
+        "forwardable": {
+          "True": 76
+        },
+        "renewable": {
+          "True": 76
+        }
+      }
+    },
+    "ldap": {
+      "records": 107,
+      "top_values": {
+        "message_id": {
+          "3": 22,
+          "12": 19,
+          "9": 17,
+          "13": 16,
+          "11": 5,
+          "15": 5,
+          "4": 3,
+          "5": 3,
+          "7": 3,
+          "19": 3
+        },
+        "version": {
+          "3": 55
+        },
+        "opcode": {
+          "bind SASL": 55,
+          "unbind": 52
+        },
+        "result": {
+          "success": 55
+        },
+        "argument": {
+          "GSS-SPNEGO": 55
+        }
+      }
+    },
+    "ldap_search": {
+      "records": 269,
+      "top_values": {
+        "scope": {
+          "base": 249,
+          "tree": 17,
+          "single": 3
+        },
+        "deref_aliases": {
+          "never": 269
+        },
+        "result_count": {
+          "1": 242,
+          "0": 27
+        },
+        "result": {
+          "success": 253,
+          "no such object": 16
+        },
+        "filter": {
+          "(objectclass=*)": 76,
+          "(&(&(&(&(DnsDomain=enemywatch.net.)(Host=DESKTOP-CFA3367))(DomainGuid=42ec58ed-6ce9-4f1d-a6e4-8c51cba24e3d))(NtVer=0x10000016))(DnsHostName=DESKTOP-CFA3367.enemywatch.net))": 66,
+          "(ObjectClass=*)": 35,
+          "(objectClass=*)": 14,
+          "(objectCategory=*)": 9,
+          "(|(distinguishedName=DC=enemywatch,DC=net))": 6,
+          "(&(&(&(&(DnsDomain=enemywatch.net.)(Host=DESKTOP-CFA3367))(DomainGuid=42ec58ed-6ce9-4f1d-a6e4-8c51cba24e3d))(NtVer=0x20000016))(DnsHostName=DESKTOP-CFA3367.enemywatch.net))": 6,
+          "(&(&(&(&(DnsDomain=enemywatch.net.)(Host=DESKTOP-87WCE26))(DomainGuid=42ec58ed-6ce9-4f1d-a6e4-8c51cba24e3d))(NtVer=0x20000016))(DnsHostName=DESKTOP-87WCE26.enemywatch.net))": 6,
+          "(&(&(&(&(DnsDomain=enemywatch.net.)(Host=DESKTOP-NZ875R4))(DomainGuid=42ec58ed-6ce9-4f1d-a6e4-8c51cba24e3d))(NtVer=0x00000016))(DnsHostName=DESKTOP-NZ875R4.enemywatch.net))": 4,
+          "(&(&(&(&(DnsDomain=enemywatch.net.)(Host=DESKTOP-NZ875R4))(DomainGuid=42ec58ed-6ce9-4f1d-a6e4-8c51cba24e3d))(NtVer=0x20000016))(DnsHostName=DESKTOP-NZ875R4.enemywatch.net))": 4
+        }
+      }
+    },
+    "ntlm": {
+      "records": 9,
+      "top_values": {
+        "username": {
+          "agnes.warren": 7,
+          "kevin.henderson": 1,
+          "marcus.cobb": 1
+        },
+        "hostname": {
+          "DESKTOP-CFA3367": 7,
+          "DESKTOP-87WCE26": 1,
+          "DESKTOP-NZ875R4": 1
+        },
+        "domainname": {
+          "ENEMYWATCH": 9
+        },
+        "server_nb_computer_name": {
+          "ENEMYWATCH-DC": 5,
+          "DESKTOP-87WCE26": 2,
+          "DESKTOP-NZ875R4": 2
+        },
+        "server_dns_computer_name": {
+          "ENEMYWATCH-DC.enemywatch.net": 5,
+          "DESKTOP-87WCE26.enemywatch.net": 2,
+          "DESKTOP-NZ875R4.enemywatch.net": 2
+        },
+        "server_tree_name": {
+          "enemywatch.net": 9
+        },
+        "success": {
+          "True": 6
+        }
+      }
+    },
+    "ocsp": {
+      "records": 108,
+      "top_values": {
+        "hashAlgorithm": {
+          "sha1": 108
+        },
+        "issuerNameHash": {
+          "48B6A9E21293B3C020B12ACE4E73649A3C67DC9B": 37,
+          "430BD20E4F137A1A6C918F24E5DA7E324D4733C8": 36,
+          "A303C0A8887BD479C4278EB5D7587D3C12C04DA4": 14,
+          "7239BDE83E9709DD71D98312427F1FAE65B0BF6C": 6,
+          "105FA67A80089DB5279F35CE830B43889EA3C70D": 6,
+          "C68888133D2295AE3ABEF118877F8A00BA434E3E": 3,
+          "521EE36C478119A9CB03FAB74E57E1197AF1818B": 3,
+          "52FECA108DB4E5AB5268930D27C82FF215E24BB5": 1,
+          "48DAC9A0FB2BD32D4FF0DE68D2F567B735F9B3C4": 1,
+          "74B4E72319C765921540447BC7CE3E90C21876EB": 1
+        },
+        "issuerKeyHash": {
+          "DD51D0A23173A973AE8FB4017E5D8C57CB9FF0F7": 37,
+          "8D8C5EC454AD8AE177E99BF99B05E1B8018D61E1": 36,
+          "FF2F7FE106F438F32DED258D98C2FE0EF66CFCFA": 14,
+          "C7B29C7F1CE3B85AEFE9681AA85D94C126526A68": 6,
+          "0F80611C823161D52F28E78D4638B42CE1C6D9E2": 6,
+          "0F205DD7A15795DB92CF2BD0C7C27704CE728076": 3,
+          "B5760C3011CEC792424D4CC75C2CC8A90CE80B64": 3,
+          "00AB91FC216226979AA8791B61419060A96267FD": 1,
+          "142EB317B75856CBAE500940E61FAF9D8B14C2C6": 1,
+          "A48DE5BE7C79E470236D2E2934AD2358DCF5317F": 1
+        },
+        "serialNumber": {
+          "DC507488FFB7A7B38C56687FEF70EB2E": 36,
+          "0CCAC32B0EF281026392B8852AB15642": 36,
+          "7F00189D3F3B1D6C1DA9886744000000189D3F": 5,
+          "33001C498E8DB01FD05C6CFC2D0000001C498E": 4,
+          "0B0129A763A35EB2515D3CF13421E4BD": 4,
+          "7F001753AA7322067362529A0E0000001753AA": 4,
+          "33001CB7DA3A8CED1659F18EF30000001CB7DA": 3,
+          "7F0017D4743517A306D757E91300000017D474": 3,
+          "33001C4A0E8EEBEB6A0D9CBEDB0000001C4A0E": 2,
+          "120019506C40E41EDA7E80771900000019506C": 2
+        },
+        "certStatus": {
+          "good": 108
+        },
+        "thisUpdate": {
+          "1634612493.0": 36,
+          "1634776386.0": 9,
+          "1634689986.0": 7,
+          "1634430785.0": 6,
+          "1634671579.0": 4,
+          "1634852707.0": 4,
+          "1634517186.0": 4,
+          "1634344385.0": 4,
+          "1634862787.0": 4,
+          "1634663374.0": 2
+        },
+        "nextUpdate": {
+          "1635217293.0": 36,
+          "1635378486.0": 9,
+          "1635292086.0": 7,
+          "1635032885.0": 6,
+          "1635263419.0": 4,
+          "1635017179.0": 4,
+          "1635454807.0": 4,
+          "1635119286.0": 4,
+          "1634946485.0": 4,
+          "1635464887.0": 4
+        }
+      }
+    },
+    "pe": {
+      "records": 4,
+      "top_values": {
+        "id": {
+          "FVAU5k2Xc9z58Zfz5": 1,
+          "FDSz3PHyXTzJ2tja7": 1,
+          "FeBFEU28ij49mVf59g": 1,
+          "FzqLF228XUShMc7IYh": 1
+        },
+        "machine": {
+          "I386": 3,
+          "AMD64": 1
+        },
+        "compile_ts": {
+          "1633317859.0": 3,
+          "1634823757.0": 1
+        },
+        "os": {
+          "Windows Vista or Server 2008": 4
+        },
+        "subsystem": {
+          "WINDOWS_GUI": 4
+        },
+        "is_exe": {
+          "True": 4
+        },
+        "is_64bit": {
+          "False": 3,
+          "True": 1
+        },
+        "uses_aslr": {
+          "True": 4
+        },
+        "uses_dep": {
+          "True": 4
+        },
+        "uses_code_integrity": {
+          "False": 4
+        },
+        "uses_seh": {
+          "True": 4
+        },
+        "has_import_table": {
+          "True": 4
+        },
+        "has_export_table": {
+          "False": 3,
+          "True": 1
+        },
+        "has_cert_table": {
+          "False": 4
+        },
+        "has_debug_data": {
+          "True": 3,
+          "False": 1
+        },
+        "section_names": {
+          "['.text', '.rdata', '.data', '.rsrc', '.reloc']": 3,
+          "['.text', '.rdata', '.data', '.pdata', '.ndata']": 1
+        }
+      }
+    },
+    "quic": {
+      "records": 1,
+      "top_values": {
+        "version": {
+          "1": 1
+        },
+        "client_initial_dcid": {
+          "77e0d75db4e1c9bf": 1
+        },
+        "client_scid": {
+          "": 1
+        },
+        "server_scid": {
+          "011103206cdeca5163110c20abdedb60b26d1b83": 1
+        },
+        "server_name": {
+          "pingosip.top": 1
+        },
+        "client_protocol": {
+          "h3": 1
+        },
+        "history": {
+          "ISixisxIhhHHOOhoooOoO": 1
+        }
+      }
+    },
+    "smb_files": {
+      "records": 25,
+      "top_values": {
+        "action": {
+          "SMB::FILE_OPEN": 25
+        },
+        "path": {
+          "\\\\ENEMYWATCH-DC.enemywatch.net\\sysvol": 21,
+          "\\\\ENEMYWATCH-DC\\shared": 4
+        },
+        "name": {
+          "<share_root>": 4,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\gpt.ini": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit\\GptTmpl.inf": 3,
+          "enemywatch.net\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Registry.pol": 3
+        },
+        "size": {
+          "0": 12,
+          "8192": 4,
+          "22": 3,
+          "1098": 3,
+          "2796": 3
+        },
+        "times.modified": {
+          "1633901271.807331": 6,
+          "1633901271.8113327": 6,
+          "1634216962.4501724": 4,
+          "1633901881.484703": 3,
+          "1633901881.469078": 3,
+          "1633901881.453455": 3
+        },
+        "times.accessed": {
+          "1633901271.807331": 6,
+          "1633901271.8113327": 6,
+          "1634216962.4501724": 4,
+          "1633901881.484703": 3,
+          "1633901881.469078": 3,
+          "1633901881.453455": 3
+        },
+        "times.created": {
+          "1633901271.807331": 12,
+          "1580340567.2172775": 4,
+          "1633901271.8063316": 3,
+          "1633901271.8113327": 3,
+          "1633901881.453455": 3
+        },
+        "times.changed": {
+          "1633901278.059269": 12,
+          "1633901881.469078": 6,
+          "1634216962.4501724": 4,
+          "1633901881.484703": 3
+        }
+      }
+    },
+    "smb_mapping": {
+      "records": 34,
+      "top_values": {
+        "path": {
+          "\\\\ENEMYWATCH-DC.enemywatch.net\\IPC$": 22,
+          "\\\\ENEMYWATCH-DC.enemywatch.net\\sysvol": 3,
+          "\\\\ENEMYWATCH-DC\\shared": 3,
+          "\\\\ENEMYWATCH.NET\\IPC$": 2,
+          "\\\\enemywatch.net\\IPC$": 1,
+          "\\\\10.10.22.158\\IPC$": 1,
+          "\\\\10.10.22.157\\IPC$": 1,
+          "\\\\10.10.22.22\\IPC$": 1
+        },
+        "share_type": {
+          "PIPE": 28,
+          "DISK": 6
+        }
+      }
+    },
+    "smtp": {
+      "records": 143,
+      "top_values": {
+        "trans_depth": {
+          "1": 143
+        },
+        "helo": {
+          "localhost": 143
+        },
+        "last_reply": {
+          "220 2.0.0 Ready to start TLS": 53,
+          "220 2.0.0 SMTP server ready": 36,
+          "220 TLS go ahead": 16,
+          "220 ready for tls": 15,
+          "220 Ready to start TLS": 11,
+          "550 MESSAGE BLOCKED. CHANGE YOUR PASSWORD TO RE-SEND YOUR MESSAGE AND TO MAINTAIN ONGOING SECURITY AT HTTP://WEBMAIL.JUNO.COM/": 3,
+          "554 5.5.4 Sending e-mail from 'jgrajeda@resfood.com.mx' has been disabled until you log in and change your password. This is usually done if you are using a weak password or if we believe your e-mail password was compromised and used to send spam. If you need help, please contact technical support.": 2,
+          "421 visp-mail4.isdsl.net lost input connection": 2,
+          "554 5.7.1 <localhost>: Helo command rejected: Go away, bad guy (localhost).": 1,
+          "220 Start TLS negotiation": 1
+        },
+        "tls": {
+          "True": 133,
+          "False": 10
+        },
+        "fuids": {
+          "[]": 139,
+          "['FVZKo92n4LyiFJLpT6']": 1,
+          "['FcvQEN35kwnALUcOQ4']": 1,
+          "['FN7A5E4AnrnKEjCRD5']": 1,
+          "['FMVCXsJngHw5CdJF2']": 1
+        }
+      }
+    },
+    "weird": {
+      "records": 11,
+      "top_values": {
+        "name": {
+          "netlogon_dce_rpc_auth_type": 10,
+          "connection_originator_SYN_ack": 1
+        },
+        "addl": {
+          "68": 10
+        },
+        "notice": {
+          "False": 11
+        },
+        "peer": {
+          "zeek": 11
+        },
+        "source": {
+          "DCE_RPC": 10,
+          "TCP": 1
+        }
+      }
+    },
+    "x509": {
+      "records": 115,
+      "top_values": {
+        "certificate.version": {
+          "3": 112,
+          "1": 3
+        },
+        "certificate.key_alg": {
+          "rsaEncryption": 109,
+          "id-ecPublicKey": 6
+        },
+        "certificate.sig_alg": {
+          "sha256WithRSAEncryption": 90,
+          "sha384WithRSAEncryption": 14,
+          "sha1WithRSAEncryption": 7,
+          "ecdsa-with-SHA384": 3,
+          "ecdsa-with-SHA256": 1
+        },
+        "certificate.key_type": {
+          "rsa": 109,
+          "ecdsa": 6
+        },
+        "certificate.key_length": {
+          "2048": 95,
+          "4096": 14,
+          "256": 5,
+          "384": 1
+        },
+        "certificate.exponent": {
+          "65537": 109
+        },
+        "host_cert": {
+          "True": 80,
+          "False": 35
+        },
+        "client_cert": {
+          "False": 115
+        }
+      }
+    }
+  }
+}

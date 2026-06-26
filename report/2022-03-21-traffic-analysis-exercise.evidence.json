@@ -1,0 +1,1271 @@
+{
+  "meta": {
+    "pcap": "2022-03-21-traffic-analysis-exercise",
+    "input_packets": 16296,
+    "flows": 924,
+    "alert_events": 232,
+    "alert_buckets": {
+      "engine": 3,
+      "threat": 2,
+      "info": 219,
+      "suspicious": 8
+    },
+    "alert_signatures": 9,
+    "status": "OK",
+    "warnings": []
+  },
+  "ids_alerts": {
+    "by_signature": [
+      {
+        "signature": "ET MALWARE Win32/IcedID Requesting Encoded Binary M4",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Malware Command and Control Activity Detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "188.166.154.118"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET MALWARE Win32/IcedID Request Cookie",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "188.166.154.118"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 7,
+        "distinct_flows": 7,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "10.0.19.9"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET HUNTING Request to .TOP Domain with Minimal Headers",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "188.166.154.118"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO HTTP Request to a *.top domain",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "188.166.154.118"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO OpenSSL Demo CA - Internet Widgits Pty (O)",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Not Suspicious Traffic",
+        "count": 216,
+        "distinct_flows": 216,
+        "src_ips": [
+          "157.245.142.66",
+          "91.193.16.181"
+        ],
+        "dst_ips": [
+          "10.0.19.14"
+        ],
+        "dports": [
+          62180,
+          62182,
+          62183,
+          62184,
+          62186,
+          62196,
+          62197,
+          62206
+        ]
+      },
+      {
+        "signature": "ET FILE_SHARING Observed DNS Query to Abused File Sharing Domain in DNS Lookup (filebin .net) ",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "10.0.19.9"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET INFO Observed Abused File Sharing Domain in TLS SNI (filebin .net)",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.0.19.14"
+        ],
+        "dst_ips": [
+          "185.47.40.36"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "SURICATA Applayer Detect protocol only one direction",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 3,
+        "distinct_flows": 3,
+        "src_ips": [
+          "10.0.19.14",
+          "10.0.19.9"
+        ],
+        "dst_ips": [
+          "10.0.19.14",
+          "10.0.19.9"
+        ],
+        "dports": [
+          139
+        ]
+      }
+    ],
+    "by_flow": [
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/IcedID Requesting Encoded Binary M4",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:611zLtP7N471qhgDX887m6SWaFc=",
+        "src": "10.0.19.14",
+        "dst": "188.166.154.118",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 84.88,
+          "bytes": 393739,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/IcedID Request Cookie",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:611zLtP7N471qhgDX887m6SWaFc=",
+        "src": "10.0.19.14",
+        "dst": "188.166.154.118",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 84.88,
+          "bytes": 393739,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET HUNTING Request to .TOP Domain with Minimal Headers",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:611zLtP7N471qhgDX887m6SWaFc=",
+        "src": "10.0.19.14",
+        "dst": "188.166.154.118",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 84.88,
+          "bytes": 393739,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:tDfnTH3aoKdEPmwhRUig384pvtQ=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.0,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:Im8Xwu8cFi4/D6bLnJDa9DWln0A=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.09,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:gJK/Du4KPRBHCBOB9BwZGP/sK8Q=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.15,
+          "bytes": 112,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:Kt26ci4q05/6QZnoZGJhhw9N7OM=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.07,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:IXMyk+/H3fB/FlBt+GCNFabblEA=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.08,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:SEs0ldfL8sQ1isG6LnGI1z5P/pc=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.0,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:UpFCldhp7K5OtcKhGyXzouR64A4=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.08,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      }
+    ],
+    "bucket_counts": {
+      "engine": 3,
+      "threat": 2,
+      "info": 219,
+      "suspicious": 8
+    },
+    "noise_truncated": 0
+  },
+  "conn": {
+    "flow_groups": 78,
+    "beaconing": [],
+    "top_talkers_external": [
+      {
+        "src": "10.0.19.14",
+        "dst": "157.245.142.66",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 130,
+        "bytes": 2211824,
+        "community_id": "1:4KYsDrI30OqBxIWTRyJlef83tSQ=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "23.227.198.203",
+        "dport": 757,
+        "service": "ssl",
+        "conns": 33,
+        "bytes": 581427,
+        "community_id": "1:YgszrIj4lHpjI4uoFATX1EkPe/k=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "87.238.33.8",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 482174,
+        "community_id": "1:qT9FW+43Azqhjm9XgcODvceycLU=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "188.166.154.118",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 393739,
+        "community_id": "1:611zLtP7N471qhgDX887m6SWaFc=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "91.193.16.181",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 86,
+        "bytes": 182368,
+        "community_id": "1:pJdIHudfaVVSBPhfTEUddqFluFU=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "160.153.32.99",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 5,
+        "bytes": 112077,
+        "community_id": "1:qsiC/Nk3SDM0P3h4Z9CDapr4cUA=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "52.113.194.132",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 3,
+        "bytes": 93493,
+        "community_id": "1:TqWW7Xewp1eK0Cvqj89fIpVLSX8=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "204.79.197.200",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 6,
+        "bytes": 55476,
+        "community_id": "1:4Atrx1ESY+hEe7JpYtQvyrH9V18=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "52.183.220.149",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 8,
+        "bytes": 45725,
+        "community_id": "1:g5XoTL3DIFvly4f0M3ikNFWjZFc=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "52.185.211.133",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 8,
+        "bytes": 43767,
+        "community_id": "1:Vuoyu3f25WwCNAnsZDMwSV2rejU=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "72.21.81.200",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 12,
+        "bytes": 23212,
+        "community_id": "1:dNcJaZ0is0EVo/04BEae6DGWiPQ=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "52.137.108.250",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 19689,
+        "community_id": "1:tDYHwus1g5SHxdDqENEAg1lN9Ao=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "52.109.8.21",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 18117,
+        "community_id": "1:yZ/71ppGQDxOflUMedzZyWtnH4M=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "40.83.240.146",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 17,
+        "bytes": 17916,
+        "community_id": "1:A2UZ02hNDbxO4NTiX3qokIjno2k=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "239.255.255.250",
+        "dport": 3702,
+        "service": "udp",
+        "conns": 3,
+        "bytes": 10206,
+        "community_id": "1:9utBq0Y/hwv1FMN22VlCGn6QBQQ=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "13.69.116.104",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 9133,
+        "community_id": "1:h2iLsJNXyjBXEytwHSvVTRJ4QMg=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "13.89.179.9",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 9031,
+        "community_id": "1:q9Iv7VS/ZqRoLqjO91cmLMd2d6A=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "20.81.51.95",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 8322,
+        "community_id": "1:s09JVPkUIrKi8olY+0igRxritR4=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "20.81.52.156",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 8321,
+        "community_id": "1:rQaFwmnl98+/tU1IuHu4OVa412s=",
+        "external": true
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "13.87.188.105",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 8320,
+        "community_id": "1:s6fVEITOHEKE40Mw8P2CuIV1L6M=",
+        "external": true
+      }
+    ],
+    "lateral_movement": [
+      {
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 445,
+        "service": "gssapi,smb,krb,dce_rpc",
+        "conns": 32,
+        "bytes": 331566,
+        "community_id": "1:60mTwfJXdJNkwrdLeKSstaSfgEE=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 21,
+        "bytes": 17644,
+        "community_id": "1:bdF8PDQXoiQ7rFO++fq/ethZGdU=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 389,
+        "service": "ldap_udp",
+        "conns": 67,
+        "bytes": 550014,
+        "community_id": "1:n1nWeY9DQSD8YJpZnxGIEXxBlEo=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 22,
+        "bytes": 54279,
+        "community_id": "1:rRaWB0ZA9Ctak8ptdAbiri8OWUk=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      }
+    ],
+    "port_scans": []
+  },
+  "host_profiles": {
+    "10.0.19.14": {
+      "conns": 916,
+      "mac": "00:60:52:b7:33:0f",
+      "scope": "internal",
+      "hostname": "DESKTOP-5QS3D5D",
+      "user": "patrick.zimmerman/BURNINCANDLE.COM",
+      "role": "host"
+    },
+    "10.0.19.9": {
+      "conns": 512,
+      "mac": "00:c0:4f:f8:48:19",
+      "scope": "internal",
+      "hostname": "BURNINCANDLE-DC",
+      "role": "domain_controller"
+    },
+    "10.0.19.255": {
+      "conns": 36,
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "scope": "internal",
+      "role": "host"
+    },
+    "169.254.179.89": {
+      "conns": 7,
+      "mac": "00:60:52:b7:33:0f",
+      "scope": "internal",
+      "role": "host"
+    },
+    "169.254.255.255": {
+      "conns": 2,
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "scope": "internal",
+      "role": "host"
+    },
+    "0.0.0.0": {
+      "conns": 1,
+      "mac": "00:60:52:b7:33:0f",
+      "scope": "internal",
+      "role": "host"
+    },
+    "255.255.255.255": {
+      "conns": 1,
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.0.19.1": {
+      "conns": 1,
+      "mac": "2c:54:2d:2f:13:5c",
+      "scope": "internal",
+      "role": "host"
+    }
+  },
+  "timeline": [
+    {
+      "ts": 1647896291.117,
+      "clock": "20:58:11",
+      "offset": "+0s",
+      "event": "캡처 세션 시작"
+    },
+    {
+      "ts": 1647896291.117,
+      "clock": "20:58:11",
+      "offset": "+0s",
+      "event": "IDS 첫 탐지: ET MALWARE Win32/IcedID Requesting Encoded Binary M4",
+      "evidence": "community_id:1:611zLtP7N471qhgDX887m6SWaFc="
+    },
+    {
+      "ts": 1647896291.117,
+      "clock": "20:58:11",
+      "offset": "+0s",
+      "event": "IDS 첫 탐지: ET MALWARE Win32/IcedID Request Cookie",
+      "evidence": "community_id:1:611zLtP7N471qhgDX887m6SWaFc="
+    },
+    {
+      "ts": 1647896291.117,
+      "clock": "20:58:11",
+      "offset": "+0s",
+      "event": "IDS 첫 탐지: ET HUNTING Request to .TOP Domain with Minimal Headers",
+      "evidence": "community_id:1:611zLtP7N471qhgDX887m6SWaFc="
+    },
+    {
+      "ts": 1647908503.229,
+      "clock": "00:21:43",
+      "offset": "+12212s",
+      "event": "IDS 첫 탐지: ET DNS Query to a *.top domain - Likely Hostile",
+      "evidence": "community_id:1:tDfnTH3aoKdEPmwhRUig384pvtQ="
+    },
+    {
+      "ts": 1647919036.749,
+      "clock": "03:17:16",
+      "offset": "+22746s",
+      "event": "캡처 세션 종료"
+    }
+  ],
+  "enrichment": {
+    "dns": {
+      "records": 401,
+      "unique_queries": 49,
+      "suspicious": [
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.mshome.net",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.mshome.net",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-lr77s6e.burnincandle.com",
+          "entropy": 3.51,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.5) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.burnincandle.com",
+          "entropy": 3.56,
+          "src": "10.0.19.14",
+          "why": "고엔트로피(3.6) DGA 의심"
+        }
+      ]
+    },
+    "files": {
+      "records": 22,
+      "malware_candidates": [],
+      "incomplete_executables": 0
+    },
+    "http": {
+      "records": 18,
+      "suspicious": [],
+      "top_host_ua": [
+        {
+          "host": "ctldl.windowsupdate.com",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 12
+        },
+        {
+          "host": "x1.c.lencr.org",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 4
+        },
+        {
+          "host": "oceriesfornot.top",
+          "ua": "",
+          "count": 1
+        },
+        {
+          "host": "r3.i.lencr.org",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 1
+        }
+      ]
+    },
+    "ssl": {
+      "records": 313,
+      "top_ja3": [],
+      "bad_validation": []
+    }
+  },
+  "other_protocols": {
+    "dce_rpc": {
+      "records": 181,
+      "top_values": {
+        "named_pipe": {
+          "49667": 87,
+          "\\pipe\\lsass": 51,
+          "135": 34,
+          "49676": 8,
+          "\\PIPE\\srvsvc": 1
+        },
+        "endpoint": {
+          "drsuapi": 82,
+          "samr": 51,
+          "epmapper": 34,
+          "netlogon": 8,
+          "lsarpc": 5,
+          "srvsvc": 1
+        },
+        "operation": {
+          "ept_map": 34,
+          "DRSCrackNames": 28,
+          "DRSBind": 27,
+          "DRSUnbind": 27,
+          "SamrCloseHandle": 14,
+          "SamrOpenDomain": 6,
+          "NetrLogonGetDomainInfo": 5,
+          "SamrConnect5": 4,
+          "SamrEnumerateDomainsInSamServer": 4,
+          "SamrLookupDomainInSamServer": 4
+        }
+      }
+    },
+    "dhcp": {
+      "records": 1,
+      "top_values": {
+        "uids": {
+          "['CI16D24k0aykBKpkH6', 'CYQn6I1FnOJwajbYy']": 1
+        },
+        "client_addr": {
+          "10.0.19.14": 1
+        },
+        "server_addr": {
+          "10.0.19.1": 1
+        },
+        "mac": {
+          "00:60:52:b7:33:0f": 1
+        },
+        "host_name": {
+          "DESKTOP-5QS3D5D": 1
+        },
+        "client_fqdn": {
+          "DESKTOP-5QS3D5D.burnincandle.com": 1
+        },
+        "domain": {
+          "mshome.net": 1
+        },
+        "requested_addr": {
+          "10.0.19.14": 1
+        },
+        "assigned_addr": {
+          "10.0.19.14": 1
+        },
+        "lease_time": {
+          "604800.0": 1
+        },
+        "msg_types": {
+          "['DISCOVER', 'OFFER', 'REQUEST', 'ACK']": 1
+        },
+        "duration": {
+          "0.009611129760742188": 1
+        }
+      }
+    },
+    "kerberos": {
+      "records": 72,
+      "top_values": {}
+    },
+    "ldap": {
+      "records": 73,
+      "top_values": {
+        "message_id": {
+          "3": 18,
+          "12": 17,
+          "9": 9,
+          "13": 9,
+          "11": 9,
+          "7": 7,
+          "5": 1,
+          "8": 1,
+          "14": 1,
+          "15": 1
+        },
+        "version": {
+          "3": 37
+        },
+        "opcode": {
+          "bind SASL": 37,
+          "unbind": 36
+        },
+        "result": {
+          "success": 37
+        },
+        "argument": {
+          "GSS-SPNEGO": 37
+        }
+      }
+    },
+    "ldap_search": {
+      "records": 143,
+      "top_values": {
+        "message_id": {
+          "1": 18,
+          "4": 18,
+          "10": 17,
+          "5": 10,
+          "6": 10,
+          "11": 10,
+          "9": 9,
+          "8": 8,
+          "12": 2,
+          "13": 2
+        },
+        "scope": {
+          "base": 125,
+          "tree": 17,
+          "single": 1
+        },
+        "deref_aliases": {
+          "never": 143
+        },
+        "result_count": {
+          "1": 126,
+          "0": 16,
+          "3": 1
+        },
+        "result": {
+          "success": 134,
+          "no such object": 9
+        },
+        "filter": {
+          "(objectclass=*)": 46,
+          "(objectClass=*)": 22,
+          "(ObjectClass=*)": 19,
+          "(&(&(&(&(DnsDomain=burnincandle.com.)(Host=DESKTOP-5QS3D5D))(DomainGuid=87bbb7d8-65a9-449d-88b4-24f8cfc9c572))(NtVer=0x20000016))(DnsHostName=DESKTOP-5QS3D5D.burnincandle.com))": 11,
+          "(&(&(&(&(DnsDomain=burnincandle.com.)(Host=DESKTOP-5QS3D5D))(DomainGuid=87bbb7d8-65a9-449d-88b4-24f8cfc9c572))(NtVer=0x00000016))(DnsHostName=DESKTOP-5QS3D5D.burnincandle.com))": 10,
+          "(|(distinguishedName=DC=burnincandle,DC=com))": 7,
+          "(&(&(&(&(&(DnsDomain=burnincandle.com.)(Host=DESKTOP-5QS3D5D))(DomainSid=S-1-5-21-830589029-4204018613-855996679))(DomainGuid=87bbb7d8-65a9-449d-88b4-24f8cfc9c572))(NtVer=0x00000016))(DnsHostName=DESKTOP-5QS3D5D.burnincandle.com))": 4,
+          "(&(&(!(flags:1.2.840.113556.1.4.803:=1))(gPCUserExtensionNames=[*]))(|(distinguishedName=CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=burnincandle,DC=com)))": 4,
+          "(&(&(&(&(DnsDomain=BURNINCANDLE.COM)(Host=DESKTOP-5QS3D5D))(DomainGuid=87bbb7d8-65a9-449d-88b4-24f8cfc9c572))(NtVer=0x20000016))(DnsHostName=DESKTOP-5QS3D5D.burnincandle.com))": 3,
+          "(&(&(!(flags:1.2.840.113556.1.4.803:=2))(gPCMachineExtensionNames=[*]))(|(distinguishedName=CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=burnincandle,DC=com)))": 3
+        }
+      }
+    },
+    "ntlm": {
+      "records": 3,
+      "top_values": {
+        "hostname": {
+          "DESKTOP-5QS3D5D": 2,
+          "BURNINCANDLE-DC": 1
+        },
+        "server_nb_computer_name": {
+          "BURNINCANDLE-DC": 2,
+          "DESKTOP-5QS3D5D": 1
+        },
+        "server_dns_computer_name": {
+          "BURNINCANDLE-DC.burnincandle.com": 2,
+          "DESKTOP-5QS3D5D.burnincandle.com": 1
+        },
+        "server_tree_name": {
+          "burnincandle.com": 3
+        },
+        "success": {
+          "True": 3
+        }
+      }
+    },
+    "ocsp": {
+      "records": 8,
+      "top_values": {
+        "id": {
+          "Fg538y1jDwOhP6Qm88": 1,
+          "FsD3to47YUEBkQOcZ": 1,
+          "F8XzVWeRxh741WYKc": 1,
+          "F5HgWu2HpZfadKttPk": 1,
+          "FE7hTa3PoIbZAoTy1l": 1,
+          "FinDWZ1L0ke3LYaCMg": 1,
+          "FMn8j14DeLcsvyMt9g": 1,
+          "FYL11x46r11oRd50n": 1
+        },
+        "hashAlgorithm": {
+          "sha1": 8
+        },
+        "issuerNameHash": {
+          "A303C0A8887BD479C4278EB5D7587D3C12C04DA4": 5,
+          "0DD55A225F8D2354E325761EEE0D3862F43A9E7B": 3
+        },
+        "issuerKeyHash": {
+          "FF2F7FE106F438F32DED258D98C2FE0EF66CFCFA": 5,
+          "D5C1673AC2A39DF477525B59123829E65568BBA5": 3
+        },
+        "serialNumber": {
+          "7F00189D3F3B1D6C1DA9886744000000189D3F": 3,
+          "3300291F7DF88B6E7955DA7ED9000000291F7D": 3,
+          "7F0017C81161B780E928867BD400000017C811": 1,
+          "7F00231A9F48374AF8874865C6000000231A9F": 1
+        },
+        "certStatus": {
+          "good": 8
+        },
+        "thisUpdate": {
+          "1647867605.0": 3,
+          "1647738502.0": 3,
+          "1647839700.0": 1,
+          "1647590402.0": 1
+        },
+        "nextUpdate": {
+          "1648213205.0": 3,
+          "1648137010.0": 2,
+          "1648185300.0": 1,
+          "1647936002.0": 1,
+          "1648309811.0": 1
+        }
+      }
+    },
+    "smb_files": {
+      "records": 25,
+      "top_values": {
+        "action": {
+          "SMB::FILE_OPEN": 25
+        },
+        "path": {
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\sysvol": 21,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\NETLOGON": 1,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\Shared": 1,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\SYSVOL": 1,
+          "\\\\BURNINCANDLE-DC\\Shared": 1
+        },
+        "name": {
+          "<share_root>": 4,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\gpt.ini": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit\\GptTmpl.inf": 3,
+          "burnincandle.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Registry.pol": 3
+        },
+        "size": {
+          "0": 14,
+          "22": 3,
+          "1098": 3,
+          "2800": 3,
+          "4096": 2
+        },
+        "times.modified": {
+          "1647019499.615553": 9,
+          "1647019040.6040344": 6,
+          "1647019040.6090355": 6,
+          "1647023296.3460407": 2,
+          "1647019027.5684185": 1,
+          "1647019027.569418": 1
+        },
+        "times.accessed": {
+          "1647019499.615553": 9,
+          "1647019040.6040344": 6,
+          "1647019040.6090355": 6,
+          "1647023296.3460407": 2,
+          "1647019027.5684185": 1,
+          "1647019027.569418": 1
+        },
+        "times.created": {
+          "1647019040.6040344": 9,
+          "1647019040.603035": 6,
+          "1647019040.6090355": 3,
+          "1647019499.615553": 3,
+          "1647019027.5684185": 2,
+          "1638689095.4555283": 2
+        },
+        "times.changed": {
+          "1647019499.615553": 9,
+          "1647019048.4140015": 6,
+          "1647019048.415001": 3,
+          "1647019048.4160023": 3,
+          "1647877389.844225": 2,
+          "1647019048.4190006": 1,
+          "1647019048.42": 1
+        }
+      }
+    },
+    "smb_mapping": {
+      "records": 39,
+      "top_values": {
+        "path": {
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\IPC$": 29,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\sysvol": 3,
+          "\\\\BURNINCANDLE-DC\\IPC$": 2,
+          "\\\\DESKTOP-5QS3D5D\\IPC$": 1,
+          "\\\\BURNINCANDLE-DC\\Shared": 1,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\NETLOGON": 1,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\Shared": 1,
+          "\\\\BURNINCANDLE-DC.burnincandle.com\\SYSVOL": 1
+        },
+        "service": {
+          "IPC": 3
+        },
+        "share_type": {
+          "PIPE": 32,
+          "DISK": 7
+        }
+      }
+    },
+    "weird": {
+      "records": 7,
+      "top_values": {
+        "name": {
+          "netlogon_dce_rpc_auth_type": 7
+        },
+        "addl": {
+          "68": 7
+        },
+        "notice": {
+          "False": 7
+        },
+        "peer": {
+          "zeek": 7
+        },
+        "source": {
+          "DCE_RPC": 7
+        }
+      }
+    },
+    "x509": {
+      "records": 35,
+      "top_values": {
+        "fingerprint": {
+          "12aa6b4926a6b0a3fb4ddd944f0e7421d4f4757f799ae1d9877c65f9a8625786": 1,
+          "34aa4d7dbdb8166c2f23c6e62d86fe7c2590049ece73f01cb2e4605a8857afdf": 1,
+          "83688f2aef71386e0936c4b3013b07e8e0c796d8427716dd48b2a63d79509129": 1,
+          "a9972c2a6f7f4b92fc3377b700f78c6ca3a7ff276d5180862b12322a6362a524": 1,
+          "973a41276ffd01e027a2aad49e34c37846d3e976ff6a620b6712e33832041aa6": 1,
+          "77c80e36001d859e685ffecaf05f898a41de650b8a58dba5e6d1245352386946": 1,
+          "2ae4acfe254cdebfcb3e4284fdf877e0f561d81d88fa2c74771e9bce380aa5a0": 1,
+          "15a98761ebe011554da3a46d206b0812cb2eb69ae87aaa11a6dd4cb84ed5142a": 1,
+          "a8e9df31a726bec07e17672fabb1cfb857cfd890d007827f03719d6c957462b0": 1,
+          "04eeea8e50b4775b3c24797262917ee50002ec4c75b56cdf3ee1c18cfca5ba52": 1
+        },
+        "certificate.version": {
+          "3": 35
+        },
+        "certificate.serial": {
+          "218B39F5": 1,
+          "33000001B75CC4A5C5D4206BCA0000000001B7": 1,
+          "613FB718000000000004": 1,
+          "8D34575FDA1A4B5C": 1,
+          "07": 1,
+          "33000001B6B2D2BD10A5F5DAA90000000001B6": 1,
+          "3300321ED1171E837F01A38C88000000321ED1": 1,
+          "0C6AE97CCED599838690A00A9EA53214": 1,
+          "1200168B7880EA48BB9BC58520000000168B78": 1,
+          "0F14965F202069994FD5C7AC788941E2": 1
+        },
+        "certificate.subject": {
+          "O=Internet Widgits Pty Ltd,ST=Some-State,C=AU,CN=localhost": 2,
+          "CN=smartscreen.microsoft.com,O=Microsoft Corporation,L=Redmond,ST=WA,C=US": 2,
+          "CN=*.msedge.net,O=Microsoft Corporation,L=Redmond,ST=WA,C=US": 2,
+          "CN=*.events.data.microsoft.com,OU=WSE,O=Microsoft,L=Redmond,ST=WA,C=US": 1,
+          "CN=Microsoft Secure Server CA 2011,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 1,
+          "CN=suncoastpinball.com,OU=Domain Control Validated": 1,
+          "CN=Go Daddy Secure Certificate Authority - G2,OU=http://certs.godaddy.com/repository/,O=GoDaddy.com\\, Inc.,L=Scottsdale,ST=Arizona,C=US": 1,
+          "CN=settings-win.data.microsoft.com,OU=WSE,O=Microsoft,L=Redmond,ST=WA,C=US": 1,
+          "CN=Microsoft Azure TLS Issuing CA 02,O=Microsoft Corporation,C=US": 1,
+          "CN=*.wns.windows.com": 1
+        },
+        "certificate.issuer": {
+          "CN=Microsoft Azure TLS Issuing CA 02,O=Microsoft Corporation,C=US": 4,
+          "CN=Microsoft RSA TLS CA 01,O=Microsoft Corporation,C=US": 3,
+          "CN=R3,O=Let's Encrypt,C=US": 3,
+          "CN=Microsoft RSA TLS CA 02,O=Microsoft Corporation,C=US": 3,
+          "CN=Microsoft Azure TLS Issuing CA 06,O=Microsoft Corporation,C=US": 3,
+          "O=Internet Widgits Pty Ltd,ST=Some-State,C=AU,CN=localhost": 2,
+          "CN=Microsoft Secure Server CA 2011,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 2,
+          "CN=Microsoft Root Certificate Authority 2011,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 2,
+          "CN=DigiCert Global Root G2,OU=www.digicert.com,O=DigiCert Inc,C=US": 2,
+          "CN=Baltimore CyberTrust Root,OU=CyberTrust,O=Baltimore,C=IE": 2
+        },
+        "certificate.not_valid_before": {
+          "1596025800.0": 2,
+          "1595372400.0": 2,
+          "1647681777.0": 1,
+          "1623352053.0": 1,
+          "1318978519.0": 1,
+          "1548989772.0": 1,
+          "1304406000.0": 1,
+          "1623352050.0": 1,
+          "1647704533.0": 1,
+          "1629222258.0": 1
+        },
+        "certificate.not_valid_after": {
+          "1719532799.0": 2,
+          "1728370800.0": 2,
+          "1679217777.0": 1,
+          "1662836853.0": 1,
+          "1792364719.0": 1,
+          "1612148172.0": 1,
+          "1935558000.0": 1,
+          "1662836850.0": 1,
+          "1678808533.0": 1,
+          "1660758258.0": 1
+        },
+        "certificate.key_alg": {
+          "rsaEncryption": 35
+        },
+        "certificate.sig_alg": {
+          "sha256WithRSAEncryption": 25,
+          "sha384WithRSAEncryption": 9,
+          "sha1WithRSAEncryption": 1
+        },
+        "certificate.key_type": {
+          "rsa": 35
+        },
+        "certificate.key_length": {
+          "2048": 27,
+          "4096": 8
+        },
+        "certificate.exponent": {
+          "65537": 35
+        },
+        "basic_constraints.ca": {
+          "True": 13,
+          "False": 12
+        },
+        "host_cert": {
+          "True": 24,
+          "False": 11
+        },
+        "client_cert": {
+          "False": 35
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+# 대용량 원본/중간물 — GitHub에 올리지 않음
+# (주석은 반드시 별도 줄에. .gitignore는 인라인 주석 미지원)
+pcaps/*.pcap
+pcaps/*.pcapng
+pcaps/*.cap
+
+# zeek/suricata 원본 로그 + 추출파일(대용량)
+output/
+
+# 파이썬
+__pycache__/
+*.pyc
+
+# 로그
+*.log
+
+# report: Colab은 evidence.json 만 필요 → 그것만 올린다
+report/*
+!report/*.evidence.json
+
+# Claude Code 로컬 설정
+.claude/

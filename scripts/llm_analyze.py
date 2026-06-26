@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""
+llm_analyze.py — evidence package를 LLM에 주고 최종 판정(verdict)을 받는다.
+
+설계:
+  - OpenAI 호환 API로 통신 → Colab의 vLLM(localhost)이든, 나중에 GPU 클라우드든
+    base_url만 바꾸면 코드 그대로 동작 (포터블).
+  - LLM은 슬림 evidence(요약+타임라인+신원+멀웨어)만 받고, 더 봐야 하면
+    tools.py의 드릴다운 도구를 function-calling으로 호출한다.
+  - 판정은 submit_verdict 도구 호출로 마무리 → 구조화 출력 강제(자유텍스트 파싱 X).
+  - needs_review는 LLM이 아니라 코드가 강제한다.
+
+사용:
+  # Colab/서버에서 (vLLM 떠 있을 때)
+  python3 llm_analyze.py <name> --base-url http://localhost:8000/v1 --model Qwen/Qwen2.5-7B-Instruct-AWQ
+
+  # GPU 없이 프롬프트/배선만 점검 (LLM 호출 안 함)
+  python3 llm_analyze.py <name> --dry-run
+"""
+import argparse
+import json
+import os
+
+import tools as tools_mod
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+SYSTEM_PROMPT = """\
+너는 네트워크 보안 분석가다. pcap에서 추출·압축된 evidence package(JSON)를 받아
+공격 여부와 정체를 판정한다.
+
+[입력] evidence package는 이미 결정론적으로 압축된 요약이다:
+  - ids_alerts: Suricata 시그니처 탐지 (위협/의심만 추림)
+  - conn: 비콘(간격 CV)·측면이동·포트스캔 통계
+  - host_profiles: IP별 신원(호스트명/유저/MAC)
+  - timeline: 실제 타임스탬프 기반 공격 흐름 (네가 시간을 지어내지 말 것)
+  - enrichment: http/dns/files(멀웨어 SHA256)
+
+[작업] 다음을 판정한다: 공격 여부 / 멀웨어 패밀리 / C2·공격자·피해자 IP / (해당 시)CVE.
+
+[도구] evidence로 부족하면 드릴다운 도구를 호출해 원본 로그를 확인하라.
+  예) 비콘이 보이면 get_flow_detail로 실제 HTTP 요청을 확인, IP는 get_host_info로 신원 확인.
+  evidence만으로 충분히 확신하면 굳이 도구를 부르지 않아도 된다.
+
+[원칙 — 신뢰성 최우선]
+  - 환각 금지. 모르면 빈 값으로 두고 confidence를 낮춰라. 억지로 채우지 마라.
+  - 모든 판단에 근거(evidence_refs: community_id/sha256/signature)를 달아라.
+  - timeline은 evidence의 timeline을 근거로만 기술하라.
+  - 인과("A가 B를 유발")는 단정하지 말고 시간순 관찰로 기술하라.
+
+[종료] 분석이 끝나면 반드시 submit_verdict 도구를 호출해 최종 판정을 제출하라.
+"""
+
+# 최종 판정 제출용 도구 (구조화 출력 강제 — 자유 텍스트 파싱 안 함)
+SUBMIT_VERDICT_TOOL = {
+    "type": "function",
+    "function": {
+        "name": "submit_verdict",
+        "description": "최종 분석 판정을 제출한다. 분석을 마쳤을 때 반드시 호출.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "is_attack": {"type": "boolean"},
+                "classification": {"type": "string",
+                                   "enum": ["known_threat", "unknown_anomaly", "benign"]},
+                "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+                "malware_family": {"type": "string", "description": "없으면 빈 문자열"},
+                "cve": {"type": "array", "items": {"type": "string"}},
+                "threat_actors": {
+                    "type": "object",
+                    "properties": {
+                        "victim_ips": {"type": "array", "items": {"type": "string"}},
+                        "attacker_ips": {"type": "array", "items": {"type": "string"}},
+                        "c2": {"type": "array", "items": {
+                            "type": "object",
+                            "properties": {"ip": {"type": "string"},
+                                           "domain": {"type": "string"},
+                                           "evidence": {"type": "string"}}}},
+                    }},
+                "mitre_attack": {"type": "array", "items": {
+                    "type": "object",
+                    "properties": {"tactic": {"type": "string"},
+                                   "technique": {"type": "string"},
+                                   "evidence": {"type": "string"}}}},
+                "kill_chain_summary": {"type": "string"},
+                "reasoning": {"type": "string"},
+                "evidence_refs": {"type": "array", "items": {"type": "string"}},
+            },
+            "required": ["is_attack", "classification", "confidence", "reasoning"],
+        },
+    },
+}
+
+
+def slim_evidence(ev):
+    """LLM에 보낼 핵심만 추림 (토큰 절약). 나머지는 tool로 드릴다운."""
+    ids = ev.get("ids_alerts", {})
+    threats = [a for a in ids.get("by_signature", [])
+               if a.get("bucket") in ("threat", "suspicious")]
+    conn = ev.get("conn", {})
+    enr = ev.get("enrichment", {})
+    return {
+        "meta": ev.get("meta", {}),
+        "ids_alerts": {"bucket_counts": ids.get("bucket_counts", {}),
+                       "threats": threats},
+        "conn": {"beaconing": conn.get("beaconing", []),
+                 "lateral_movement": conn.get("lateral_movement", []),
+                 "port_scans": conn.get("port_scans", []),
+                 "top_talkers_external": conn.get("top_talkers_external", [])[:5]},
+        "host_profiles": ev.get("host_profiles", {}),
+        "timeline": ev.get("timeline", []),
+        "malware_files": enr.get("files", {}).get("malware_candidates", []),
+        "http_suspicious": enr.get("http", {}).get("suspicious", [])[:10],
+        "dns_suspicious": enr.get("dns", {}).get("suspicious", [])[:10],
+    }
+
+
+def build_messages(ev):
+    slim = slim_evidence(ev)
+    user = ("아래 evidence package를 분석하고 submit_verdict로 판정을 제출하라.\n\n"
+            "```json\n" + json.dumps(slim, ensure_ascii=False) + "\n```")
+    return [{"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user}]
+
+
+def enforce_review(verdict):
+    """needs_review는 코드가 강제 — LLM 판단에 맡기지 않는다.
+       확신이 high가 아니거나 미지 이상행위면 사람 검토 필요."""
+    conf = verdict.get("confidence")
+    cls = verdict.get("classification")
+    verdict["needs_review"] = (conf != "high") or (cls == "unknown_anomaly")
+    return verdict
+
+
+def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
+    from openai import OpenAI
+    client = OpenAI(base_url=base_url, api_key=api_key)
+    drill = tools_mod.DrillDownTools(name)
+    all_tools = tools_mod.TOOL_SCHEMAS + [SUBMIT_VERDICT_TOOL]
+    messages = build_messages(ev)
+
+    for r in range(max_rounds):
+        resp = client.chat.completions.create(
+            model=model, messages=messages, tools=all_tools,
+            tool_choice="auto", temperature=temperature)
+        msg = resp.choices[0].message
+        messages.append(msg.model_dump(exclude_none=True))
+
+        if not msg.tool_calls:
+            # 도구 없이 텍스트만 → 한 번 더 유도
+            messages.append({"role": "user",
+                             "content": "submit_verdict 도구로 판정을 제출하라."})
+            continue
+
+        for tc in msg.tool_calls:
+            fn = tc.function.name
+            try:
+                args = json.loads(tc.function.arguments or "{}")
+            except json.JSONDecodeError:
+                args = {}
+            if fn == "submit_verdict":
+                print(f"[round {r}] ✅ submit_verdict")
+                return enforce_review(args)
+            # 드릴다운 도구 실행
+            result = tools_mod.dispatch(drill, fn, args)
+            print(f"[round {r}] 🔧 {fn}({args}) -> {len(str(result))}자")
+            messages.append({"role": "tool", "tool_call_id": tc.id,
+                             "content": json.dumps(result, ensure_ascii=False)})
+
+    return {"error": "max_rounds 초과 — 판정 미제출", "needs_review": True}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("name")
+    ap.add_argument("--base-url", default=os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1"))
+    ap.add_argument("--api-key", default=os.environ.get("LLM_API_KEY", "EMPTY"))
+    ap.add_argument("--model", default=os.environ.get("LLM_MODEL", "Qwen/Qwen2.5-7B-Instruct-AWQ"))
+    ap.add_argument("--max-rounds", type=int, default=8)
+    ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--dry-run", action="store_true", help="LLM 호출 없이 프롬프트/배선만 점검")
+    args = ap.parse_args()
+
+    ev_path = os.path.join(ROOT, "report", f"{args.name}.evidence.json")
+    if not os.path.exists(ev_path):
+        raise SystemExit(f"[!] evidence 없음: {ev_path} (먼저 analyze.sh 실행)")
+    ev = json.load(open(ev_path, encoding="utf-8"))
+
+    if args.dry_run:
+        msgs = build_messages(ev)
+        slim_len = len(msgs[1]["content"])
+        print(f"=== DRY RUN: {args.name} ===")
+        print(f"system prompt: {len(SYSTEM_PROMPT)}자")
+        print(f"슬림 evidence: {slim_len}자 (~{slim_len // 3} 토큰 추정, 원본 대비 축소)")
+        print(f"등록 도구: {[t['function']['name'] for t in tools_mod.TOOL_SCHEMAS] + ['submit_verdict']}")
+        print("\n--- user 메시지 미리보기(앞 800자) ---")
+        print(msgs[1]["content"][:800])
+        return
+
+    verdict = run_live(args.name, ev, args.base_url, args.api_key,
+                       args.model, args.max_rounds, args.temperature)
+    out = os.path.join(ROOT, "report", f"{args.name}.verdict.json")
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(verdict, f, ensure_ascii=False, indent=2)
+    print(f"\n[+] verdict -> {out}")
+    print(json.dumps(verdict, ensure_ascii=False, indent=2)[:600])
+
+
+if __name__ == "__main__":
+    main()

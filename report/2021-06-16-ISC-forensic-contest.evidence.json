@@ -1,0 +1,2115 @@
+{
+  "meta": {
+    "pcap": "2021-06-16-ISC-forensic-contest",
+    "input_packets": 200929,
+    "flows": 15998,
+    "alert_events": 14383,
+    "alert_buckets": {
+      "engine": 76,
+      "info": 30,
+      "threat": 14244,
+      "suspicious": 33
+    },
+    "alert_signatures": 19,
+    "status": "OK",
+    "warnings": []
+  },
+  "ids_alerts": {
+    "by_signature": [
+      {
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Targeted Malicious Activity was Detected",
+        "count": 14137,
+        "distinct_flows": 14136,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "65.60.35.141"
+        ],
+        "dports": [
+          80,
+          443
+        ]
+      },
+      {
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Malware Command and Control Activity Detected",
+        "count": 78,
+        "distinct_flows": 78,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "194.226.60.15"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET MALWARE Observed Qbot Style SSL Certificate",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 24,
+        "distinct_flows": 24,
+        "src_ips": [
+          "207.246.77.75"
+        ],
+        "dst_ips": [
+          "10.6.15.187"
+        ],
+        "dports": [
+          54802,
+          54805,
+          54806,
+          54807,
+          54808,
+          54815,
+          54816,
+          54818
+        ]
+      },
+      {
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "185.66.15.228"
+        ],
+        "dst_ips": [
+          "10.6.15.119"
+        ],
+        "dports": [
+          50718,
+          50719
+        ]
+      },
+      {
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity M3",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "185.66.15.228"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET MALWARE AgentTesla Exfil Via SMTP",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "A Network Trojan was detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.6.15.93"
+        ],
+        "dst_ips": [
+          "67.20.116.164"
+        ],
+        "dports": [
+          587
+        ]
+      },
+      {
+        "signature": "ET HUNTING GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1",
+        "bucket": "suspicious",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 8,
+        "distinct_flows": 8,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "65.60.35.141"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET JA3 Hash - [Abuse.ch] Possible Dridex",
+        "bucket": "suspicious",
+        "severity": 3,
+        "category": "Unknown Traffic",
+        "count": 25,
+        "distinct_flows": 25,
+        "src_ips": [
+          "10.6.15.187"
+        ],
+        "dst_ips": [
+          "144.139.166.18",
+          "207.246.77.75"
+        ],
+        "dports": [
+          443,
+          2222
+        ]
+      },
+      {
+        "signature": "ET INFO PE EXE or DLL Windows file download HTTP",
+        "bucket": "info",
+        "severity": 1,
+        "category": "Potential Corporate Privacy Violation",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "8.209.119.208"
+        ],
+        "dst_ips": [
+          "10.6.15.119"
+        ],
+        "dports": [
+          50712
+        ]
+      },
+      {
+        "signature": "ET INFO External IP Lookup (ipify .org)",
+        "bucket": "info",
+        "severity": 1,
+        "category": "Potential Corporate Privacy Violation",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "54.225.78.40"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO HTTP traffic on port 443 (POST)",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 8,
+        "distinct_flows": 8,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "65.60.35.141"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET INFO External IP Lookup api.ipify.org",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Device Retrieving External IP Address Detected",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "50.19.92.227"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO NTLM Session Setup Request - Negotiate",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.6.15.119",
+          "10.6.15.187",
+          "10.6.15.93"
+        ],
+        "dst_ips": [
+          "10.6.15.5",
+          "10.6.15.93"
+        ],
+        "dports": [
+          445
+        ]
+      },
+      {
+        "signature": "ET INFO NTLMv1 Session Setup Response - Challenge",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.6.15.5",
+          "10.6.15.93"
+        ],
+        "dst_ips": [
+          "10.6.15.119",
+          "10.6.15.187",
+          "10.6.15.93"
+        ],
+        "dports": [
+          49703,
+          50800,
+          65102
+        ]
+      },
+      {
+        "signature": "ET INFO NTLM Session Setup Request - Auth",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 5,
+        "distinct_flows": 5,
+        "src_ips": [
+          "10.6.15.119",
+          "10.6.15.187",
+          "10.6.15.93"
+        ],
+        "dst_ips": [
+          "10.6.15.5",
+          "10.6.15.93"
+        ],
+        "dports": [
+          445
+        ]
+      },
+      {
+        "signature": "ET INFO Packed Executable Download",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "23.47.48.92",
+          "8.209.119.208"
+        ],
+        "dst_ips": [
+          "10.6.15.119",
+          "10.6.15.93"
+        ],
+        "dports": [
+          49775,
+          50712
+        ]
+      },
+      {
+        "signature": "ET INFO External IP Lookup Domain (ipify .org) in DNS Lookup",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "10.6.15.119"
+        ],
+        "dst_ips": [
+          "10.6.15.5"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "SURICATA UDPv6 invalid checksum",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 61,
+        "distinct_flows": 1,
+        "src_ips": [
+          "fe80:0000:0000:0000:1c01:b22b:e837:eee2"
+        ],
+        "dst_ips": [
+          "ff02:0000:0000:0000:0000:0000:0000:00fb"
+        ],
+        "dports": [
+          5353
+        ]
+      },
+      {
+        "signature": "SURICATA STREAM TIMEWAIT ACK with wrong seq",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 15,
+        "distinct_flows": 15,
+        "src_ips": [
+          "65.60.35.141"
+        ],
+        "dst_ips": [
+          "10.6.15.119"
+        ],
+        "dports": [
+          50748,
+          50768,
+          50773,
+          50988,
+          51307,
+          51558,
+          51697,
+          52337
+        ]
+      }
+    ],
+    "by_flow": [
+      {
+        "count": 2,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:/ppR+NvPgE9+tZrD7xwvMAtW1Sw=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 1.05,
+          "bytes": 895,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:O0z+YALL3Fk7vjowQyO99CVj+Bg=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 103.21,
+          "bytes": 738,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:6RRKzVzY+zQFcyEDtzN7s9Pe1Uo=",
+        "src": "185.66.15.228",
+        "dst": "10.6.15.119",
+        "dport": 50718,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 18.17,
+          "bytes": 3923647,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity M3",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:6RRKzVzY+zQFcyEDtzN7s9Pe1Uo=",
+        "src": "10.6.15.119",
+        "dst": "185.66.15.228",
+        "dport": 80,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 18.17,
+          "bytes": 3923647,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:v4TezZd9VfKHH5rVyWdP0l5zjmY=",
+        "src": "185.66.15.228",
+        "dst": "10.6.15.119",
+        "dport": 50719,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 1.22,
+          "bytes": 98,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:lFdJbuVRkPzI3C3W6i9u/vRm5xQ=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 60.64,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity M3",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:v4TezZd9VfKHH5rVyWdP0l5zjmY=",
+        "src": "10.6.15.119",
+        "dst": "185.66.15.228",
+        "dport": 80,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 1.22,
+          "bytes": 98,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:1fb943NT8Fkt+3vQOnjbCRfWbuo=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.63,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:I9aHx0kTq0/Teen8pWEjKS79fnc=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 89.47,
+          "bytes": 613,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:MNMTPWDjvbNYH8ARqi8Yb+2ZJic=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 48.03,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:qJe/IxgmsVblzHgpYmIS2BvWNXw=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 60.56,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:RlHMNkCeezXZi2pcwvgMsRoBOrU=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.62,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:GyN6CfzsHS9uDg9m9fwglvnNjI4=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 36.92,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:ghOhTnefTkpQH2Q+I+Ui0iqBGbE=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.43,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:m1hDRZ4zBtWs4i6Ae4+rsYngo/I=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.51,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:8cflBCXdlzfqTbdd/1V9Q1FcbDA=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.51,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:r/iKOx+DQ475/2i/O5Ubzfg1peI=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.55,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:v3rzc48TexvzJn+3euhmhnPnE1w=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.72,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:gpiS1SoquoHbfwSqDdluxUAk/ck=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.48,
+          "bytes": 509,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:vhqLl0BogAoJbp9QusMfWbqFiMM=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 78.91,
+          "bytes": 613,
+          "conn_state": "SF"
+        }
+      }
+    ],
+    "bucket_counts": {
+      "engine": 76,
+      "info": 30,
+      "threat": 14244,
+      "suspicious": 33
+    },
+    "noise_truncated": 0
+  },
+  "conn": {
+    "flow_groups": 328,
+    "beaconing": [
+      {
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "service": "http",
+        "conns": 78,
+        "bytes": 47939,
+        "community_id": "1:O0z+YALL3Fk7vjowQyO99CVj+Bg=",
+        "interval_cv": 0.0035,
+        "avg_interval_s": 120.57,
+        "flag": "beacon",
+        "why": "간격 CV=0.0035 (규칙적)"
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "10.6.15.5",
+        "dport": 123,
+        "service": "udp",
+        "conns": 11,
+        "bytes": 2640,
+        "community_id": "1:rIQ4LvkYw2yc4HNVJe6DwHT5jOs=",
+        "interval_cv": 0.0003,
+        "avg_interval_s": 1024.09,
+        "flag": "beacon",
+        "why": "간격 CV=0.0003 (규칙적)"
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "10.6.15.5",
+        "dport": 123,
+        "service": "udp",
+        "conns": 11,
+        "bytes": 2640,
+        "community_id": "1:cWZv0QqnYkqsJsFXuqTMIXNMXt8=",
+        "interval_cv": 0.0001,
+        "avg_interval_s": 1024.04,
+        "flag": "beacon",
+        "why": "간격 CV=0.0001 (규칙적)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.5",
+        "dport": 123,
+        "service": "udp",
+        "conns": 11,
+        "bytes": 2640,
+        "community_id": "1:Rrg55ZWVe2uf9aEyfb3MvprfwcI=",
+        "interval_cv": 0.0,
+        "avg_interval_s": 1024.01,
+        "flag": "beacon",
+        "why": "간격 CV=0.0000 (규칙적)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.1",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:zvN8qQ/lNxvUPxNmHVW9KKac8e0=",
+        "interval_cv": 0.0209,
+        "avg_interval_s": 0.52,
+        "flag": "beacon",
+        "why": "간격 CV=0.0209 (규칙적)"
+      }
+    ],
+    "top_talkers_external": [
+      {
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "service": "http",
+        "conns": 13993,
+        "bytes": 7142892,
+        "community_id": "1:lFdJbuVRkPzI3C3W6i9u/vRm5xQ=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "185.66.15.228",
+        "dport": 80,
+        "service": "tcp",
+        "conns": 2,
+        "bytes": 3923745,
+        "community_id": "1:v4TezZd9VfKHH5rVyWdP0l5zjmY=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "23.47.52.173",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 3185642,
+        "community_id": "1:L2fcGNFYbWY/XQVGNLvyRPpXjAY=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "23.47.48.92",
+        "dport": 80,
+        "service": "http",
+        "conns": 2,
+        "bytes": 1050592,
+        "community_id": "1:4wHGnNdx8RDLJeml3BZFIxgSTGQ=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "160.153.133.188",
+        "dport": 80,
+        "service": "http",
+        "conns": 4,
+        "bytes": 958867,
+        "community_id": "1:RSaZIAVXC7maylVqGPDO8+O69qo=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "151.101.2.133",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 684352,
+        "community_id": "1:x8Oedw3GzQPRvDek7mAlB7dbd+0=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "23.47.48.111",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 587639,
+        "community_id": "1:bm4keorVLKumj71xij1i9XCZUD0=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "40.70.224.145",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 493294,
+        "community_id": "1:C5NlXHw5bapxIh8RF+ZI+3QFVw4=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "23.47.48.106",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 358263,
+        "community_id": "1:NjZOIhk1YIVcPTsexKfaP8BTdqQ=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "23.47.48.106",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 358263,
+        "community_id": "1:WFxoNHl0SR6IA027fp76acgxbr0=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "104.244.121.13",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 347909,
+        "community_id": "1:sVb4giool7jiVlGEWRGHV/7ah9o=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "103.28.39.29",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 338383,
+        "community_id": "1:wilXY3PfC6BpmV8oG7qmjx9+mp0=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "173.223.108.10",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 303718,
+        "community_id": "1:TBs/x2wVbD8+W280YdrwF2++kdA=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "205.185.216.10",
+        "dport": 80,
+        "service": "http",
+        "conns": 2,
+        "bytes": 292733,
+        "community_id": "1:Vb2inO0+/PQJXS1fyP7drGiptbI=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "8.209.119.208",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 275438,
+        "community_id": "1:VqRU643huGkG+mF74H4HzJJU1r4=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "23.47.49.179",
+        "dport": 80,
+        "service": "http",
+        "conns": 1,
+        "bytes": 270715,
+        "community_id": "1:UhzLc1sf4gUwJKRBIxVsz4YrtNY=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "13.249.75.112",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 256184,
+        "community_id": "1:hXt0fjsN/+fqOICNRr4vuSihLgY=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "13.107.42.23",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 7,
+        "bytes": 250401,
+        "community_id": "1:GtPMXtfyt2ZmmADbKnpKrfDNi/Y=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "52.242.231.35",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 239940,
+        "community_id": "1:w+YuCDKaprVmE6l72nT1YJkJrUY=",
+        "external": true
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "173.223.109.53",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 222759,
+        "community_id": "1:ErzT21r3RY3KCUs39aKNy8xU8mM=",
+        "external": true
+      }
+    ],
+    "lateral_movement": [
+      {
+        "src": "10.6.15.93",
+        "dst": "10.6.15.5",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 21,
+        "bytes": 51390,
+        "community_id": "1:UnFkpdga8cavGR4E69pVvHy6DBg=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "10.6.15.5",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 50,
+        "bytes": 161971,
+        "community_id": "1:DIJ5t3x15n7mNteNA+3g32rQ8CY=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "10.6.15.5",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 21,
+        "bytes": 17234,
+        "community_id": "1:1HvGKfQ//HuO0j6WWbcpHfnJajs=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "10.6.15.5",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 21,
+        "bytes": 51262,
+        "community_id": "1:XpeBdnytem+8/1jFU6xxqlhEXe8=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "10.6.15.5",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 60,
+        "bytes": 192276,
+        "community_id": "1:zCGq6M9iennjxiFZdNK2tKf2ckc=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "10.6.15.5",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 19,
+        "bytes": 18148,
+        "community_id": "1:51VaohFDrM1d2WMpWf6T+UwPJAQ=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.5",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 29,
+        "bytes": 71096,
+        "community_id": "1:DVTGEfYeNO8qP2CwAoiWsUDeOpw=",
+        "tech": "Kerberos",
+        "why": "내부->내부 Kerberos(88)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.5",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 50,
+        "bytes": 158903,
+        "community_id": "1:OT5AQaBFiaZ61vv+NOrJ5qZwcXw=",
+        "tech": "LDAP",
+        "why": "내부->내부 LDAP(389)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.5",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 41,
+        "bytes": 32788,
+        "community_id": "1:UuoMOqruImJm3fSlGLxR5wwNtaQ=",
+        "tech": "RPC",
+        "why": "내부->내부 RPC(135)"
+      },
+      {
+        "src": "10.6.15.187",
+        "dst": "10.6.15.5",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 17,
+        "bytes": 160135,
+        "community_id": "1:UetMI4Sn+J+V7ZzkF3fOnAtjMj8=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.6.15.93",
+        "dst": "10.6.15.5",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 15,
+        "bytes": 167544,
+        "community_id": "1:UuD3BkaigXA6GFMt2Fl3U2cEnMw=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.5",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 18,
+        "bytes": 184406,
+        "community_id": "1:d2pBylNq5aHCF9CaSISL/c3Yqts=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.1",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 5,
+        "bytes": 0,
+        "community_id": "1:zvN8qQ/lNxvUPxNmHVW9KKac8e0=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.187",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 2,
+        "bytes": 4945,
+        "community_id": "1:ISK+dp+2zNVK9WtXv7SBJNHuz2Y=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      },
+      {
+        "src": "10.6.15.119",
+        "dst": "10.6.15.93",
+        "dport": 445,
+        "service": "tcp",
+        "conns": 2,
+        "bytes": 4939,
+        "community_id": "1:QZjMpjlFL56oymcUojHRKrbUSEo=",
+        "tech": "SMB",
+        "why": "내부->내부 SMB(445)"
+      }
+    ],
+    "port_scans": []
+  },
+  "host_profiles": {
+    "10.6.15.119": {
+      "conns": 14974,
+      "mac": "00:23:54:e3:a3:55",
+      "scope": "internal",
+      "hostname": "DESKTOP-NIEE9LP",
+      "domain": "SALTMOBSTERS",
+      "user": "tommy.vega",
+      "role": "host"
+    },
+    "10.6.15.5": {
+      "conns": 988,
+      "mac": "00:19:b9:90:f7:43",
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.6.15.187": {
+      "conns": 537,
+      "mac": "00:23:54:72:c9:13",
+      "scope": "internal",
+      "hostname": "DESKTOP-YS6FZ2G",
+      "domain": "SALTMOBSTERS",
+      "user": "horace.maddox",
+      "role": "host"
+    },
+    "10.6.15.93": {
+      "conns": 442,
+      "mac": "00:23:54:a2:1f:b4",
+      "scope": "internal",
+      "hostname": "DEKSTOP-A1CTJVY",
+      "domain": "SALTMOBSTERS",
+      "user": "raquel.anderson",
+      "role": "host"
+    },
+    "10.6.15.255": {
+      "conns": 66,
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.6.15.1": {
+      "conns": 35,
+      "mac": "00:03:e4:6d:54:16",
+      "scope": "internal",
+      "role": "host"
+    },
+    "fe80::1c01:b22b:e837:eee2": {
+      "conns": 22,
+      "mac": "00:03:e4:6d:54:16",
+      "scope": "internal",
+      "role": "host"
+    }
+  },
+  "timeline": [
+    {
+      "ts": 1623854034.467,
+      "clock": "14:33:54",
+      "offset": "+0s",
+      "event": "캡처 세션 시작"
+    },
+    {
+      "ts": 1623854228.28,
+      "clock": "14:37:08",
+      "offset": "+194s",
+      "event": "IDS 첫 탐지: ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+      "evidence": "community_id:1:O0z+YALL3Fk7vjowQyO99CVj+Bg="
+    },
+    {
+      "ts": 1623854230.647,
+      "clock": "14:37:10",
+      "offset": "+196s",
+      "event": "실행파일 다운로드 (dee4bb7d46bb…)",
+      "evidence": "sha256:dee4bb7d46bbbec6c01dc41349cb8826b27be9a0dcf39816ca8bd6e0a39c2019"
+    },
+    {
+      "ts": 1623854231.541,
+      "clock": "14:37:11",
+      "offset": "+197s",
+      "event": "IDS 첫 탐지: ET MALWARE Cobalt Strike Beacon Observed",
+      "evidence": "community_id:1:1fb943NT8Fkt+3vQOnjbCRfWbuo="
+    },
+    {
+      "ts": 1623854232.735,
+      "clock": "14:37:12",
+      "offset": "+198s",
+      "event": "IDS 첫 탐지: ET MALWARE Win32/Ficker Stealer Activity",
+      "evidence": "community_id:1:6RRKzVzY+zQFcyEDtzN7s9Pe1Uo="
+    },
+    {
+      "ts": 1623854232.735,
+      "clock": "14:37:12",
+      "offset": "+198s",
+      "event": "IDS 첫 탐지: ET MALWARE Win32/Ficker Stealer Activity M3",
+      "evidence": "community_id:1:6RRKzVzY+zQFcyEDtzN7s9Pe1Uo="
+    },
+    {
+      "ts": 1623854539.789,
+      "clock": "14:42:19",
+      "offset": "+505s",
+      "event": "IDS 첫 탐지: ET HUNTING GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1",
+      "evidence": "community_id:1:G9CJG6sPjFK0hW36IJ4IN9QTeU0="
+    },
+    {
+      "ts": 1623854671.696,
+      "clock": "14:44:31",
+      "offset": "+637s",
+      "event": "실행파일 다운로드 (71ee71805469…)",
+      "evidence": "sha256:71ee718054698651622dfb815d8e94381090e413db15a3e3f8556b82b0d358e7"
+    },
+    {
+      "ts": 1623857876.608,
+      "clock": "15:37:56",
+      "offset": "+3842s",
+      "event": "IDS 첫 탐지: ET JA3 Hash - [Abuse.ch] Possible Dridex",
+      "evidence": "community_id:1:fRSVhanyO+WXAYvR7sNXNPMljrU="
+    },
+    {
+      "ts": 1623858178.271,
+      "clock": "15:42:58",
+      "offset": "+4144s",
+      "event": "IDS 첫 탐지: ET MALWARE Observed Qbot Style SSL Certificate",
+      "evidence": "community_id:1:BH+DpLWxLCl0W+hzY4jAzC2+J5Y="
+    },
+    {
+      "ts": 1623858292.561,
+      "clock": "15:44:52",
+      "offset": "+4258s",
+      "event": "IDS 첫 탐지: ET MALWARE AgentTesla Exfil Via SMTP",
+      "evidence": "community_id:1:RCg4XqdoKLyGDOvTIVaq1WR7Or0="
+    },
+    {
+      "ts": 1623861572.243,
+      "clock": "16:39:32",
+      "offset": "+7538s",
+      "event": "실행파일 다운로드 (99d9b8c1dd29…)",
+      "evidence": "sha256:99d9b8c1dd29c0ee27dd5f322b1ef8667b86774e2454a47eeb5bdf55fb686570"
+    },
+    {
+      "ts": 1623864548.193,
+      "clock": "17:29:08",
+      "offset": "+10514s",
+      "event": "캡처 세션 종료"
+    }
+  ],
+  "enrichment": {
+    "dns": {
+      "records": 809,
+      "unique_queries": 222,
+      "suspicious": [
+        {
+          "query": "dekstop-a1ctjvy.local",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "dekstop-a1ctjvy.saltmobsters.com",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "dekstop-a1ctjvy.saltmobsters.com",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "dekstop-a1ctjvy",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "desktop-ys6fz2g.local",
+          "entropy": 3.77,
+          "src": "10.6.15.187",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.187",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.187",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "DEKSTOP-A1CTJVY",
+          "entropy": 3.77,
+          "src": "10.6.15.93",
+          "why": "고엔트로피(3.8) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.saltmobsters.com",
+          "entropy": 3.56,
+          "src": "10.6.15.187",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-ys6fz2g.saltmobsters.com",
+          "entropy": 3.77,
+          "src": "10.6.15.187",
+          "why": "고엔트로피(3.8) DGA 의심"
+        }
+      ]
+    },
+    "files": {
+      "records": 342,
+      "malware_candidates": [
+        {
+          "count": 4,
+          "sha256": "71ee718054698651622dfb815d8e94381090e413db15a3e3f8556b82b0d358e7",
+          "md5": "1928ba6a82641bbaa71e4b4a52e4fddc",
+          "size": 356800,
+          "mime": "application/x-dosexec"
+        },
+        {
+          "count": 3,
+          "sha256": "99d9b8c1dd29c0ee27dd5f322b1ef8667b86774e2454a47eeb5bdf55fb686570",
+          "md5": "6ea2bca59218f42459cf0c2d2c55f0e3",
+          "size": 291256,
+          "mime": "application/x-dosexec"
+        },
+        {
+          "count": 1,
+          "sha256": "dee4bb7d46bbbec6c01dc41349cb8826b27be9a0dcf39816ca8bd6e0a39c2019",
+          "md5": "270c3859591599642bd15167765246e3",
+          "size": 272910,
+          "mime": "application/x-dosexec"
+        }
+      ],
+      "incomplete_executables": 2
+    },
+    "http": {
+      "records": 14312,
+      "suspicious": [
+        {
+          "host": "srand04rf.ru",
+          "uri": "/f7juhkryu4.exe",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.6.15.119",
+          "dst": "8.209.119.208",
+          "why": "실행파일 다운로드"
+        },
+        {
+          "host": "9.au.download.windowsupdate.com",
+          "uri": "/c/msdownload/update/software/defu/2021/06/am_delta_patch_1.341.846.0_64568a4810",
+          "method": "GET",
+          "mime": "application/x-dosexec",
+          "src": "10.6.15.187",
+          "dst": "205.185.216.10",
+          "why": "실행파일 다운로드"
+        }
+      ],
+      "top_host_ua": [
+        {
+          "host": "65.60.35.141:443",
+          "ua": "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4",
+          "count": 13991
+        },
+        {
+          "host": "65.60.35.141",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR ",
+          "count": 155
+        },
+        {
+          "host": "hadevatjulps.com",
+          "ua": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.",
+          "count": 78
+        },
+        {
+          "host": "download.windowsupdate.com",
+          "ua": "Windows-Update-Agent/10.0.10011.16384 Client-Protocol/2.31",
+          "count": 48
+        },
+        {
+          "host": "ctldl.windowsupdate.com",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 12
+        },
+        {
+          "host": "au.download.windowsupdate.com",
+          "ua": "Microsoft-Delivery-Optimization/10.0",
+          "count": 6
+        },
+        {
+          "host": "2.au.download.windowsupdate.com",
+          "ua": "Microsoft-Delivery-Optimization/10.0",
+          "count": 4
+        },
+        {
+          "host": "ststephenskisugu.church",
+          "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "count": 3
+        },
+        {
+          "host": "srand04rf.ru",
+          "ua": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.",
+          "count": 3
+        },
+        {
+          "host": "9.au.download.windowsupdate.com",
+          "ua": "Microsoft-Delivery-Optimization/10.0",
+          "count": 3
+        },
+        {
+          "host": "ocsp.digicert.com",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 2
+        },
+        {
+          "host": "solarwindsonline.com",
+          "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "count": 2
+        },
+        {
+          "host": "feedproxy.google.com",
+          "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "count": 1
+        },
+        {
+          "host": "api.ipify.org",
+          "ua": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.",
+          "count": 1
+        },
+        {
+          "host": "162.244.83.95",
+          "ua": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; WOW64; Tr",
+          "count": 1
+        },
+        {
+          "host": "162.244.83.95:443",
+          "ua": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Tr",
+          "count": 1
+        },
+        {
+          "host": "api.ipify.org",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; T",
+          "count": 1
+        }
+      ]
+    },
+    "ssl": {
+      "records": 424,
+      "top_ja3": [],
+      "bad_validation": []
+    }
+  },
+  "other_protocols": {
+    "dce_rpc": {
+      "records": 457,
+      "top_values": {
+        "named_pipe": {
+          "49674": 274,
+          "135": 108,
+          "\\pipe\\lsass": 75
+        },
+        "endpoint": {
+          "drsuapi": 219,
+          "epmapper": 108,
+          "samr": 75,
+          "netlogon": 42,
+          "lsarpc": 13
+        },
+        "operation": {
+          "ept_map": 108,
+          "DRSCrackNames": 83,
+          "DRSBind": 68,
+          "DRSUnbind": 68,
+          "NetrLogonGetDomainInfo": 31,
+          "SamrCloseHandle": 20,
+          "LsarLookupNames4": 12,
+          "SamrOpenDomain": 10,
+          "SamrConnect5": 5,
+          "SamrEnumerateDomainsInSamServer": 5
+        }
+      }
+    },
+    "kerberos": {
+      "records": 153,
+      "top_values": {
+        "request_type": {
+          "TGS": 45,
+          "AS": 26
+        },
+        "client": {
+          "DEKSTOP-A1CTJVY$/SALTMOBSTERS.COM": 10,
+          "DESKTOP-YS6FZ2G$/SALTMOBSTERS.COM": 10,
+          "DESKTOP-NIEE9LP$/SALTMOBSTERS.COM": 10,
+          "tommy.vega/SALTMOBSTERS.COM": 9,
+          "raquel.anderson/SALTMOBSTERS.COM": 4,
+          "horace.maddox/SALTMOBSTERS.COM": 4,
+          "tommy.vega/SALTMOBSTERS": 4,
+          "dekstop-a1ctjvy$/saltmobsters.com": 2,
+          "dekstop-a1ctjvy$/SALTMOBSTERS.COM": 2,
+          "desktop-ys6fz2g$/saltmobsters.com": 2
+        },
+        "service": {
+          "krbtgt/SALTMOBSTERS.COM": 29,
+          "LDAP/Saltmobsters-DC.saltmobsters.com/saltmobsters.com": 7,
+          "cifs/Saltmobsters-DC.saltmobsters.com": 4,
+          "krbtgt/SALTMOBSTERS": 4,
+          "cifs/SALTMOBSTERS.COM": 4,
+          "cifs/Saltmobsters-DC": 4,
+          "krbtgt/saltmobsters.com": 3,
+          "ldap/saltmobsters-dc.saltmobsters.com/saltmobsters.com": 3,
+          "cifs/Saltmobsters-DC.saltmobsters.com/saltmobsters.com": 3,
+          "host/desktop-niee9lp.saltmobsters.com": 2
+        },
+        "success": {
+          "True": 54,
+          "False": 17
+        },
+        "error_msg": {
+          "KDC_ERR_PREAUTH_REQUIRED": 13,
+          "KDC_ERR_S_PRINCIPAL_UNKNOWN": 4
+        },
+        "till": {
+          "2136422885.0": 71
+        },
+        "forwardable": {
+          "True": 71
+        },
+        "renewable": {
+          "True": 71
+        }
+      }
+    },
+    "ldap": {
+      "records": 167,
+      "top_values": {
+        "message_id": {
+          "3": 39,
+          "12": 33,
+          "9": 29,
+          "13": 25,
+          "7": 8,
+          "11": 8,
+          "15": 5,
+          "19": 5,
+          "23": 5,
+          "24": 5
+        },
+        "version": {
+          "3": 85
+        },
+        "opcode": {
+          "bind SASL": 85,
+          "unbind": 82
+        },
+        "result": {
+          "success": 85
+        },
+        "argument": {
+          "GSS-SPNEGO": 85
+        }
+      }
+    },
+    "ldap_search": {
+      "records": 297,
+      "top_values": {
+        "message_id": {
+          "1": 42,
+          "4": 39,
+          "10": 33,
+          "5": 31,
+          "6": 31,
+          "11": 25,
+          "8": 13,
+          "9": 8,
+          "20": 8,
+          "21": 8
+        },
+        "scope": {
+          "base": 265,
+          "tree": 29,
+          "single": 3
+        },
+        "deref_aliases": {
+          "never": 297
+        },
+        "result_count": {
+          "1": 259,
+          "0": 38
+        },
+        "result": {
+          "success": 272,
+          "no such object": 25
+        },
+        "filter": {
+          "(objectclass=*)": 117,
+          "(ObjectClass=*)": 53,
+          "(objectClass=*)": 26,
+          "(|(distinguishedName=DC=saltmobsters,DC=com))": 13,
+          "(objectCategory=*)": 9,
+          "(&(&(&(&(DnsDomain=saltmobsters.com.)(Host=DEKSTOP-A1CTJVY))(DomainGuid=0eff8f02-701f-49a7-bf73-2c9af99d040d))(NtVer=0x20000016))(DnsHostName=DEKSTOP-A1CTJVY.saltmobsters.com))": 8,
+          "(&(&(&(&(DnsDomain=saltmobsters.com.)(Host=DESKTOP-YS6FZ2G))(DomainGuid=0eff8f02-701f-49a7-bf73-2c9af99d040d))(NtVer=0x20000016))(DnsHostName=DESKTOP-YS6FZ2G.saltmobsters.com))": 8,
+          "(&(&(!(flags:1.2.840.113556.1.4.803:=1))(gPCUserExtensionNames=[*]))(|(distinguishedName=CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=saltmobsters,DC=com)))": 7,
+          "(&(&(&(&(DnsDomain=saltmobsters.com.)(Host=DEKSTOP-A1CTJVY))(DomainGuid=0eff8f02-701f-49a7-bf73-2c9af99d040d))(NtVer=0x00000016))(DnsHostName=DEKSTOP-A1CTJVY.saltmobsters.com))": 6,
+          "(&(&(!(flags:1.2.840.113556.1.4.803:=2))(gPCMachineExtensionNames=[*]))(|(distinguishedName=CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=saltmobsters,DC=com)))": 6
+        }
+      }
+    },
+    "ntlm": {
+      "records": 7,
+      "top_values": {
+        "username": {
+          "tommy.vega": 5,
+          "raquel.anderson": 1,
+          "horace.maddox": 1
+        },
+        "hostname": {
+          "DESKTOP-NIEE9LP": 5,
+          "DEKSTOP-A1CTJVY": 1,
+          "DESKTOP-YS6FZ2G": 1
+        },
+        "domainname": {
+          "SALTMOBSTERS": 7
+        },
+        "server_nb_computer_name": {
+          "SALTMOBSTERS-DC": 5,
+          "DEKSTOP-A1CTJVY": 1,
+          "DESKTOP-YS6FZ2G": 1
+        },
+        "server_dns_computer_name": {
+          "Saltmobsters-DC.saltmobsters.com": 5,
+          "DEKSTOP-A1CTJVY.saltmobsters.com": 1,
+          "DESKTOP-YS6FZ2G.saltmobsters.com": 1
+        },
+        "server_tree_name": {
+          "saltmobsters.com": 7
+        },
+        "success": {
+          "True": 7
+        }
+      }
+    },
+    "ocsp": {
+      "records": 87,
+      "top_values": {
+        "hashAlgorithm": {
+          "sha1": 87
+        },
+        "issuerNameHash": {
+          "521EE36C478119A9CB03FAB74E57E1197AF1818B": 34,
+          "A303C0A8887BD479C4278EB5D7587D3C12C04DA4": 15,
+          "105FA67A80089DB5279F35CE830B43889EA3C70D": 13,
+          "C68888133D2295AE3ABEF118877F8A00BA434E3E": 12,
+          "49F4BD8A18BF760698C5DE402D683B716AE4E686": 3,
+          "13E976D98A217E47F5049E8ECB483E07E1898DEA": 2,
+          "5B8E319A1713A60702D0D414932E15458E3FBBD8": 2,
+          "DFAA12E328B1094193E29F4282CE4740429558A3": 1,
+          "12EADF46CC0880387360B65A691601CC0CB5E9E2": 1,
+          "CF26F518FAC97E8F8CB342E01C2F6A109E8E5F0A": 1
+        },
+        "issuerKeyHash": {
+          "B5760C3011CEC792424D4CC75C2CC8A90CE80B64": 34,
+          "FF2F7FE106F438F32DED258D98C2FE0EF66CFCFA": 15,
+          "0F80611C823161D52F28E78D4638B42CE1C6D9E2": 13,
+          "0F205DD7A15795DB92CF2BD0C7C27704CE728076": 12,
+          "3DD350A5D6A0ADEEF34A600A65D321D4F8F8D60F": 3,
+          "426D572D4F1F267774A62764F680FA8F4868FE7C": 2,
+          "DB35445D2BEB53AF9E0BF5713DA39973AEFB5C53": 2,
+          "B13EC36903F8BF4701D498261A0802EF63642BC3": 1,
+          "A92B87E1CE24473B1BBFCF853702559D0D9458E6": 1,
+          "5168FF90AF0207753CCCD9656462A212B859723B": 1
+        },
+        "serialNumber": {
+          "7F000064CF7380B0A5DD93A7890000000064CF": 10,
+          "6B0003B0A57638ADD43A8423F300000003B0A5": 9,
+          "330001532F4C828E62AC0B93B800000001532F": 8,
+          "05DA46C3A98268D2CC04DE898860031A": 8,
+          "6B0000054A3A899CA9DFA8205000000000054A": 8,
+          "6B00000303BA65AC47BD8378E0000000000303": 8,
+          "6B00010607D2FB4295FF7D2C27000000010607": 5,
+          "33000E2714316AEF96E829E9800000000E2714": 4,
+          "6B000006C55514D0A6C4891BE20000000006C5": 3,
+          "7F00091398D1F0B305DCADE5BE000000091398": 3
+        },
+        "certStatus": {
+          "good": 87
+        }
+      }
+    },
+    "pe": {
+      "records": 5,
+      "top_values": {
+        "id": {
+          "FFc5Zz1xGfILQYwwh8": 1,
+          "F06P7L3c1D42AG0aQ8": 1,
+          "FZFxdU2G9tR9I5vnna": 1,
+          "FJmWde2wcHTi2efyal": 1,
+          "FUAigz2JKWeDg6Hcy8": 1
+        },
+        "machine": {
+          "AMD64": 4,
+          "I386": 1
+        },
+        "compile_ts": {
+          "1623837667.0": 2,
+          "1623837736.0": 1,
+          "0.0": 1,
+          "1623845454.0": 1
+        },
+        "os": {
+          "Windows 10": 4,
+          "Windows 95 or NT 4.0": 1
+        },
+        "subsystem": {
+          "WINDOWS_GUI": 5
+        },
+        "is_exe": {
+          "True": 5
+        },
+        "is_64bit": {
+          "True": 4,
+          "False": 1
+        },
+        "uses_aslr": {
+          "True": 4,
+          "False": 1
+        },
+        "uses_dep": {
+          "True": 5
+        },
+        "uses_code_integrity": {
+          "False": 5
+        },
+        "uses_seh": {
+          "True": 5
+        },
+        "has_import_table": {
+          "True": 5
+        },
+        "has_export_table": {
+          "False": 5
+        },
+        "has_cert_table": {
+          "True": 4,
+          "False": 1
+        },
+        "has_debug_data": {
+          "True": 4,
+          "False": 1
+        },
+        "section_names": {
+          "['.text', '.rdata', '.data', '.pdata', '.rsrc', '.reloc']": 4,
+          "['.text', '.data', '.rdata', '/4', '.bss', '.idata', '.CRT', '.tls']": 1
+        }
+      }
+    },
+    "quic": {
+      "records": 7,
+      "top_values": {
+        "version": {
+          "draft-29": 7
+        },
+        "client_initial_dcid": {
+          "f65b806a14a6ab76": 1,
+          "6c224ce3ad784cd7": 1,
+          "21f4c07829f817b3": 1,
+          "a2b68cd07b3adc00": 1,
+          "8067d15616adda4a": 1,
+          "15322acc2adbeeb4": 1,
+          "eeb90b990e32a236": 1
+        },
+        "client_scid": {
+          "": 7
+        },
+        "server_scid": {
+          "f65b806a14a6ab76": 1,
+          "6c224ce3ad784cd7": 1,
+          "21f4c07829f817b3": 1,
+          "a2b68cd07b3adc00": 1,
+          "8067d15616adda4a": 1,
+          "74a39084a4ed94f5": 1,
+          "6a85904c525c2497": 1
+        },
+        "server_name": {
+          "cm.g.doubleclick.net": 1,
+          "stats.g.doubleclick.net": 1,
+          "www.google-analytics.com": 1,
+          "www.google.com": 1,
+          "www.googletagmanager.com": 1,
+          "www.facebook.com": 1,
+          "connect.facebook.net": 1
+        },
+        "client_protocol": {
+          "h3-29": 7
+        },
+        "history": {
+          "ISishhhoIHHHOOoOooO": 1,
+          "ISishhhoHHOOooOoO": 1,
+          "ISishhhoHHOOooOoOo": 1,
+          "ISishhhhoIHHihHHOOooOoO": 1,
+          "ISisIhhhoHHOOoooOOooOoO": 1,
+          "ISiishoIhHOOhoOooO": 1,
+          "ISIiishhoihhoiihhHOHOHOHHhohhhohOooOoO": 1
+        }
+      }
+    },
+    "smb_files": {
+      "records": 48,
+      "top_values": {
+        "action": {
+          "SMB::FILE_OPEN": 48
+        },
+        "path": {
+          "\\\\Saltmobsters-DC.saltmobsters.com\\sysvol": 42,
+          "\\\\Saltmobsters-DC\\shared": 6
+        },
+        "name": {
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\gpt.ini": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Microsoft\\Windows NT\\SecEdit\\GptTmpl.inf": 6,
+          "saltmobsters.com\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\Machine\\Registry.pol": 6,
+          "<share_root>": 6
+        },
+        "size": {
+          "0": 30,
+          "22": 6,
+          "1098": 6,
+          "2800": 6
+        },
+        "times.modified": {
+          "1623803435.8877735": 12,
+          "1623803435.8907528": 12,
+          "1623803833.600809": 6,
+          "1623803833.5384274": 6,
+          "1623803833.491434": 6,
+          "1623807493.182207": 6
+        },
+        "times.accessed": {
+          "1623803435.8877735": 12,
+          "1623803833.600809": 6,
+          "1623803833.5384274": 6,
+          "1623803435.8907528": 6,
+          "1623803435.8918457": 6,
+          "1623803833.491434": 6,
+          "1623807493.182207": 6
+        },
+        "times.created": {
+          "1623803435.8877735": 18,
+          "1623803435.8867264": 12,
+          "1623803435.8907528": 6,
+          "1623803833.4758759": 6,
+          "1580340567.2172775": 6
+        },
+        "times.changed": {
+          "1623803442.9868088": 24,
+          "1623803833.5384274": 12,
+          "1623803833.600809": 6,
+          "1623807493.182207": 6
+        }
+      }
+    },
+    "smb_mapping": {
+      "records": 53,
+      "top_values": {
+        "path": {
+          "\\\\Saltmobsters-DC.saltmobsters.com\\IPC$": 36,
+          "\\\\Saltmobsters-DC.saltmobsters.com\\sysvol": 6,
+          "\\\\SALTMOBSTERS.COM\\IPC$": 4,
+          "\\\\Saltmobsters-DC\\shared": 4,
+          "\\\\10.6.15.5\\IPC$": 1,
+          "\\\\10.6.15.93\\IPC$": 1,
+          "\\\\10.6.15.187\\IPC$": 1
+        },
+        "share_type": {
+          "PIPE": 43,
+          "DISK": 10
+        }
+      }
+    },
+    "smtp": {
+      "records": 4,
+      "top_values": {
+        "trans_depth": {
+          "1": 4
+        },
+        "helo": {
+          "DEKSTOP-A1CTJVY": 4
+        },
+        "mailfrom": {
+          "accounts@staroxalate.com": 4
+        },
+        "rcptto": {
+          "['accounts@staroxalate.com']": 4
+        },
+        "date": {
+          "16 Jun 2021 15:44:54 +0000": 1,
+          "16 Jun 2021 16:24:57 +0000": 1,
+          "16 Jun 2021 17:04:58 +0000": 1,
+          "16 Jun 2021 17:24:57 +0000": 1
+        },
+        "from": {
+          "accounts@staroxalate.com": 4
+        },
+        "to": {
+          "['accounts@staroxalate.com']": 4
+        },
+        "subject": {
+          "KL_raquel.anderson/DEKSTOP-A1CTJVY": 3,
+          "PW_raquel.anderson/DEKSTOP-A1CTJVY": 1
+        },
+        "last_reply": {
+          "250 OK id=1ltXio-000zs3-7g": 1,
+          "250 OK id=1ltYLZ-001LcI-Gd": 1,
+          "250 OK id=1ltYyI-001eOU-1B": 1,
+          "250 OK id=1ltZHd-001oJq-5p": 1
+        },
+        "path": {
+          "['67.20.116.164', '10.6.15.93']": 4
+        },
+        "tls": {
+          "False": 4
+        },
+        "fuids": {
+          "['FbqgTg1TUTVofNh9gg']": 1,
+          "['FiCzrqpmfJGPhMm1a']": 1,
+          "['F5H38srVoeGQci07i']": 1,
+          "['Fd6PLF4t1brPKS1o5i']": 1
+        }
+      }
+    },
+    "weird": {
+      "records": 44,
+      "top_values": {
+        "name": {
+          "netlogon_dce_rpc_auth_type": 40,
+          "bad_HTTP_request": 2,
+          "window_recision": 2
+        },
+        "addl": {
+          "68": 40
+        },
+        "notice": {
+          "False": 44
+        },
+        "peer": {
+          "zeek": 44
+        },
+        "source": {
+          "DCE_RPC": 40,
+          "HTTP": 2
+        }
+      }
+    },
+    "x509": {
+      "records": 110,
+      "top_values": {
+        "certificate.version": {
+          "3": 109,
+          "1": 1
+        },
+        "certificate.issuer": {
+          "CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US": 15,
+          "CN=Microsoft RSA TLS CA 01,O=Microsoft Corporation,C=US": 9,
+          "CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US": 8,
+          "CN=Microsoft RSA TLS CA 02,O=Microsoft Corporation,C=US": 6,
+          "CN=DigiCert TLS RSA SHA256 2020 CA1,O=DigiCert Inc,C=US": 6,
+          "CN=Microsoft Azure TLS Issuing CA 01,O=Microsoft Corporation,C=US": 4,
+          "CN=DigiCert Global Root G2,OU=www.digicert.com,O=DigiCert Inc,C=US": 4,
+          "CN=Amazon,OU=Server CA 1B,O=Amazon,C=US": 4,
+          "CN=Baltimore CyberTrust Root,OU=CyberTrust,O=Baltimore,C=IE": 3,
+          "CN=Microsoft Azure TLS Issuing CA 02,O=Microsoft Corporation,C=US": 3
+        },
+        "certificate.key_alg": {
+          "rsaEncryption": 97,
+          "id-ecPublicKey": 13
+        },
+        "certificate.sig_alg": {
+          "sha256WithRSAEncryption": 85,
+          "sha384WithRSAEncryption": 16,
+          "ecdsa-with-SHA384": 5,
+          "sha1WithRSAEncryption": 2,
+          "ecdsa-with-SHA256": 2
+        },
+        "certificate.key_type": {
+          "rsa": 97,
+          "ecdsa": 13
+        },
+        "certificate.key_length": {
+          "2048": 87,
+          "256": 11,
+          "4096": 10,
+          "384": 2
+        },
+        "certificate.exponent": {
+          "65537": 97
+        },
+        "host_cert": {
+          "True": 75,
+          "False": 35
+        },
+        "client_cert": {
+          "False": 110
+        }
+      }
+    }
+  }
+}
