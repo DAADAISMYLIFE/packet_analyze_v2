@@ -1,16 +1,16 @@
 {
   "meta": {
     "pcap": "2021-06-16-ISC-forensic-contest",
-    "input_packets": 200929,
+    "input_packets": null,
     "flows": 15998,
-    "alert_events": 14383,
+    "alert_events": 14387,
     "alert_buckets": {
-      "engine": 76,
+      "engine": 80,
       "info": 30,
-      "threat": 14244,
-      "suspicious": 33
+      "threat": 14243,
+      "suspicious": 34
     },
-    "alert_signatures": 19,
+    "alert_signatures": 20,
     "status": "OK",
     "warnings": []
   },
@@ -21,8 +21,8 @@
         "bucket": "threat",
         "severity": 1,
         "category": "Targeted Malicious Activity was Detected",
-        "count": 14137,
-        "distinct_flows": 14136,
+        "count": 14136,
+        "distinct_flows": 14135,
         "src_ips": [
           "10.6.15.119"
         ],
@@ -132,8 +132,8 @@
         "bucket": "suspicious",
         "severity": 2,
         "category": "Potentially Bad Traffic",
-        "count": 8,
-        "distinct_flows": 8,
+        "count": 9,
+        "distinct_flows": 9,
         "src_ips": [
           "10.6.15.119"
         ],
@@ -202,8 +202,8 @@
         "bucket": "info",
         "severity": 2,
         "category": "Potentially Bad Traffic",
-        "count": 8,
-        "distinct_flows": 8,
+        "count": 9,
+        "distinct_flows": 9,
         "src_ips": [
           "10.6.15.119"
         ],
@@ -286,31 +286,10 @@
           "10.6.15.93"
         ],
         "dst_ips": [
-          "10.6.15.5",
-          "10.6.15.93"
+          "10.6.15.5"
         ],
         "dports": [
           445
-        ]
-      },
-      {
-        "signature": "ET INFO Packed Executable Download",
-        "bucket": "info",
-        "severity": 3,
-        "category": "Misc activity",
-        "count": 2,
-        "distinct_flows": 2,
-        "src_ips": [
-          "23.47.48.92",
-          "8.209.119.208"
-        ],
-        "dst_ips": [
-          "10.6.15.119",
-          "10.6.15.93"
-        ],
-        "dports": [
-          49775,
-          50712
         ]
       },
       {
@@ -328,6 +307,23 @@
         ],
         "dports": [
           53
+        ]
+      },
+      {
+        "signature": "ET INFO Packed Executable Download",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "8.209.119.208"
+        ],
+        "dst_ips": [
+          "10.6.15.119"
+        ],
+        "dports": [
+          50712
         ]
       },
       {
@@ -370,6 +366,26 @@
           51697,
           52337
         ]
+      },
+      {
+        "signature": "SURICATA Applayer Detect protocol only one direction",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 4,
+        "distinct_flows": 4,
+        "src_ips": [
+          "67.20.116.164"
+        ],
+        "dst_ips": [
+          "10.6.15.93"
+        ],
+        "dports": [
+          49838,
+          49870,
+          49889,
+          49906
+        ]
       }
     ],
     "by_flow": [
@@ -386,22 +402,6 @@
           "service": "http",
           "duration_s": 1.05,
           "bytes": 895,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
-        "bucket": "threat",
-        "severity": 1,
-        "community_id": "1:O0z+YALL3Fk7vjowQyO99CVj+Bg=",
-        "src": "10.6.15.119",
-        "dst": "194.226.60.15",
-        "dport": 80,
-        "flow": {
-          "service": "http",
-          "duration_s": 103.21,
-          "bytes": 738,
           "conn_state": "SF"
         }
       },
@@ -439,17 +439,17 @@
       },
       {
         "count": 1,
-        "signature": "ET MALWARE Win32/Ficker Stealer Activity",
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
         "bucket": "threat",
         "severity": 1,
-        "community_id": "1:v4TezZd9VfKHH5rVyWdP0l5zjmY=",
-        "src": "185.66.15.228",
-        "dst": "10.6.15.119",
-        "dport": 50719,
+        "community_id": "1:1fb943NT8Fkt+3vQOnjbCRfWbuo=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 80,
         "flow": {
-          "service": "tcp",
-          "duration_s": 1.22,
-          "bytes": 98,
+          "service": "http",
+          "duration_s": 0.63,
+          "bytes": 509,
           "conn_state": "SF"
         }
       },
@@ -466,6 +466,38 @@
           "service": "http",
           "duration_s": 60.64,
           "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:O0z+YALL3Fk7vjowQyO99CVj+Bg=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 103.21,
+          "bytes": 738,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Win32/Ficker Stealer Activity",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:v4TezZd9VfKHH5rVyWdP0l5zjmY=",
+        "src": "185.66.15.228",
+        "dst": "10.6.15.119",
+        "dport": 50719,
+        "flow": {
+          "service": "tcp",
+          "duration_s": 1.22,
+          "bytes": 98,
           "conn_state": "SF"
         }
       },
@@ -490,30 +522,14 @@
         "signature": "ET MALWARE Cobalt Strike Beacon Observed",
         "bucket": "threat",
         "severity": 1,
-        "community_id": "1:1fb943NT8Fkt+3vQOnjbCRfWbuo=",
+        "community_id": "1:RlHMNkCeezXZi2pcwvgMsRoBOrU=",
         "src": "10.6.15.119",
         "dst": "65.60.35.141",
         "dport": 80,
         "flow": {
           "service": "http",
-          "duration_s": 0.63,
+          "duration_s": 0.62,
           "bytes": 509,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
-        "bucket": "threat",
-        "severity": 1,
-        "community_id": "1:I9aHx0kTq0/Teen8pWEjKS79fnc=",
-        "src": "10.6.15.119",
-        "dst": "194.226.60.15",
-        "dport": 80,
-        "flow": {
-          "service": "http",
-          "duration_s": 89.47,
-          "bytes": 613,
           "conn_state": "SF"
         }
       },
@@ -554,14 +570,46 @@
         "signature": "ET MALWARE Cobalt Strike Beacon Observed",
         "bucket": "threat",
         "severity": 1,
-        "community_id": "1:RlHMNkCeezXZi2pcwvgMsRoBOrU=",
+        "community_id": "1:GyN6CfzsHS9uDg9m9fwglvnNjI4=",
         "src": "10.6.15.119",
         "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 36.92,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:I9aHx0kTq0/Teen8pWEjKS79fnc=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
         "dport": 80,
         "flow": {
           "service": "http",
-          "duration_s": 0.62,
-          "bytes": 509,
+          "duration_s": 89.47,
+          "bytes": 613,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:vhqLl0BogAoJbp9QusMfWbqFiMM=",
+        "src": "10.6.15.119",
+        "dst": "194.226.60.15",
+        "dport": 80,
+        "flow": {
+          "service": "http",
+          "duration_s": 78.91,
+          "bytes": 613,
           "conn_state": "SF"
         }
       },
@@ -570,13 +618,13 @@
         "signature": "ET MALWARE Cobalt Strike Beacon Observed",
         "bucket": "threat",
         "severity": 1,
-        "community_id": "1:GyN6CfzsHS9uDg9m9fwglvnNjI4=",
+        "community_id": "1:8cflBCXdlzfqTbdd/1V9Q1FcbDA=",
         "src": "10.6.15.119",
         "dst": "65.60.35.141",
         "dport": 443,
         "flow": {
           "service": "http",
-          "duration_s": 36.92,
+          "duration_s": 0.51,
           "bytes": 505,
           "conn_state": "SF"
         }
@@ -618,38 +666,6 @@
         "signature": "ET MALWARE Cobalt Strike Beacon Observed",
         "bucket": "threat",
         "severity": 1,
-        "community_id": "1:8cflBCXdlzfqTbdd/1V9Q1FcbDA=",
-        "src": "10.6.15.119",
-        "dst": "65.60.35.141",
-        "dport": 443,
-        "flow": {
-          "service": "http",
-          "duration_s": 0.51,
-          "bytes": 505,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
-        "bucket": "threat",
-        "severity": 1,
-        "community_id": "1:r/iKOx+DQ475/2i/O5Ubzfg1peI=",
-        "src": "10.6.15.119",
-        "dst": "65.60.35.141",
-        "dport": 443,
-        "flow": {
-          "service": "http",
-          "duration_s": 0.55,
-          "bytes": 505,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
-        "bucket": "threat",
-        "severity": 1,
         "community_id": "1:v3rzc48TexvzJn+3euhmhnPnE1w=",
         "src": "10.6.15.119",
         "dst": "65.60.35.141",
@@ -657,6 +673,22 @@
         "flow": {
           "service": "http",
           "duration_s": 0.72,
+          "bytes": 505,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET MALWARE Cobalt Strike Beacon Observed",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:CP85ghlYTLylL9hh34PcxmWGvPs=",
+        "src": "10.6.15.119",
+        "dst": "65.60.35.141",
+        "dport": 443,
+        "flow": {
+          "service": "http",
+          "duration_s": 0.67,
           "bytes": 505,
           "conn_state": "SF"
         }
@@ -676,29 +708,13 @@
           "bytes": 509,
           "conn_state": "SF"
         }
-      },
-      {
-        "count": 1,
-        "signature": "ET MALWARE Tordal/Hancitor/Chanitor Checkin",
-        "bucket": "threat",
-        "severity": 1,
-        "community_id": "1:vhqLl0BogAoJbp9QusMfWbqFiMM=",
-        "src": "10.6.15.119",
-        "dst": "194.226.60.15",
-        "dport": 80,
-        "flow": {
-          "service": "http",
-          "duration_s": 78.91,
-          "bytes": 613,
-          "conn_state": "SF"
-        }
       }
     ],
     "bucket_counts": {
-      "engine": 76,
+      "engine": 80,
       "info": 30,
-      "threat": 14244,
-      "suspicious": 33
+      "threat": 14243,
+      "suspicious": 34
     },
     "noise_truncated": 0
   },
@@ -1238,11 +1254,11 @@
       "evidence": "community_id:1:6RRKzVzY+zQFcyEDtzN7s9Pe1Uo="
     },
     {
-      "ts": 1623854539.789,
-      "clock": "14:42:19",
-      "offset": "+505s",
+      "ts": 1623854538.831,
+      "clock": "14:42:18",
+      "offset": "+504s",
       "event": "IDS 첫 탐지: ET HUNTING GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1",
-      "evidence": "community_id:1:G9CJG6sPjFK0hW36IJ4IN9QTeU0="
+      "evidence": "community_id:1:IZfeeXsnzvXV+3h7GdnhIsYg7ro="
     },
     {
       "ts": 1623854671.696,

@@ -38,18 +38,30 @@ SYSTEM_PROMPT = """\
 
 [작업] 다음을 판정한다: 공격 여부 / 멀웨어 패밀리 / C2·공격자·피해자 IP / (해당 시)CVE.
 
-[도구] evidence로 부족하면 드릴다운 도구를 호출해 원본 로그를 확인하라.
-  예) 비콘이 보이면 get_flow_detail로 실제 HTTP 요청을 확인, IP는 get_host_info로 신원 확인.
-  evidence만으로 충분히 확신하면 굳이 도구를 부르지 않아도 된다.
+[도구 — 반드시 호출]
+  evidence에 아래 신호가 있으면 판정 전에 반드시 해당 도구를 호출하라:
+  - beaconing 항목 → get_flow_detail(community_id): 실제 HTTP/DNS 요청·C2 패턴 확인
+  - malware_files 항목 → get_malware_file(sha256): 파일 메타·추출경로 확인
+  - host_profiles의 내부 IP → get_host_info(ip): 호스트명·유저 신원 확인
+  - http_suspicious 항목 → search_http(host): URI 패턴·다운로드 경로 확인
+  드릴다운 없이 submit_verdict를 제출하면 시스템이 차단한다.
+
+[환각 방지 — 절대 규칙]
+  - CVE: Suricata alert 또는 원본 로그에 CVE 번호가 명시된 경우에만 기재. 없으면 반드시 빈 배열 [].
+  - C2: 외부(공인) IP 또는 도메인만. 사설 IP(10./172.16-31./192.168.)·내부 호스트명은 C2가 아니다.
+  - malware_family: Suricata 시그니처명 또는 get_malware_file로 확인된 것만. 추측으로 채우지 마라.
+  - evidence_refs: 실제 존재하는 community_id/sha256/signature만. 지어내지 마라.
 
 [원칙 — 신뢰성 최우선]
   - 환각 금지. 모르면 빈 값으로 두고 confidence를 낮춰라. 억지로 채우지 마라.
-  - 모든 판단에 근거(evidence_refs: community_id/sha256/signature)를 달아라.
+  - 모든 판단에 근거(evidence_refs)를 달아라.
   - timeline은 evidence의 timeline을 근거로만 기술하라.
   - 인과("A가 B를 유발")는 단정하지 말고 시간순 관찰로 기술하라.
 
-[종료] 분석이 끝나면 반드시 submit_verdict 도구를 호출해 최종 판정을 제출하라.
+[종료] 드릴다운을 마친 후 submit_verdict 도구를 호출해 최종 판정을 제출하라.
 """
+
+MIN_TOOL_CALLS = 3  # submit_verdict 허용 전 최소 드릴다운 횟수
 
 # 최종 판정 제출용 도구 (구조화 출력 강제 — 자유 텍스트 파싱 안 함)
 SUBMIT_VERDICT_TOOL = {
@@ -144,9 +156,60 @@ def _preview(obj, n=200):
     return s[:n] + ("…" if len(s) > n else "")
 
 
+def _investigation_prompt(ev, trace):
+    """evidence에서 미조사 항목을 찾아 구체적 드릴다운 지시를 생성."""
+    done = {t["tool"] for t in trace}
+    slim = slim_evidence(ev)
+    items = []
+
+    if slim["conn"]["beaconing"] and "get_flow_detail" not in done:
+        cid = slim["conn"]["beaconing"][0].get("community_id")
+        if cid:
+            items.append(f"get_flow_detail(community_id='{cid}') — 비콘 flow의 HTTP/DNS 요청 확인")
+
+    if slim["malware_files"] and "get_malware_file" not in done:
+        sha = slim["malware_files"][0].get("sha256")
+        if sha:
+            items.append(f"get_malware_file(sha256='{sha}') — 실행파일 메타 확인")
+
+    if slim["host_profiles"] and "get_host_info" not in done:
+        ip = next(iter(slim["host_profiles"]))
+        items.append(f"get_host_info(ip='{ip}') — 호스트명·유저 신원 확인")
+
+    if slim["http_suspicious"] and "search_http" not in done:
+        host = slim["http_suspicious"][0].get("host")
+        if host:
+            items.append(f"search_http(host='{host}') — 의심 HTTP 요청 URI 확인")
+
+    if not items:
+        remaining = MIN_TOOL_CALLS - len(trace)
+        return (f"드릴다운 {len(trace)}/{MIN_TOOL_CALLS}회 완료. "
+                f"추가로 {remaining}회 더 조사한 후 submit_verdict를 제출하라. "
+                "search_alerts, get_connections_by_ip 등을 활용하라.")
+
+    joined = "\n".join(f"  - {i}" for i in items)
+    return f"판정 전에 다음 항목을 반드시 드릴다운하라:\n{joined}"
+
+
+def _chat(base_url, api_key, model, messages, tools, temperature):
+    import urllib.request
+    url = base_url.rstrip("/") + "/chat/completions"
+    body = json.dumps({
+        "model": model,
+        "messages": messages,
+        "tools": tools,
+        "tool_choice": "auto",
+        "temperature": temperature,
+    }).encode()
+    req = urllib.request.Request(url, data=body, headers={
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    })
+    with urllib.request.urlopen(req) as r:
+        return json.loads(r.read())
+
+
 def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
-    from openai import OpenAI
-    client = OpenAI(base_url=base_url, api_key=api_key)
     drill = tools_mod.DrillDownTools(name)
     all_tools = tools_mod.TOOL_SCHEMAS + [SUBMIT_VERDICT_TOOL]
     messages = build_messages(ev)
@@ -159,30 +222,44 @@ def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
 
     for r in range(max_rounds):
         p(f"\n── round {r} " + "─" * 40)
-        resp = client.chat.completions.create(
-            model=model, messages=messages, tools=all_tools,
-            tool_choice="auto", temperature=temperature)
-        msg = resp.choices[0].message
-        messages.append(msg.model_dump(exclude_none=True))
+        resp = _chat(base_url, api_key, model, messages, all_tools, temperature)
+        msg = resp["choices"][0]["message"]
+        messages.append({k: v for k, v in msg.items() if v is not None})
 
         # 모델이 내놓은 텍스트(추론/진행 설명)가 있으면 표시
-        if msg.content and msg.content.strip():
-            p(f"  💭 {_preview(msg.content, 400)}")
+        content = msg.get("content") or ""
+        if content.strip():
+            p(f"  💭 {_preview(content, 400)}")
 
-        if not msg.tool_calls:
-            p("  ⚠️  tool 호출 없음 → submit_verdict 유도")
-            messages.append({"role": "user",
-                             "content": "분석을 마쳤으면 submit_verdict 도구를 호출해 최종 판정을 제출하라."})
+        tool_calls = msg.get("tool_calls") or []
+        if not tool_calls:
+            if len(trace) < MIN_TOOL_CALLS:
+                prompt = _investigation_prompt(ev, trace)
+                p(f"  ⚠️  드릴다운 {len(trace)}/{MIN_TOOL_CALLS}회 — 추가 조사 요청")
+                messages.append({"role": "user", "content": prompt})
+            else:
+                p("  ⚠️  tool 호출 없음 → submit_verdict 유도")
+                messages.append({"role": "user",
+                                 "content": "드릴다운 완료. submit_verdict 도구를 호출해 최종 판정을 제출하라."})
             continue
 
-        for tc in msg.tool_calls:
-            fn = tc.function.name
+        for tc in tool_calls:
+            fn = tc["function"]["name"]
             try:
-                args = json.loads(tc.function.arguments or "{}")
+                args = json.loads(tc["function"].get("arguments") or "{}")
             except json.JSONDecodeError:
                 args = {}
 
             if fn == "submit_verdict":
+                if len(trace) < MIN_TOOL_CALLS:
+                    p(f"  🚫 submit_verdict 차단 — 드릴다운 {len(trace)}/{MIN_TOOL_CALLS}회 미달")
+                    prompt = _investigation_prompt(ev, trace)
+                    messages.append({"role": "tool", "tool_call_id": tc["id"],
+                                     "content": json.dumps({
+                                         "error": f"드릴다운 최소 {MIN_TOOL_CALLS}회 후 제출 가능 (현재 {len(trace)}회).",
+                                         "required_action": prompt,
+                                     }, ensure_ascii=False)})
+                    continue
                 p("  ✅ submit_verdict 호출 — 최종 판정 제출")
                 verdict = enforce_review(args)
                 verdict["tool_trace"] = trace
@@ -195,7 +272,7 @@ def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
             trace.append({"round": r, "tool": fn, "args": args, "result_size": size})
             p(f"  🔧 {fn}({_preview(args, 120)})")
             p(f"      → ({size}자) {_preview(result, 220)}")
-            messages.append({"role": "tool", "tool_call_id": tc.id,
+            messages.append({"role": "tool", "tool_call_id": tc["id"],
                              "content": json.dumps(result, ensure_ascii=False)})
 
     p("\n  ❌ max_rounds 초과 — 판정 미제출")

@@ -1,6 +1,6 @@
 # 대용량 원본/중간물 — GitHub에 올리지 않음
 # (주석은 반드시 별도 줄에. .gitignore는 인라인 주석 미지원)
-pcaps/*.pcap
+# pcap은 git으로 관리 (100MB 이내)
 pcaps/*.pcapng
 pcaps/*.cap
 

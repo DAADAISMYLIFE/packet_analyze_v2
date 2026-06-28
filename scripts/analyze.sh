@@ -11,11 +11,17 @@ NAME="$(basename "$PCAP")"; NAME="${NAME%.*}"
 
 echo "═══ analyze: $NAME ═══"
 
-# 0. 입력 패킷 수 (libpcap 기준. 지원 안 하는 포맷이면 0 → 상태 판정에 사용)
-PKTS="$(tcpdump -r "$PCAP" 2>/dev/null | wc -l)"
-echo "[0] 입력 패킷: $PKTS"
-if [ "$PKTS" -eq 0 ]; then
-  echo "    ⚠️  패킷 0 — 지원 안 하는 포맷일 수 있음 (그래도 끝까지 진행해 status 남김)"
+# 0. 입력 패킷 수 (tcpdump 있을 때만 측정. 없으면 건너뜀 — Zeek/Suricata 결과로 상태 판정)
+PKTS_ARG=""
+if command -v tcpdump &>/dev/null; then
+  PKTS="$(tcpdump -r "$PCAP" 2>/dev/null | wc -l)"
+  echo "[0] 입력 패킷: $PKTS"
+  if [ "$PKTS" -eq 0 ]; then
+    echo "    ⚠️  패킷 0 — 지원 안 하는 포맷일 수 있음 (그래도 끝까지 진행해 status 남김)"
+  fi
+  PKTS_ARG="--pkts $PKTS"
+else
+  echo "[0] tcpdump 없음 — 패킷 수 측정 생략 (Zeek/Suricata 결과로 상태 판정)"
 fi
 
 # 1. Suricata (시그니처)
@@ -26,4 +32,4 @@ bash "$DIR/run_zeek.sh" "$PCAP" 2>&1 | tail -3 | sed 's/^/    /'
 
 # 3. 압축 → evidence package (+ 상태 스탬프)
 echo "[3] compress"
-python3 "$DIR/compress.py" "$NAME" --pkts "$PKTS" --md 2>&1 | sed 's/^/    /'
+python3 "$DIR/compress.py" "$NAME" $PKTS_ARG --md 2>&1 | sed 's/^/    /'
