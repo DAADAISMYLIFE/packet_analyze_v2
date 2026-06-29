@@ -24,7 +24,6 @@ import json
 import math
 import os
 import statistics
-import sys
 from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -527,7 +526,7 @@ REGISTRY = {
 }
 
 
-def assess_status(pkts, flows, alert_events, enrichment_records, zeek_log_count):
+def assess_status(pkts, flows, alert_events, zeek_log_count):
     """파이프라인 건강 상태 판정 — '실패가 정상으로 위장'하는 것 방지.
        pkts: 입력 패킷 수(None이면 모름). 핵심 규칙: 신호 0인데 '정상'이라 하지 않는다."""
     warnings = []
@@ -603,8 +602,7 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
             pkg["other_protocols"][logname] = generic(rows, top)
 
     # 상태 판정 — 실패/비IP를 '정상'과 명확히 구분해서 meta에 스탬프
-    enr_records = sum(v.get("records", 0) for v in pkg["enrichment"].values())
-    status, warnings = assess_status(pkts, len(conn), len(alerts), enr_records, zeek_log_count)
+    status, warnings = assess_status(pkts, len(conn), len(alerts), zeek_log_count)
     pkg["meta"]["status"] = status
     pkg["meta"]["warnings"] = warnings
     return pkg
@@ -728,7 +726,11 @@ def main():
     if pkg["meta"]["status"] == "OK":
         import gzip
         drill = build_drilldown(zeek_dir, eve_path)
-        drill_out = out.replace(".evidence.json", ".drilldown.json.gz")
+        # out이 .evidence.json로 안 끝나면 replace가 무동작 → gz가 evidence를 덮어쓰는 버그 방지
+        if out.endswith(".evidence.json"):
+            drill_out = out[:-len(".evidence.json")] + ".drilldown.json.gz"
+        else:
+            drill_out = out + ".drilldown.json.gz"
         with gzip.open(drill_out, "wt", encoding="utf-8") as f:
             json.dump(drill, f, ensure_ascii=False)
         kb = os.path.getsize(drill_out) // 1024
