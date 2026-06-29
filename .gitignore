@@ -1,8 +1,8 @@
 # 대용량 원본/중간물 — GitHub에 올리지 않음
 # (주석은 반드시 별도 줄에. .gitignore는 인라인 주석 미지원)
-# pcap은 git으로 관리 (100MB 이내)
-pcaps/*.pcapng
-pcaps/*.cap
+# pcap 원본은 git에 안 올림 (대용량 바이너리 → 히스토리 영구 적재 방지)
+# 필요하면 Colab 노트북에서 직접 업로드(files.upload)
+pcaps/
 
 # zeek/suricata 원본 로그 + 추출파일(대용량)
 output/
@@ -14,9 +14,10 @@ __pycache__/
 # 로그
 *.log
 
-# report: Colab은 evidence.json 만 필요 → 그것만 올린다
+# report: Colab엔 evidence.json + 드릴다운 번들(tool용)만 올린다
 report/*
 !report/*.evidence.json
+!report/*.drilldown.json.gz
 
 # Claude Code 로컬 설정
 .claude/

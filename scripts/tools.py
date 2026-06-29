@@ -45,13 +45,31 @@ class DrillDownTools:
         self.eve_path = os.path.join(root, "output", "suricata", name, "eve.json")
         self.extract_dir = os.path.join(self.zeek_dir, "extract_files")
         self._cache = {}  # 로그를 한 번만 읽어 캐시
+        # 드릴다운 번들 우선: Colab clone엔 output/ 로그가 없으므로 evidence와 동봉된
+        # report/<name>.drilldown.json(.gz)을 데이터 소스로 쓴다. 없으면 output/ 로그로 폴백(로컬).
+        import gzip
+        self.bundle = None
+        base = os.path.join(root, "report", name)
+        for path, opener in ((base + ".drilldown.json.gz", gzip.open),
+                             (base + ".drilldown.json", open)):
+            if os.path.exists(path):
+                try:
+                    with opener(path, "rt", encoding="utf-8") as f:
+                        self.bundle = json.load(f)
+                    break
+                except (OSError, json.JSONDecodeError):
+                    self.bundle = None
 
     def _log(self, logname):
+        if self.bundle is not None:
+            return self.bundle.get(logname, [])
         if logname not in self._cache:
             self._cache[logname] = read_zeek_log(os.path.join(self.zeek_dir, f"{logname}.log"))
         return self._cache[logname]
 
     def _alerts(self):
+        if self.bundle is not None:
+            return self.bundle.get("alerts", [])
         if "_alerts" not in self._cache:
             self._cache["_alerts"] = read_eve(self.eve_path).get("alert", [])
         return self._cache["_alerts"]
@@ -172,7 +190,7 @@ class DrillDownTools:
             return False
 
 
-# ── OpenAI 호환 function-calling 스키마 (vLLM/Qwen이 이 형식 사용) ──
+# ── OpenAI 호환 function-calling 스키마 (Ollama/Qwen이 이 형식 사용) ──
 TOOL_SCHEMAS = [
     {"type": "function", "function": {
         "name": "get_flow_detail",

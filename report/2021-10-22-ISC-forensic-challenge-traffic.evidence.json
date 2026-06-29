@@ -1,7 +1,7 @@
 {
   "meta": {
     "pcap": "2021-10-22-ISC-forensic-challenge-traffic",
-    "input_packets": 84542,
+    "input_packets": null,
     "flows": 3230,
     "alert_events": 1073,
     "alert_buckets": {
@@ -860,6 +860,9 @@
   },
   "conn": {
     "flow_groups": 326,
+    "ad_servers": [
+      "10.10.22.22"
+    ],
     "beaconing": [
       {
         "src": "10.10.22.157",
@@ -1196,138 +1199,6 @@
     ],
     "lateral_movement": [
       {
-        "src": "10.10.22.157",
-        "dst": "10.10.22.22",
-        "dport": 88,
-        "service": "krb_tcp",
-        "conns": 23,
-        "bytes": 53185,
-        "community_id": "1:+eQZEpsuGuQa7X+TZj9bZJPR7ss=",
-        "tech": "Kerberos",
-        "why": "내부->내부 Kerberos(88)"
-      },
-      {
-        "src": "10.10.22.157",
-        "dst": "10.10.22.22",
-        "dport": 389,
-        "service": "tcp",
-        "conns": 37,
-        "bytes": 108164,
-        "community_id": "1:L/hBROGtlPyZxuTtyYaeGwJPy70=",
-        "tech": "LDAP",
-        "why": "내부->내부 LDAP(389)"
-      },
-      {
-        "src": "10.10.22.157",
-        "dst": "10.10.22.22",
-        "dport": 135,
-        "service": "dce_rpc",
-        "conns": 10,
-        "bytes": 8992,
-        "community_id": "1:B6jrC67gfNu+UAul0xh6DurSFM4=",
-        "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
-      },
-      {
-        "src": "10.10.22.156",
-        "dst": "10.10.22.22",
-        "dport": 88,
-        "service": "krb_tcp",
-        "conns": 24,
-        "bytes": 56720,
-        "community_id": "1:J+Vh7CrWh9fIZwXVNOj13AcgVSs=",
-        "tech": "Kerberos",
-        "why": "내부->내부 Kerberos(88)"
-      },
-      {
-        "src": "10.10.22.156",
-        "dst": "10.10.22.22",
-        "dport": 389,
-        "service": "ldap_tcp",
-        "conns": 108,
-        "bytes": 148765,
-        "community_id": "1:Vv8OQTJRvZCpCgwnhpXAeEAhpX4=",
-        "tech": "LDAP",
-        "why": "내부->내부 LDAP(389)"
-      },
-      {
-        "src": "10.10.22.156",
-        "dst": "10.10.22.22",
-        "dport": 135,
-        "service": "dce_rpc",
-        "conns": 14,
-        "bytes": 11136,
-        "community_id": "1:ToQxevMEO5Jb32f8oCEenxPWrl8=",
-        "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
-      },
-      {
-        "src": "10.10.22.158",
-        "dst": "10.10.22.22",
-        "dport": 88,
-        "service": "krb_tcp",
-        "conns": 29,
-        "bytes": 69828,
-        "community_id": "1:RhJk8bzQao82B0/VW+rrPUYH4co=",
-        "tech": "Kerberos",
-        "why": "내부->내부 Kerberos(88)"
-      },
-      {
-        "src": "10.10.22.158",
-        "dst": "10.10.22.22",
-        "dport": 389,
-        "service": "ldap_tcp",
-        "conns": 40,
-        "bytes": 106344,
-        "community_id": "1:U5URGECIZjCgAhFJwUf2/FAa0FU=",
-        "tech": "LDAP",
-        "why": "내부->내부 LDAP(389)"
-      },
-      {
-        "src": "10.10.22.158",
-        "dst": "10.10.22.22",
-        "dport": 135,
-        "service": "dce_rpc",
-        "conns": 12,
-        "bytes": 10304,
-        "community_id": "1:CPET+hyKeiiNCH7PDkfaTA++Z70=",
-        "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
-      },
-      {
-        "src": "10.10.22.158",
-        "dst": "10.10.22.22",
-        "dport": 445,
-        "service": "gssapi,smb,ntlm,dce_rpc",
-        "conns": 11,
-        "bytes": 116216,
-        "community_id": "1:gtt5P+Vdn/FJSd6ZXOOrI2bKIO4=",
-        "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
-      },
-      {
-        "src": "10.10.22.157",
-        "dst": "10.10.22.22",
-        "dport": 445,
-        "service": "gssapi,smb,ntlm,dce_rpc",
-        "conns": 9,
-        "bytes": 93214,
-        "community_id": "1:t18DJ1HGnERH0E3SF/7cpXq3Upo=",
-        "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
-      },
-      {
-        "src": "10.10.22.156",
-        "dst": "10.10.22.22",
-        "dport": 445,
-        "service": "gssapi,smb,ntlm,dce_rpc",
-        "conns": 10,
-        "bytes": 95926,
-        "community_id": "1:Z8aJ1WdNaNs4lEe5mStFb7nLa24=",
-        "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
-      },
-      {
         "src": "10.10.22.156",
         "dst": "10.10.22.157",
         "dport": 445,
@@ -1336,7 +1207,7 @@
         "bytes": 3138,
         "community_id": "1:cJqKI4nDmp5Z58KsIFrYc5LSIrU=",
         "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)"
       },
       {
         "src": "10.10.22.156",
@@ -1347,7 +1218,7 @@
         "bytes": 3138,
         "community_id": "1:oTA+x7WjWt/dkEVRa4YPAhFqMlo=",
         "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)"
       },
       {
         "src": "10.10.22.156",
@@ -1358,7 +1229,7 @@
         "bytes": 508,
         "community_id": "1:Dshgi0RZRpKOGQokBVBxdpCk4Nk=",
         "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
+        "why": "내부->내부호스트 RPC(135)"
       },
       {
         "src": "10.10.22.156",
@@ -1369,7 +1240,7 @@
         "bytes": 508,
         "community_id": "1:igvUvwQGvPsvt1q3sEl+nIMC0QE=",
         "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
+        "why": "내부->내부호스트 RPC(135)"
       },
       {
         "src": "10.10.22.156",
@@ -1380,11 +1251,338 @@
         "bytes": 0,
         "community_id": "1:yij6clGHMI20NOPLIQfrO9tjGQE=",
         "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)"
       }
     ],
+    "ad_baseline": [
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 23,
+        "bytes": 53185,
+        "community_id": "1:+eQZEpsuGuQa7X+TZj9bZJPR7ss=",
+        "tech": "Kerberos",
+        "why": "내부->DC Kerberos(88) 정상 인증"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "tcp",
+        "conns": 37,
+        "bytes": 108164,
+        "community_id": "1:L/hBROGtlPyZxuTtyYaeGwJPy70=",
+        "tech": "LDAP",
+        "why": "내부->DC LDAP(389) 정상 인증"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 10,
+        "bytes": 8992,
+        "community_id": "1:B6jrC67gfNu+UAul0xh6DurSFM4=",
+        "tech": "RPC",
+        "why": "내부->DC RPC(135) 정상 인증"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 24,
+        "bytes": 56720,
+        "community_id": "1:J+Vh7CrWh9fIZwXVNOj13AcgVSs=",
+        "tech": "Kerberos",
+        "why": "내부->DC Kerberos(88) 정상 인증"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 108,
+        "bytes": 148765,
+        "community_id": "1:Vv8OQTJRvZCpCgwnhpXAeEAhpX4=",
+        "tech": "LDAP",
+        "why": "내부->DC LDAP(389) 정상 인증"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 14,
+        "bytes": 11136,
+        "community_id": "1:ToQxevMEO5Jb32f8oCEenxPWrl8=",
+        "tech": "RPC",
+        "why": "내부->DC RPC(135) 정상 인증"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 29,
+        "bytes": 69828,
+        "community_id": "1:RhJk8bzQao82B0/VW+rrPUYH4co=",
+        "tech": "Kerberos",
+        "why": "내부->DC Kerberos(88) 정상 인증"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 40,
+        "bytes": 106344,
+        "community_id": "1:U5URGECIZjCgAhFJwUf2/FAa0FU=",
+        "tech": "LDAP",
+        "why": "내부->DC LDAP(389) 정상 인증"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 12,
+        "bytes": 10304,
+        "community_id": "1:CPET+hyKeiiNCH7PDkfaTA++Z70=",
+        "tech": "RPC",
+        "why": "내부->DC RPC(135) 정상 인증"
+      },
+      {
+        "src": "10.10.22.158",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 11,
+        "bytes": 116216,
+        "community_id": "1:gtt5P+Vdn/FJSd6ZXOOrI2bKIO4=",
+        "tech": "SMB",
+        "why": "내부->DC SMB(445) 정상 인증"
+      },
+      {
+        "src": "10.10.22.157",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 9,
+        "bytes": 93214,
+        "community_id": "1:t18DJ1HGnERH0E3SF/7cpXq3Upo=",
+        "tech": "SMB",
+        "why": "내부->DC SMB(445) 정상 인증"
+      },
+      {
+        "src": "10.10.22.156",
+        "dst": "10.10.22.22",
+        "dport": 445,
+        "service": "gssapi,smb,ntlm,dce_rpc",
+        "conns": 10,
+        "bytes": 95926,
+        "community_id": "1:Z8aJ1WdNaNs4lEe5mStFb7nLa24=",
+        "tech": "SMB",
+        "why": "내부->DC SMB(445) 정상 인증"
+      }
+    ],
+    "ad_baseline_count": 12,
     "port_scans": []
   },
+  "host_profiles": {
+    "10.10.22.156": {
+      "conns": 1543,
+      "mac": null,
+      "scope": "internal",
+      "hostname": "DESKTOP-CFA3367",
+      "domain": "ENEMYWATCH",
+      "user": "agnes.warren",
+      "role": "host"
+    },
+    "10.10.22.157": {
+      "conns": 1205,
+      "mac": null,
+      "scope": "internal",
+      "hostname": "DESKTOP-NZ875R4",
+      "domain": "ENEMYWATCH",
+      "user": "marcus.cobb",
+      "role": "host"
+    },
+    "10.10.22.22": {
+      "conns": 997,
+      "mac": null,
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.10.22.158": {
+      "conns": 486,
+      "mac": null,
+      "scope": "internal",
+      "hostname": "DESKTOP-87WCE26",
+      "domain": "ENEMYWATCH",
+      "user": "kevin.henderson",
+      "role": "host"
+    },
+    "10.10.22.1": {
+      "conns": 168,
+      "mac": null,
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.10.22.255": {
+      "conns": 36,
+      "mac": null,
+      "scope": "internal",
+      "role": "host"
+    },
+    "255.255.255.255": {
+      "conns": 4,
+      "mac": null,
+      "scope": "internal",
+      "role": "host"
+    },
+    "0.0.0.0": {
+      "conns": 2,
+      "mac": null,
+      "scope": "internal",
+      "role": "host"
+    }
+  },
+  "timeline": [
+    {
+      "ts": 1634913051.987,
+      "clock": "14:30:51",
+      "offset": "+0s",
+      "event": "캡처 세션 시작"
+    },
+    {
+      "ts": 1634913296.194,
+      "clock": "14:34:56",
+      "offset": "+244s",
+      "event": "IDS 첫 탐지: ET DYN_DNS DNS Query to DynDNS Domain *.ddns .net",
+      "evidence": "community_id:1:o0hTP4bzOfxo1/t7G34epCnwEgo="
+    },
+    {
+      "ts": 1634913296.324,
+      "clock": "14:34:56",
+      "offset": "+244s",
+      "event": "IDS 첫 탐지: ET MALWARE NanoCore RAT CnC 7",
+      "evidence": "community_id:1:J3BR8x7CXtLmTztIMKY9WlLEP+U="
+    },
+    {
+      "ts": 1634913395.514,
+      "clock": "14:36:35",
+      "offset": "+344s",
+      "event": "IDS 첫 탐지: ET DNS Query to a *.top domain - Likely Hostile",
+      "evidence": "community_id:1:Ehu5xM2V5u8eBkP8pcF94lfqJn0="
+    },
+    {
+      "ts": 1634913395.65,
+      "clock": "14:36:35",
+      "offset": "+344s",
+      "event": "IDS 첫 탐지: ET HUNTING Request to .TOP Domain with Minimal Headers",
+      "evidence": "community_id:1:OVbD2/sk4O1DL4Cg2wMnSb/Xdcc="
+    },
+    {
+      "ts": 1634913395.65,
+      "clock": "14:36:35",
+      "offset": "+344s",
+      "event": "IDS 첫 탐지: ET HUNTING Possible EXE Download From Suspicious TLD",
+      "evidence": "community_id:1:OVbD2/sk4O1DL4Cg2wMnSb/Xdcc="
+    },
+    {
+      "ts": 1634913398.943,
+      "clock": "14:36:38",
+      "offset": "+347s",
+      "event": "실행파일 다운로드 (11f3d84aad71…)",
+      "evidence": "sha256:11f3d84aad7131fe124155c9edfceb594649e87de1ee03383f470442d6ed69a1"
+    },
+    {
+      "ts": 1634913421.528,
+      "clock": "14:37:01",
+      "offset": "+370s",
+      "event": "IDS 첫 탐지: ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M1",
+      "evidence": "community_id:1:uAUrKkSLD7robr5KHWlkOi9nlb8="
+    },
+    {
+      "ts": 1634913421.528,
+      "clock": "14:37:01",
+      "offset": "+370s",
+      "event": "IDS 첫 탐지: ET MALWARE Likely Evil EXE download from dotted Quad by MSXMLHTTP M2",
+      "evidence": "community_id:1:uAUrKkSLD7robr5KHWlkOi9nlb8="
+    },
+    {
+      "ts": 1634913421.528,
+      "clock": "14:37:01",
+      "offset": "+370s",
+      "event": "IDS 첫 탐지: ET MALWARE Likely Evil EXE download from MSXMLHTTP non-exe extension M2",
+      "evidence": "community_id:1:uAUrKkSLD7robr5KHWlkOi9nlb8="
+    },
+    {
+      "ts": 1634913421.528,
+      "clock": "14:37:01",
+      "offset": "+370s",
+      "event": "IDS 첫 탐지: ET HUNTING SUSPICIOUS Dotted Quad Host MZ Response",
+      "evidence": "community_id:1:uAUrKkSLD7robr5KHWlkOi9nlb8="
+    },
+    {
+      "ts": 1634913422.692,
+      "clock": "14:37:02",
+      "offset": "+371s",
+      "event": "실행파일 다운로드 (95928b331e99…)",
+      "evidence": "sha256:95928b331e9942e4709b41ec8b59eb6f9e068f53ef2eeb15009feafd4ff5138d"
+    },
+    {
+      "ts": 1634913706.75,
+      "clock": "14:41:46",
+      "offset": "+655s",
+      "event": "IDS 첫 탐지: ET HUNTING Observed DNS Query for EmerDNS TLD (.bazar)",
+      "evidence": "community_id:1:ZDZLBCfDZFOMR6Ng1fB3jy6R1Fo="
+    },
+    {
+      "ts": 1634913708.447,
+      "clock": "14:41:48",
+      "offset": "+656s",
+      "event": "IDS 첫 탐지: ET JA3 Hash - [Abuse.ch] Possible Dridex",
+      "evidence": "community_id:1:DYKPH5DxAQmGRPEff7W4J7iEylo="
+    },
+    {
+      "ts": 1634915852.423,
+      "clock": "15:17:32",
+      "offset": "+2800s",
+      "event": "IDS 첫 탐지: ET RPC DCERPC SVCCTL - Remote Service Control Manager Access",
+      "evidence": "community_id:1:igvUvwQGvPsvt1q3sEl+nIMC0QE="
+    },
+    {
+      "ts": 1634916791.498,
+      "clock": "15:33:11",
+      "offset": "+3740s",
+      "event": "IDS 첫 탐지: ET MALWARE VNCStartServer USR Variant CnC Beacon",
+      "evidence": "community_id:1:WoLVdQa3cet63zLC3th9Vt4ScXA="
+    },
+    {
+      "ts": 1634916791.527,
+      "clock": "15:33:11",
+      "offset": "+3740s",
+      "event": "IDS 첫 탐지: ET MALWARE VNCStartServer BOT Variant CnC Beacon",
+      "evidence": "community_id:1:jkY8kORhP1R1n3IOLGnBAtDy2E4="
+    },
+    {
+      "ts": 1634917432.453,
+      "clock": "15:43:52",
+      "offset": "+4380s",
+      "event": "IDS 첫 탐지: ET DNS Query for .cc TLD",
+      "evidence": "community_id:1:W9P2k8LiocDgt2bO5ym/TxcCCbQ="
+    },
+    {
+      "ts": 1634918596.604,
+      "clock": "16:03:16",
+      "offset": "+5545s",
+      "event": "캡처 세션 종료"
+    }
+  ],
   "enrichment": {
     "dns": {
       "records": 1308,

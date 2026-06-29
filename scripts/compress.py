@@ -34,6 +34,8 @@ BEACON_MIN_CONNS = 5      # 비콘 판정 최소 연결 수
 BEACON_CV_MAX    = 0.10   # 간격 변동계수(CV) 이하면 '규칙적' = 비콘
 SCAN_MIN_PORTS   = 15     # 한 src가 한 dst에서 이만큼 포트 두드리면 스캔
 LATERAL_PORTS    = {445: "SMB", 88: "Kerberos", 389: "LDAP", 135: "RPC", 3389: "RDP", 5985: "WinRM"}
+DC_BASELINE_PORTS = {88, 389, 135, 445}  # 클라이언트→DC 정상 인증/도메인 포트 (측면이동 아님)
+DC_FANIN_MIN      = 3                     # 내부 N+ 호스트가 Kerberos/LDAP 거는 내부IP = DC로 판정
 
 # alert 분류 — 시그니처 접두사 기반. 위→아래 순서로 첫 매칭 적용.
 # (버킷 순위가 낮을수록 위협. 발표 때 '왜 이 alert가 위/아래냐'의 근거)
@@ -195,15 +197,32 @@ def compress_alerts(alerts, top):
     }
 
 
-def compress_conn(conn, top):
+def detect_ad_servers(conn):
+    """DC/AD 인프라를 행위로 식별 (결정론적).
+       DC는 '여러 내부 호스트한테서 Kerberos(88)/LDAP(389)를 받는 내부 IP'다.
+       이걸 알아야 클라이언트→DC 정상 인증을 측면이동 오탐에서 분리할 수 있다.
+       (hostname 기반 판정은 build_host_profiles가 별도로 하며, 둘은 상호 보완)."""
+    fanin = defaultdict(lambda: defaultdict(set))  # dst -> port -> {src}
+    for c in conn:
+        s, d, p = c.get("id.orig_h"), c.get("id.resp_h"), c.get("id.resp_p")
+        if s and d and is_private(s) and is_private(d) and p in (88, 389):
+            fanin[d][p].add(s)
+    return {d for d, ports in fanin.items()
+            if any(len(srcs) >= DC_FANIN_MIN for srcs in ports.values())}
+
+
+def compress_conn(conn, top, dc_ips=None):
     """conn.log -> (src,dst,dport) 묶기 + 비콘/top-talker/스캔/측면이동 탐지.
-       전부 프로토콜 무관 (conn.log엔 모든 flow가 들어옴)."""
+       전부 프로토콜 무관 (conn.log엔 모든 flow가 들어옴).
+       dc_ips: DC 집합. 내부→DC 정상 인증은 lateral이 아니라 ad_baseline으로 분리."""
+    if dc_ips is None:
+        dc_ips = detect_ad_servers(conn)
     groups = defaultdict(list)
     for r in conn:
         key = (r.get("id.orig_h"), r.get("id.resp_h"), r.get("id.resp_p"))
         groups[key].append(r)
 
-    beacons, talkers, lateral = [], [], []
+    beacons, talkers, lateral, ad_baseline = [], [], [], []
     scan_tracker = defaultdict(set)  # src -> {(dst,port)} 로 스캔 추적
 
     for (src, dst, dport), conns in groups.items():
@@ -231,10 +250,17 @@ def compress_conn(conn, top):
         if not is_private(dst):
             talkers.append({**rec, "external": True})
 
-        # 측면이동: 내부->내부 + AD/원격관리 포트
+        # 측면이동 vs 정상 AD 인증 분리:
+        #   내부→DC 의 Kerberos/LDAP/RPC/SMB = 정상 도메인 인증 → ad_baseline (오탐 방지)
+        #   내부→비DC 관리포트, 또는 DC라도 RDP/WinRM = 진짜 측면이동 후보
         if is_private(src) and is_private(dst) and dport in LATERAL_PORTS:
-            lateral.append({**rec, "tech": LATERAL_PORTS[dport],
-                            "why": f"내부->내부 {LATERAL_PORTS[dport]}({dport})"})
+            if dst in dc_ips and dport in DC_BASELINE_PORTS:
+                ad_baseline.append({**rec, "tech": LATERAL_PORTS[dport],
+                                    "why": f"내부->DC {LATERAL_PORTS[dport]}({dport}) 정상 인증"})
+            else:
+                tgt = "DC" if dst in dc_ips else "내부호스트"
+                lateral.append({**rec, "tech": LATERAL_PORTS[dport],
+                                "why": f"내부->{tgt} {LATERAL_PORTS[dport]}({dport})"})
 
         # 스캔 추적
         scan_tracker[src].add((dst, dport))
@@ -255,9 +281,12 @@ def compress_conn(conn, top):
     beacons.sort(key=lambda x: -x["conns"])
     return {
         "flow_groups": len(groups),
+        "ad_servers": sorted(dc_ips),
         "beaconing": beacons[:top],
         "top_talkers_external": talkers[:top],
         "lateral_movement": lateral[:top],
+        "ad_baseline": ad_baseline[:top],
+        "ad_baseline_count": len(ad_baseline),
         "port_scans": scans[:top],
     }
 
@@ -581,6 +610,72 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     return pkg
 
 
+# ── 드릴다운 번들: tool이 Colab에서도 동작하도록 evidence와 함께 동봉 ──
+# output/ 전체(수십 MB)는 .gitignore라 Colab clone에 안 따라간다. 그러면 tools.py가
+# 읽을 원본이 없어 모든 드릴다운이 "없음"으로 실패한다(실측 확인). 그래서 '외부통신 +
+# 위협 관련 + 신원' 레코드만 추려 report/<name>.drilldown.json으로 같이 커밋한다.
+DRILL_CAPS = {"conn": 1000, "http": 600, "dns": 1500, "ssl": 500, "files": 300, "alerts": 800}
+
+
+def _external_flow(c):
+    o, r = c.get("id.orig_h"), c.get("id.resp_h")
+    return bool((o and not is_private(o)) or (r and not is_private(r)))
+
+
+def build_drilldown(zeek_dir, eve_path):
+    """tool 드릴다운용 원본 레코드 부분집합 (결정론적, 상한 적용)."""
+    conn = read_zeek_log(os.path.join(zeek_dir, "conn.log"))
+    alerts = read_eve(eve_path).get("alert", [])
+
+    def is_sig_relevant(a):
+        al = a.get("alert", {})
+        return classify_alert(al.get("signature"), al.get("severity")) in ("threat", "suspicious")
+
+    # 위협/의심 alert가 가리키는 flow는 반드시 포함
+    ref_cids = {a.get("community_id") for a in alerts if is_sig_relevant(a) and a.get("community_id")}
+
+    # conn: 외부통신 / 위협 flow / 내부 측면이동(관리포트) 만 추림 (내부 AD 잡음 제거)
+    kept_conn = []
+    for c in conn:
+        o, r, dp = c.get("id.orig_h"), c.get("id.resp_h"), c.get("id.resp_p")
+        lateral = o and r and is_private(o) and is_private(r) and dp in LATERAL_PORTS
+        if _external_flow(c) or c.get("community_id") in ref_cids or lateral:
+            kept_conn.append(c)
+    kept_conn = kept_conn[:DRILL_CAPS["conn"]]
+    kept_uids = {c.get("uid") for c in kept_conn}
+
+    def link(logname, cap, extra=None):
+        rows = read_zeek_log(os.path.join(zeek_dir, f"{logname}.log"))
+        out = [r for r in rows if r.get("uid") in kept_uids or (extra and extra(r))]
+        return out[:cap]
+
+    ext_resp = lambda r: r.get("id.resp_h") and not is_private(r["id.resp_h"])
+
+    # 위협/의심 alert를 (signature, community_id, src, dst)로 중복 제거
+    seen, alert_rows = set(), []
+    for a in alerts:
+        if not is_sig_relevant(a):
+            continue
+        al = a.get("alert", {})
+        k = (al.get("signature"), a.get("community_id"), a.get("src_ip"), a.get("dest_ip"))
+        if k in seen:
+            continue
+        seen.add(k)
+        alert_rows.append(a)
+
+    return {
+        "conn": kept_conn,
+        "http": link("http", DRILL_CAPS["http"], ext_resp),
+        # DNS는 내부 리졸버(내부→내부)로 가도 쿼리 내용이 중요 → uid 무관하게 전부 포함
+        "dns": read_zeek_log(os.path.join(zeek_dir, "dns.log"))[:DRILL_CAPS["dns"]],
+        "ssl": link("ssl", DRILL_CAPS["ssl"], ext_resp),
+        "files": read_zeek_log(os.path.join(zeek_dir, "files.log"))[:DRILL_CAPS["files"]],
+        "ntlm": read_zeek_log(os.path.join(zeek_dir, "ntlm.log")),       # 신원 (작음, 전부)
+        "kerberos": read_zeek_log(os.path.join(zeek_dir, "kerberos.log")),
+        "alerts": alert_rows[:DRILL_CAPS["alerts"]],
+    }
+
+
 def to_markdown(pkg):
     m = pkg["meta"]
     lines = [f"# Evidence: {m['pcap']}",
@@ -628,6 +723,17 @@ def main():
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(pkg, f, ensure_ascii=False, indent=2)
+
+    # 드릴다운 번들 동봉 — tool이 Colab(원본 로그 없음)에서도 동작하도록. gzip으로 git 부담 최소화.
+    if pkg["meta"]["status"] == "OK":
+        import gzip
+        drill = build_drilldown(zeek_dir, eve_path)
+        drill_out = out.replace(".evidence.json", ".drilldown.json.gz")
+        with gzip.open(drill_out, "wt", encoding="utf-8") as f:
+            json.dump(drill, f, ensure_ascii=False)
+        kb = os.path.getsize(drill_out) // 1024
+        print(f"[+] drilldown bundle -> {drill_out}  "
+              f"({ {k: len(v) for k, v in drill.items()} }, {kb}KB gz)")
 
     st = pkg["meta"]["status"]
     icon = {"OK": "✅", "NO_IP_FLOWS": "⚠️", "FAILED_TO_PARSE": "❌"}.get(st, "?")
