@@ -140,12 +140,41 @@ def build_messages(ev):
             {"role": "user", "content": user}]
 
 
-def enforce_review(verdict):
-    """needs_review는 코드가 강제 — LLM 판단에 맡기지 않는다.
-       확신이 high가 아니거나 미지 이상행위면 사람 검토 필요."""
+# 이 접두사 시그니처가 떴으면 '알려진 악성'이 결정론적 사실 → LLM이 benign으로 못 뒤집음
+HARD_MALWARE_PREFIXES = ("ET MALWARE", "ETPRO MALWARE", "ET TROJAN", "ET CNC")
+
+
+def _evidence_threat_floor(ev):
+    """evidence에서 결정론적으로 확실한 위협 신호 추출 (LLM 판단과 무관한 사실)."""
+    ids = ev.get("ids_alerts", {})
+    threat = [a for a in ids.get("by_signature", []) if a.get("bucket") == "threat"]
+    hard = [a["signature"] for a in threat
+            if any((a.get("signature") or "").startswith(p) for p in HARD_MALWARE_PREFIXES)]
+    return {"threat_sigs": [a["signature"] for a in threat], "hard_malware": hard}
+
+
+def enforce_review(verdict, ev=None):
+    """코드가 강제하는 후처리 — LLM 판단에 맡기지 않는다.
+       1) needs_review: confidence≠high 또는 unknown_anomaly면 사람 검토.
+       2) 가드레일: 위협 시그니처(ET MALWARE 등)는 결정론적 사실 → benign 불가."""
     conf = verdict.get("confidence")
     cls = verdict.get("classification")
     verdict["needs_review"] = (conf != "high") or (cls == "unknown_anomaly")
+
+    if ev is not None:
+        floor = _evidence_threat_floor(ev)
+        # ET MALWARE/TROJAN/CNC가 떴는데 LLM이 benign/공격아님이라 하면 강제 정정
+        if floor["hard_malware"] and (cls == "benign" or verdict.get("is_attack") is False):
+            verdict["is_attack"] = True
+            verdict["classification"] = "known_threat"
+            verdict["needs_review"] = True
+            verdict.setdefault("rule_overrides", []).append(
+                "악성 시그니처 탐지로 benign 차단: " + ", ".join(floor["hard_malware"][:5]))
+        # 위협 시그니처가 있는데 benign이면(하드 아님이라도) 최소 검토 강제
+        elif floor["threat_sigs"] and cls == "benign":
+            verdict["needs_review"] = True
+            verdict.setdefault("rule_overrides", []).append(
+                "위협 시그니처 존재로 검토 필요: " + ", ".join(floor["threat_sigs"][:5]))
     return verdict
 
 
@@ -218,7 +247,7 @@ def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
 
             if fn == "submit_verdict":
                 p("  ✅ submit_verdict 호출 — 최종 판정 제출")
-                verdict = enforce_review(args)
+                verdict = enforce_review(args, ev)
                 verdict["tool_trace"] = trace
                 verdict["rounds_used"] = r + 1
                 return verdict
