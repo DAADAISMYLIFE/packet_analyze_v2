@@ -144,6 +144,14 @@ def build_messages(ev):
 HARD_MALWARE_PREFIXES = ("ET MALWARE", "ETPRO MALWARE", "ET TROJAN", "ET CNC")
 
 
+def _is_private(ip):
+    import ipaddress
+    try:
+        return ipaddress.ip_address(ip).is_private
+    except (ValueError, TypeError):
+        return False
+
+
 def _evidence_threat_floor(ev):
     """evidence에서 결정론적으로 확실한 위협 신호 추출 (LLM 판단과 무관한 사실)."""
     ids = ev.get("ids_alerts", {})
@@ -151,6 +159,44 @@ def _evidence_threat_floor(ev):
     hard = [a["signature"] for a in threat
             if any((a.get("signature") or "").startswith(p) for p in HARD_MALWARE_PREFIXES)]
     return {"threat_sigs": [a["signature"] for a in threat], "hard_malware": hard}
+
+
+def _derive_iocs(ev):
+    """위협 alert에서 C2/victim을 결정론적으로 추출.
+       외부(공인) dst = C2 후보, 내부 src = 피해자. LLM이 빼먹어도 코드가 보장한다."""
+    victims, c2 = set(), {}
+    for a in ev.get("ids_alerts", {}).get("by_signature", []):
+        if a.get("bucket") != "threat":
+            continue
+        for s in a.get("src_ips", []):
+            if _is_private(s):
+                victims.add(s)
+        for d in a.get("dst_ips", []):
+            if d and not _is_private(d):
+                c2.setdefault(d, a.get("signature"))  # 첫 시그니처를 근거로
+    return victims, c2
+
+
+def _backfill_iocs(verdict, ev):
+    """verdict.threat_actors에 결정론적 C2/victim을 합집합으로 백필 (모델 누락 보완)."""
+    victims, c2 = _derive_iocs(ev)
+    if not victims and not c2:
+        return
+    ta = verdict.setdefault("threat_actors", {})
+    # victim 합집합
+    ta["victim_ips"] = sorted(set(ta.get("victim_ips") or []) | victims)
+    # c2 합집합 (ip 기준 중복 제거)
+    have = {c.get("ip") for c in (ta.get("c2") or []) if isinstance(c, dict) and c.get("ip")}
+    merged = list(ta.get("c2") or [])
+    added = []
+    for ip, sig in sorted(c2.items()):
+        if ip not in have:
+            merged.append({"ip": ip, "domain": "", "evidence": f"위협 시그니처: {sig}"})
+            added.append(ip)
+    ta["c2"] = merged
+    if added:
+        verdict.setdefault("rule_overrides", []).append(
+            "C2 결정론적 백필(위협 alert 외부 dst): " + ", ".join(added))
 
 
 def enforce_review(verdict, ev=None):
@@ -175,6 +221,9 @@ def enforce_review(verdict, ev=None):
             verdict["needs_review"] = True
             verdict.setdefault("rule_overrides", []).append(
                 "위협 시그니처 존재로 검토 필요: " + ", ".join(floor["threat_sigs"][:5]))
+        # 공격 판정이면 C2/victim을 결정론적으로 백필 (모델이 빼먹어도 IOC 보장)
+        if verdict.get("is_attack"):
+            _backfill_iocs(verdict, ev)
     return verdict
 
 
