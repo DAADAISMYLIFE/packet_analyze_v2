@@ -189,7 +189,7 @@ LLM은 평소 evidence package(요약)만 본다. **더 깊이 봐야 할 때만
 | `get_host_info(ip, mac)` | 호스트 신원(호스트명/도메인/유저/MAC) |
 
 - `DrillDownTools(name)` : pcap당 1개 인스턴스. 로그를 캐시해 재사용.
-- `TOOL_SCHEMAS` : OpenAI/vLLM 호환 function-calling 스키마.
+- `TOOL_SCHEMAS` : OpenAI/Ollama 호환 function-calling 스키마.
 - `dispatch(tools, name, args)` : LLM 호출 → 메서드 라우팅.
 - 단독 테스트: `python3 scripts/tools.py <name>`
 
@@ -197,15 +197,15 @@ LLM은 평소 evidence package(요약)만 본다. **더 깊이 봐야 할 때만
 
 evidence package를 LLM에 주고 최종 판정(verdict)을 받는다.
 
-- **OpenAI 호환 API**로 통신 → Colab vLLM(localhost)이든 GPU 클라우드든 `--base-url`만 바꾸면 동작 (포터블).
+- **OpenAI 호환 API**로 통신 → Colab Ollama(localhost)든 GPU 클라우드든 `--base-url`만 바꾸면 동작 (포터블).
 - LLM은 **슬림 evidence**(요약+타임라인+신원+멀웨어, ~4.5k 토큰)만 받고, 더 봐야 하면 `tools.py` 드릴다운 호출.
 - 판정은 **`submit_verdict` 도구 호출**로 제출 → 구조화 출력 강제 (자유텍스트 파싱 안 함).
 - `needs_review`는 **코드가 강제** (`enforce_review`): confidence≠high 또는 unknown_anomaly → true.
 
 ```bash
-# Colab/서버 (vLLM 떠 있을 때)
-python3 scripts/llm_analyze.py <name> --base-url http://localhost:8000/v1 \
-    --model Qwen/Qwen2.5-7B-Instruct-AWQ
+# Colab/서버 (Ollama 떠 있을 때)
+python3 scripts/llm_analyze.py <name> --base-url http://localhost:11434/v1 \
+    --model qwen2.5:14b
 # GPU 없이 프롬프트/배선/토큰만 점검
 python3 scripts/llm_analyze.py <name> --dry-run
 ```
@@ -217,7 +217,7 @@ python3 scripts/llm_analyze.py <name> --dry-run
 analyze.sh → evidence.json  ─GitHub─→  llm_analyze.py → verdict.json
 ```
 - 수집·압축(suricata/zeek/compress)은 **로컬**. evidence.json만 GitHub에 push.
-- LLM 판정만 **Colab**(`notebooks/colab_llm.ipynb`): repo clone → vLLM(Qwen2.5-7B) 부팅 → 판정.
+- LLM 판정만 **Colab**(`notebooks/colab_llm.ipynb`): repo clone → Ollama(qwen2.5:14b) 부팅 → 판정.
 - `.gitignore`가 대용량(pcap/output)은 제외하고 **`report/*.evidence.json`만** 올리도록 설정됨.
 
 ## verdict 스키마 (LLM 판정 출력)
@@ -264,7 +264,7 @@ analyze.sh → evidence.json  ─GitHub─→  llm_analyze.py → verdict.json
 [드릴다운] tools.py             ✅  (7개 도구)
 [판정] verdict 스키마           ✅  확정 (위 참조)
 [판정] llm_analyze.py           ✅  코드/dry-run 검증 (실 LLM 연결은 Colab에서)
-[실행] notebooks/colab_llm.ipynb ✅  vLLM+Qwen2.5-7B 부팅 노트북
+[실행] notebooks/colab_llm.ipynb ✅  Ollama+qwen2.5:14b 부팅 노트북
 ```
 
 ## 다음 단계
