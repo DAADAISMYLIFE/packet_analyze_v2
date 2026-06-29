@@ -3,12 +3,12 @@
     "pcap": "2022-03-21-traffic-analysis-exercise",
     "input_packets": 16296,
     "flows": 924,
-    "alert_events": 232,
+    "alert_events": 235,
     "alert_buckets": {
+      "info": 219,
       "engine": 3,
       "threat": 2,
-      "info": 219,
-      "suspicious": 8
+      "suspicious": 11
     },
     "alert_signatures": 9,
     "status": "OK",
@@ -55,8 +55,8 @@
         "bucket": "suspicious",
         "severity": 2,
         "category": "Potentially Bad Traffic",
-        "count": 7,
-        "distinct_flows": 7,
+        "count": 10,
+        "distinct_flows": 10,
         "src_ips": [
           "10.0.19.14"
         ],
@@ -234,6 +234,22 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
+        "community_id": "1:ruPusTEmib2uWrCY9hS1l13m94c=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.07,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
         "community_id": "1:tDfnTH3aoKdEPmwhRUig384pvtQ=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
@@ -241,6 +257,38 @@
         "flow": {
           "service": "dns",
           "duration_s": 0.0,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:9Ozu3pRYVdX5+ulSnHFK6WeSQIs=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.0,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:lUij4c4RnX6dbFw6U7biftN1NrE=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.08,
           "bytes": 80,
           "conn_state": "SF"
         }
@@ -266,23 +314,7 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:gJK/Du4KPRBHCBOB9BwZGP/sK8Q=",
-        "src": "10.0.19.14",
-        "dst": "10.0.19.9",
-        "dport": 53,
-        "flow": {
-          "service": "dns",
-          "duration_s": 0.15,
-          "bytes": 112,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
-        "bucket": "suspicious",
-        "severity": 2,
-        "community_id": "1:Kt26ci4q05/6QZnoZGJhhw9N7OM=",
+        "community_id": "1:oUWmMdX17aUIIjJtWkrKE0mAzBM=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
@@ -298,7 +330,23 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:IXMyk+/H3fB/FlBt+GCNFabblEA=",
+        "community_id": "1:1cCxr2kXKTja5CNcqe5SLNb7qh0=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.07,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
+        "community_id": "1:E2sRhIPcr/WLaTutmZ/Gbbf/Zag=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
@@ -314,13 +362,13 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:SEs0ldfL8sQ1isG6LnGI1z5P/pc=",
+        "community_id": "1:unR+cfRQNuaBsPW/cWb0A/AU++E=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
         "flow": {
           "service": "dns",
-          "duration_s": 0.0,
+          "duration_s": 0.07,
           "bytes": 80,
           "conn_state": "SF"
         }
@@ -343,15 +391,16 @@
       }
     ],
     "bucket_counts": {
+      "info": 219,
       "engine": 3,
       "threat": 2,
-      "info": 219,
-      "suspicious": 8
+      "suspicious": 11
     },
     "noise_truncated": 0
   },
   "conn": {
     "flow_groups": 78,
+    "ad_servers": [],
     "beaconing": [],
     "top_talkers_external": [
       {
@@ -565,7 +614,7 @@
         "bytes": 331566,
         "community_id": "1:60mTwfJXdJNkwrdLeKSstaSfgEE=",
         "tech": "SMB",
-        "why": "내부->내부 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)"
       },
       {
         "src": "10.0.19.14",
@@ -576,7 +625,7 @@
         "bytes": 17644,
         "community_id": "1:bdF8PDQXoiQ7rFO++fq/ethZGdU=",
         "tech": "RPC",
-        "why": "내부->내부 RPC(135)"
+        "why": "내부->내부호스트 RPC(135)"
       },
       {
         "src": "10.0.19.14",
@@ -587,7 +636,7 @@
         "bytes": 550014,
         "community_id": "1:n1nWeY9DQSD8YJpZnxGIEXxBlEo=",
         "tech": "LDAP",
-        "why": "내부->내부 LDAP(389)"
+        "why": "내부->내부호스트 LDAP(389)"
       },
       {
         "src": "10.0.19.14",
@@ -598,9 +647,11 @@
         "bytes": 54279,
         "community_id": "1:rRaWB0ZA9Ctak8ptdAbiri8OWUk=",
         "tech": "Kerberos",
-        "why": "내부->내부 Kerberos(88)"
+        "why": "내부->내부호스트 Kerberos(88)"
       }
     ],
+    "ad_baseline": [],
+    "ad_baseline_count": 0,
     "port_scans": []
   },
   "host_profiles": {
@@ -863,7 +914,7 @@
       "records": 1,
       "top_values": {
         "uids": {
-          "['CI16D24k0aykBKpkH6', 'CYQn6I1FnOJwajbYy']": 1
+          "['CVHASrjC5JyfPsPY', 'CFh5HWEJFLGDMgLRa']": 1
         },
         "client_addr": {
           "10.0.19.14": 1
