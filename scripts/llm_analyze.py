@@ -69,6 +69,18 @@ occurred and what it is.
   - Report lateral movement ONLY if a victim's internal_admin_targets is non-empty.
   - Identify malware family from the verified malware_files / flow contents, not from guessing.
 
+[KILL CHAIN — 인과는 timeline 순서로만 판단]
+  - Use timeline timestamps to order events. An event that happens AFTER a host is already
+    infected CANNOT be that host's infection vector.
+  - Hosts that each contact DIFFERENT external C2 / download DIFFERENT malware families are
+    INDEPENDENT infections. Do NOT merge them into one host "spreading" to the others.
+  - Host→host lateral movement (admin ports / SVCCTL) timestamped AFTER the targets are already
+    infected is POST-COMPROMISE activity, NOT how they got infected.
+  - If the initial access vector (e.g., a phishing email) is NOT in the capture, do not invent it.
+    Describe the EARLIEST OBSERVED malicious activity per host instead.
+  - Structure kill_chain_summary per host — (infection time / malware family / C2) — and report
+    lateral movement as a separate, later stage if present.
+
 [HALLUCINATION PREVENTION — hard rules]
   - CVE: include a CVE number ONLY if it appears explicitly in a Suricata alert or the raw
     logs. Otherwise the array MUST be empty [].
