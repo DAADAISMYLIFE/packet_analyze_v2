@@ -106,8 +106,19 @@ occurred and what it is.
   - Describe the timeline only from the evidence timeline.
   - Do not assert causation ("A caused B"); describe chronological observation instead.
 
-[OUTPUT LANGUAGE] Write every free-text field — reasoning, kill_chain_summary, and any
-  evidence text — in Korean (한국어). Keep identifiers verbatim (IPs, hostnames, usernames,
+[HYPOTHESES — 미지 영역은 '추론'하되 사실과 분리하라]
+  요약·나열로 끝내지 마라. 정황이 없어 evidence로 직접 답할 수 없는 핵심 질문
+  (초기 침투 벡터, 공격자 정체·의도, 데이터가 있었다면 도구가 무엇을 보여줬을지 등)은
+  '명시적 가설'로 추론하라 — 단, 절대 사실인 척하지 마라.
+  - 각 가설마다: hypothesis(가설), supports[](뒷받침 근거), contradicts[](반하는 근거),
+    confidence, how_to_confirm(무엇이 있으면 확증/반증되나)를 채워라.
+  - 관측된 패턴에서 추론하라. 예: "여러 호스트가 거의 동시에, 선행 익스플로잇/스캔 없이,
+    서로 다른 커모디티 멀웨어에 독립 감염 → 외부 전달(피싱 이메일 등)일 가능성" (확정 아님).
+  - 사실 필드(is_attack/malware_family/c2/victims/mitre)는 엄격히 grounded로 유지하고,
+    추론적 도약은 오직 hypotheses에만 담아라. 가설을 사실로 승격하지 마라.
+
+[OUTPUT LANGUAGE] Write every free-text field — reasoning, kill_chain_summary, hypotheses, and
+  any evidence text — in Korean (한국어). Keep identifiers verbatim (IPs, hostnames, usernames,
   signatures, hashes, CVE IDs, MITRE technique IDs).
 
 [EXAMPLE — shape of a good verdict; use the REAL evidence, this is only the form]
@@ -130,7 +141,14 @@ occurred and what it is.
     ],
     "kill_chain_summary": "FIN-PC03(10.0.0.15, j.doe)가 203.0.113.7로 TrickBot CnC 체크인 비콘을 반복",
     "reasoning": "ET MALWARE 시그니처와 낮은 CV의 주기적 비콘이 일치. get_flow_detail로 C2 통신, get_host_info로 피해자 신원 확인.",
-    "evidence_refs": ["1:abcd1234...", "ET MALWARE TrickBot CnC Checkin"]
+    "evidence_refs": ["1:abcd1234...", "ET MALWARE TrickBot CnC Checkin"],
+    "hypotheses": [
+      {"hypothesis": "초기 침투는 피싱 이메일 첨부 가능성 (캡처에 메일 없음)",
+       "supports": ["선행 익스플로잇/스캔 트래픽 없음", "TrickBot은 통상 악성 첨부로 전달"],
+       "contradicts": ["캡처에 수신 SMTP/이메일 부재로 직접 확인 불가"],
+       "confidence": "low",
+       "how_to_confirm": "메일 게이트웨이 로그 또는 수신 SMTP 캡처 확보"}
+    ]
   })
 
 [FINISH] After drilling down, call the submit_verdict tool to submit your final verdict.
@@ -181,6 +199,15 @@ SUBMIT_VERDICT_TOOL = {
                 "kill_chain_summary": {"type": "string"},
                 "reasoning": {"type": "string"},
                 "evidence_refs": {"type": "array", "items": {"type": "string"}},
+                # 미지 영역에 대한 추론 — 사실과 분리. supports/contradicts로 근거 가중, 사실로 승격 금지
+                "hypotheses": {"type": "array", "items": {
+                    "type": "object",
+                    "properties": {
+                        "hypothesis": {"type": "string"},
+                        "supports": {"type": "array", "items": {"type": "string"}},
+                        "contradicts": {"type": "array", "items": {"type": "string"}},
+                        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+                        "how_to_confirm": {"type": "string"}}}},
             },
             "required": ["is_attack", "classification", "confidence", "reasoning"],
         },
