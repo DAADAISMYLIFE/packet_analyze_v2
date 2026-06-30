@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "pcap": "2021-10-22-ISC-forensic-contest",
+    "input_packets": null,
+    "flows": 0,
+    "alert_events": 0,
+    "alert_buckets": {},
+    "alert_signatures": 0,
+    "status": "FAILED_TO_PARSE",
+    "warnings": [
+      "Zeek 로그 0 + Suricata 이벤트 0 — 파싱 실패 가능성 높음"
+    ]
+  },
+  "ids_alerts": {
+    "by_signature": [],
+    "by_flow": [],
+    "bucket_counts": {},
+    "noise_truncated": 0
+  },
+  "conn": {
+    "flow_groups": 0,
+    "ad_servers": [],
+    "beaconing": [],
+    "top_talkers_external": [],
+    "lateral_movement": [],
+    "ad_baseline": [],
+    "ad_baseline_count": 0,
+    "port_scans": []
+  },
+  "host_profiles": {},
+  "timeline": [],
+  "enrichment": {},
+  "other_protocols": {}
+}

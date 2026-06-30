@@ -1,0 +1,1189 @@
+{
+  "meta": {
+    "pcap": "2025-06-13-traffic-analysis-exercise",
+    "input_packets": null,
+    "flows": 433,
+    "alert_events": 20,
+    "alert_buckets": {
+      "info": 11,
+      "threat": 4,
+      "engine": 5
+    },
+    "alert_signatures": 8,
+    "status": "OK",
+    "warnings": []
+  },
+  "ids_alerts": {
+    "by_signature": [
+      {
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in DNS Lookup (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Exploit Kit Activity Detected",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "10.6.13.3"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in TLS SNI (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "category": "Exploit Kit Activity Detected",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "67.217.228.199"
+        ],
+        "dports": [
+          443
+        ]
+      },
+      {
+        "signature": "ET INFO Observed DNS Query to Commonly Abused Cloudflare Domain (trycloudflare .com)",
+        "bucket": "info",
+        "severity": 2,
+        "category": "Potentially Bad Traffic",
+        "count": 8,
+        "distinct_flows": 6,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "10.6.13.3"
+        ],
+        "dports": [
+          53
+        ]
+      },
+      {
+        "signature": "ET INFO Windows Powershell User-Agent Usage",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Not Suspicious Traffic",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "104.21.112.1",
+          "104.21.24.186"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "ET INFO Microsoft Connection Test",
+        "bucket": "info",
+        "severity": 3,
+        "category": "Misc activity",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "23.192.223.206"
+        ],
+        "dports": [
+          80
+        ]
+      },
+      {
+        "signature": "SURICATA HTTP Response excessive header repetition",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 2,
+        "distinct_flows": 2,
+        "src_ips": [
+          "104.21.112.1",
+          "104.21.24.186"
+        ],
+        "dst_ips": [
+          "10.6.13.133"
+        ],
+        "dports": [
+          52515,
+          52516
+        ]
+      },
+      {
+        "signature": "SURICATA Ethertype unknown",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 2,
+        "distinct_flows": 0,
+        "src_ips": [],
+        "dst_ips": [],
+        "dports": []
+      },
+      {
+        "signature": "SURICATA STREAM excessive retransmissions",
+        "bucket": "engine",
+        "severity": 3,
+        "category": "Generic Protocol Command Decode",
+        "count": 1,
+        "distinct_flows": 1,
+        "src_ips": [
+          "10.6.13.133"
+        ],
+        "dst_ips": [
+          "83.137.149.15"
+        ],
+        "dports": [
+          443
+        ]
+      }
+    ],
+    "by_flow": [
+      {
+        "count": 1,
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in DNS Lookup (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:j4xbbEJYnP3CnTBtq4nrTz+ALe4=",
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.05,
+          "bytes": 78,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in TLS SNI (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:wsLdQl/JQiXsTkyemaIR6kiXjPs=",
+        "src": "10.6.13.133",
+        "dst": "67.217.228.199",
+        "dport": 443,
+        "flow": {
+          "service": "ssl",
+          "duration_s": 8.53,
+          "bytes": 7411,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in DNS Lookup (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:JaLp3suRK8RoQD1BYlOzzyn2EGU=",
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.06,
+          "bytes": 121,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET EXPLOIT_KIT LandUpdate808 Domain in TLS SNI (hillcoweb .com)",
+        "bucket": "threat",
+        "severity": 1,
+        "community_id": "1:nl3cSbnmyOVJ6TTUJ/xEcFuxVbg=",
+        "src": "10.6.13.133",
+        "dst": "67.217.228.199",
+        "dport": 443,
+        "flow": {
+          "service": "ssl",
+          "duration_s": 11.76,
+          "bytes": 30843,
+          "conn_state": "SF"
+        }
+      }
+    ],
+    "bucket_counts": {
+      "info": 11,
+      "threat": 4,
+      "engine": 5
+    },
+    "noise_truncated": 0
+  },
+  "conn": {
+    "flow_groups": 90,
+    "ad_servers": [
+      "10.6.13.3"
+    ],
+    "beaconing": [],
+    "top_talkers_external": [
+      {
+        "src": "10.6.13.133",
+        "dst": "83.137.149.15",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 31973942,
+        "community_id": "1:hBp3/c8oHadT/0IInNCbE9PmLng=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.21.112.1",
+        "dport": 80,
+        "service": "http",
+        "conns": 13,
+        "bytes": 1363901,
+        "community_id": "1:fdvTDfWvhFBRRbNN6bRKJY2QWOE=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "205.174.24.80",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 854032,
+        "community_id": "1:yVuJkdWetAaSK01ZqcC8aScXeMs=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "142.250.115.99",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 547048,
+        "community_id": "1:nE1vEmHwoXmx7IbGxYk2pnVUyZg=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "142.250.115.94",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 3,
+        "bytes": 525431,
+        "community_id": "1:S9IwHGIrCov/VINFr18NLTQ8rUg=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.21.80.1",
+        "dport": 80,
+        "service": "http",
+        "conns": 15,
+        "bytes": 460614,
+        "community_id": "1:cMqBFFap8LOQt3OGn6VEN+CuMSg=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.21.16.1",
+        "dport": 80,
+        "service": "http",
+        "conns": 14,
+        "bytes": 429768,
+        "community_id": "1:lPHf/yCjgPr+HMfpYeBg1HRelaw=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "23.198.7.186",
+        "dport": 443,
+        "service": "quic,ssl",
+        "conns": 4,
+        "bytes": 409196,
+        "community_id": "1:tADATYAkEyOLDGXFgXiABsLAPvk=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.16.230.132",
+        "dport": 80,
+        "service": "http",
+        "conns": 11,
+        "bytes": 338109,
+        "community_id": "1:Y1i9uFCuPfnbftOs6AKaXNW+8pQ=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "142.250.138.97",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 282220,
+        "community_id": "1:eBY0Hwii4kd1XShOIRuYT2UaRz0=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.16.231.132",
+        "dport": 80,
+        "service": "http",
+        "conns": 7,
+        "bytes": 215116,
+        "community_id": "1:kdshGXO5fI8u+zZAnqBR6zS9f94=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "23.212.185.76",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 3,
+        "bytes": 149319,
+        "community_id": "1:ydKYLpzHQksBhUP/YSlH7LLfqIo=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "23.96.124.68",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 8,
+        "bytes": 140512,
+        "community_id": "1:bfXJX1XdZtWBkxGqVAXpFUxLSdw=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "157.240.24.13",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 94889,
+        "community_id": "1:l7aS3+1tjrZFVMcdrNOX6e68kOE=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "109.61.92.48",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 82573,
+        "community_id": "1:bGQRAUUAyo6I5MwbyxaiZLCtUJM=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "13.107.246.57",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 3,
+        "bytes": 63494,
+        "community_id": "1:lK8GSbyoUy2Ah1YfGcGGAC6+fUg=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "104.21.64.1",
+        "dport": 80,
+        "service": "http",
+        "conns": 2,
+        "bytes": 61426,
+        "community_id": "1:yxyinrsrhQu04+MvI3LV4EtJN4o=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "142.250.115.104",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 1,
+        "bytes": 53716,
+        "community_id": "1:CcQ82gZcjR2td9t3jvHOB/wNW1w=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "173.194.208.94",
+        "dport": 443,
+        "service": "ssl",
+        "conns": 2,
+        "bytes": 51380,
+        "community_id": "1:eDWpMXmaoIl4Ful6B9ViHaZ/XVU=",
+        "external": true
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "150.171.28.11",
+        "dport": 443,
+        "service": "tcp",
+        "conns": 4,
+        "bytes": 49610,
+        "community_id": "1:LeWATAYFPue719aNzjBmakIyEbo=",
+        "external": true
+      }
+    ],
+    "lateral_movement": [],
+    "ad_baseline": [
+      {
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 88,
+        "service": "krb_tcp",
+        "conns": 9,
+        "bytes": 26795,
+        "community_id": "1:ivFPK3FOpfoI4tNfzZmj925qlzk=",
+        "tech": "Kerberos",
+        "why": "내부->DC Kerberos(88) 정상 인증"
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 389,
+        "service": "ldap_tcp",
+        "conns": 28,
+        "bytes": 126346,
+        "community_id": "1:6LVspbpQubHu+wPDiZJNlonCpuI=",
+        "tech": "LDAP",
+        "why": "내부->DC LDAP(389) 정상 인증"
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 445,
+        "service": "gssapi,smb,krb,dce_rpc",
+        "conns": 6,
+        "bytes": 47748,
+        "community_id": "1:GFpBy15WOAR/4eaxb0zyHQdMkXk=",
+        "tech": "SMB",
+        "why": "내부->DC SMB(445) 정상 인증"
+      },
+      {
+        "src": "10.6.13.133",
+        "dst": "10.6.13.3",
+        "dport": 135,
+        "service": "dce_rpc",
+        "conns": 9,
+        "bytes": 9920,
+        "community_id": "1:idYNHHiHpIquVhQS5GnL1+ysk+8=",
+        "tech": "RPC",
+        "why": "내부->DC RPC(135) 정상 인증"
+      }
+    ],
+    "ad_baseline_count": 4,
+    "port_scans": []
+  },
+  "host_profiles": {
+    "10.6.13.133": {
+      "conns": 431,
+      "mac": "24:77:03:ac:97:df",
+      "scope": "internal",
+      "realm": "MASSFRICTION.COM",
+      "hostname": "DESKTOP-5AVE44C",
+      "user": "rgaines",
+      "role": "host"
+    },
+    "10.6.13.3": {
+      "conns": 240,
+      "mac": "00:26:b9:71:ad:36",
+      "scope": "internal",
+      "hostname": "WIN-DQL4WFWJXQ4",
+      "role": "host"
+    },
+    "10.6.13.255": {
+      "conns": 18,
+      "mac": "ff:ff:ff:ff:ff:ff",
+      "scope": "internal",
+      "role": "host"
+    },
+    "10.6.13.129": {
+      "conns": 2,
+      "mac": "00:26:c7:6a:b8:35",
+      "scope": "internal",
+      "role": "host"
+    }
+  },
+  "timeline": [
+    {
+      "ts": 1749828835.687,
+      "clock": "15:33:55",
+      "offset": "+0s",
+      "event": "캡처 세션 시작"
+    },
+    {
+      "ts": 1749828886.266,
+      "clock": "15:34:46",
+      "offset": "+51s",
+      "event": "IDS 첫 탐지: ET EXPLOIT_KIT LandUpdate808 Domain in DNS Lookup (hillcoweb .com)",
+      "evidence": "community_id:1:j4xbbEJYnP3CnTBtq4nrTz+ALe4="
+    },
+    {
+      "ts": 1749828886.33,
+      "clock": "15:34:46",
+      "offset": "+51s",
+      "event": "IDS 첫 탐지: ET EXPLOIT_KIT LandUpdate808 Domain in TLS SNI (hillcoweb .com)",
+      "evidence": "community_id:1:wsLdQl/JQiXsTkyemaIR6kiXjPs="
+    },
+    {
+      "ts": 1749830896.971,
+      "clock": "16:08:16",
+      "offset": "+2061s",
+      "event": "캡처 세션 종료"
+    }
+  ],
+  "enrichment": {
+    "dns": {
+      "records": 239,
+      "unique_queries": 72,
+      "suspicious": [
+        {
+          "query": "desktop-5ave44c.massfriction.com",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-5ave44c.massfriction.com",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.dc._msdcs.massfriction.com",
+          "entropy": 3.56,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-5ave44c",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "desktop-5ave44c",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "_ldap._tcp.default-first-site-name._sites.massfriction.com",
+          "entropy": 3.56,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "DESKTOP-5AVE44C",
+          "entropy": 3.64,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "www.truglomedspa.com",
+          "entropy": 3.58,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "www.truglomedspa.com",
+          "entropy": 3.58,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "edge-consumer-static.azureedge.net",
+          "entropy": 3.68,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.7) DGA 의심"
+        },
+        {
+          "query": "edge-consumer-static.azureedge.net",
+          "entropy": 3.68,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.7) DGA 의심"
+        },
+        {
+          "query": "f532cb556f727d508908f4950f1b685d.azr.footprintdns.com",
+          "entropy": 3.59,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        },
+        {
+          "query": "f532cb556f727d508908f4950f1b685d.azr.footprintdns.com",
+          "entropy": 3.59,
+          "src": "10.6.13.133",
+          "why": "고엔트로피(3.6) DGA 의심"
+        }
+      ]
+    },
+    "files": {
+      "records": 84,
+      "malware_candidates": [],
+      "incomplete_executables": 0
+    },
+    "http": {
+      "records": 69,
+      "suspicious": [],
+      "top_host_ua": [
+        {
+          "host": "event-datamicrosoft.live",
+          "ua": "",
+          "count": 27
+        },
+        {
+          "host": "varying-rentals-calgary-predict.trycloudflare.com",
+          "ua": "",
+          "count": 18
+        },
+        {
+          "host": "windows-msgas.com",
+          "ua": "",
+          "count": 17
+        },
+        {
+          "host": "ctldl.windowsupdate.com",
+          "ua": "Microsoft-CryptoAPI/10.0",
+          "count": 2
+        },
+        {
+          "host": "www.msftconnecttest.com",
+          "ua": "Microsoft NCSI",
+          "count": 1
+        },
+        {
+          "host": "10.6.13.129:5357",
+          "ua": "WSDAPI",
+          "count": 1
+        },
+        {
+          "host": "event-time-microsoft.org",
+          "ua": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowe",
+          "count": 1
+        },
+        {
+          "host": "eventdata-microsoft.live",
+          "ua": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowe",
+          "count": 1
+        },
+        {
+          "host": "acroipm2.adobe.com",
+          "ua": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.2; WOW64; Tr",
+          "count": 1
+        }
+      ]
+    },
+    "ssl": {
+      "records": 97,
+      "top_ja3": [],
+      "bad_validation": []
+    }
+  },
+  "other_protocols": {
+    "dce_rpc": {
+      "records": 82,
+      "top_values": {
+        "named_pipe": {
+          "49669": 49,
+          "135": 17,
+          "\\pipe\\lsass": 15,
+          "59774": 1
+        },
+        "endpoint": {
+          "drsuapi": 49,
+          "epmapper": 17,
+          "samr": 15,
+          "netlogon": 1
+        },
+        "operation": {
+          "ept_map": 17,
+          "DRSCrackNames": 17,
+          "DRSBind": 16,
+          "DRSUnbind": 16,
+          "SamrCloseHandle": 4,
+          "SamrOpenDomain": 2,
+          "SamrConnect5": 1,
+          "SamrEnumerateDomainsInSamServer": 1,
+          "SamrLookupDomainInSamServer": 1,
+          "SamrLookupNamesInDomain": 1
+        }
+      }
+    },
+    "dhcp": {
+      "records": 1,
+      "top_values": {
+        "uids": {
+          "['CxkavL3JcQrqUCWEM4', 'CSMHp84pTxWHkNMeef']": 1
+        },
+        "client_addr": {
+          "10.6.13.133": 1
+        },
+        "server_addr": {
+          "10.6.13.3": 1
+        },
+        "mac": {
+          "24:77:03:ac:97:df": 1
+        },
+        "host_name": {
+          "DESKTOP-5AVE44C": 1
+        },
+        "client_fqdn": {
+          "DESKTOP-5AVE44C.massfriction.com": 1
+        },
+        "requested_addr": {
+          "10.6.13.133": 1
+        },
+        "assigned_addr": {
+          "10.6.13.133": 1
+        },
+        "lease_time": {
+          "691200.0": 1
+        },
+        "msg_types": {
+          "['DISCOVER', 'OFFER', 'REQUEST', 'ACK']": 1
+        },
+        "duration": {
+          "0.0034978389739990234": 1
+        }
+      }
+    },
+    "kerberos": {
+      "records": 23,
+      "top_values": {
+        "request_type": {
+          "TGS": 7,
+          "AS": 2
+        },
+        "client": {
+          "rgaines/MASSFRICTION.COM": 6,
+          "rgaines/MASSFRICTION": 2,
+          "DESKTOP-5AVE44C$/MASSFRICTION.COM": 1
+        },
+        "service": {
+          "krbtgt/MASSFRICTION.COM": 2,
+          "ldap/win-dql4wfwjxq4.massfriction.com/massfriction.com": 1,
+          "krbtgt/MASSFRICTION": 1,
+          "host/desktop-5ave44c.massfriction.com": 1,
+          "cifs/WIN-DQL4WFWJXQ4.massfriction.com": 1,
+          "LDAP/WIN-DQL4WFWJXQ4.massfriction.com/massfriction.com": 1,
+          "cifs/win-dql4wfwjxq4": 1,
+          "ldap/win-dql4wfwjxq4.massfriction.com": 1
+        },
+        "success": {
+          "True": 8,
+          "False": 1
+        },
+        "till": {
+          "4124486885.0": 9
+        },
+        "cipher": {
+          "aes256-cts-hmac-sha1-96": 8
+        },
+        "forwardable": {
+          "True": 9
+        },
+        "renewable": {
+          "True": 9
+        }
+      }
+    },
+    "ldap": {
+      "records": 21,
+      "top_values": {
+        "message_id": {
+          "3": 10,
+          "9": 7,
+          "8": 2,
+          "11": 1,
+          "7": 1
+        },
+        "version": {
+          "3": 21
+        },
+        "opcode": {
+          "bind SASL": 21
+        },
+        "result": {
+          "success": 21
+        },
+        "argument": {
+          "GSS-SPNEGO": 21
+        }
+      }
+    },
+    "ldap_search": {
+      "records": 19,
+      "top_values": {
+        "message_id": {
+          "1": 10,
+          "82": 1,
+          "83": 1,
+          "9": 1,
+          "84": 1,
+          "85": 1,
+          "86": 1,
+          "87": 1,
+          "88": 1,
+          "89": 1
+        },
+        "scope": {
+          "base": 19
+        },
+        "deref_aliases": {
+          "never": 19
+        },
+        "result_count": {
+          "1": 19
+        },
+        "result": {
+          "success": 19
+        },
+        "filter": {
+          "(objectclass=*)": 11,
+          "(&(&(&(&(DnsDomain=massfriction.com.)(Host=DESKTOP-5AVE44C))(DomainGuid=38cae56e-b7a3-4bd1-ae48-23588f03e96d))(NtVer=0x20000016))(DnsHostName=DESKTOP-5AVE44C.massfriction.com))": 5,
+          "(&(&(&(&(DnsDomain=massfriction.com.)(Host=DESKTOP-5AVE44C))(DomainGuid=38cae56e-b7a3-4bd1-ae48-23588f03e96d))(NtVer=0x00000016))(DnsHostName=DESKTOP-5AVE44C.massfriction.com))": 2,
+          "(&(&(&(&(&(DnsDomain=massfriction.com.)(Host=DESKTOP-5AVE44C))(DomainSid=S-1-5-21-408266568-3947399335-3725113099))(DomainGuid=38cae56e-b7a3-4bd1-ae48-23588f03e96d))(NtVer=0x20000016))(DnsHostName=DESKTOP-5AVE44C.massfriction.com))": 1
+        }
+      }
+    },
+    "ocsp": {
+      "records": 16,
+      "top_values": {
+        "id": {
+          "FTuJisGdwwyjv33le": 1,
+          "Fq9vUF2B2EvjdXDZS7": 1,
+          "FfB2i64gc63McrJI1b": 1,
+          "FiFjdJ1wActkMo8oT2": 1,
+          "FtpKOo2Q4wRuKr5dyk": 1,
+          "FapNaj4XyTaFdw8Vk9": 1,
+          "FsTLcH2NIasX737Yzg": 1,
+          "FjRpwb4fkHIV11lIJ9": 1,
+          "FzB8Ry2HpUBXZ4euK5": 1,
+          "F3WEHk4sXXinnz0fj9": 1
+        },
+        "hashAlgorithm": {
+          "sha1": 16
+        },
+        "issuerNameHash": {
+          "1BC66318D19B621575EEB02B7469CD52D59A2AE2": 14,
+          "105FA67A80089DB5279F35CE830B43889EA3C70D": 2
+        },
+        "issuerKeyHash": {
+          "F67E2FBD80A34AB2705BEBDF9A1FD8EDCA618007": 14,
+          "0F80611C823161D52F28E78D4638B42CE1C6D9E2": 2
+        },
+        "serialNumber": {
+          "3301CFF36DADE5F5D7EDC78D55000001CFF36D": 6,
+          "330067452D170D9EFF927861F100000067452D": 4,
+          "3301C154E1C3C79E1711A4AB99000001C154E1": 3,
+          "0496F9876B115E6DC0D862571F9301AD": 2,
+          "3301B292DECF734E660CB5CA38000001B292DE": 1
+        },
+        "certStatus": {
+          "good": 16
+        },
+        "thisUpdate": {
+          "1749607988.0": 6,
+          "1749492788.0": 4,
+          "1749814021.0": 2,
+          "1749579188.0": 2,
+          "1749478388.0": 1,
+          "1749694388.0": 1
+        },
+        "nextUpdate": {
+          "1750300388.0": 6,
+          "1750185188.0": 4,
+          "1750415221.0": 2,
+          "1750271588.0": 2,
+          "1750170788.0": 1,
+          "1750386788.0": 1
+        }
+      }
+    },
+    "quic": {
+      "records": 7,
+      "top_values": {
+        "version": {
+          "1": 7
+        },
+        "client_initial_dcid": {
+          "abd4cbe774fb4347": 1,
+          "38e0d8366482511d": 1,
+          "d5711e48d98a28f9": 1,
+          "1a7077f280f098b7": 1,
+          "d975ec3c5331a214": 1,
+          "ae6415ee0f0aee10": 1,
+          "ca1666fcc3dcabe6": 1
+        },
+        "client_scid": {
+          "": 7
+        },
+        "server_scid": {
+          "0c5e02eeb7c04126": 1,
+          "1d925079b7c04126": 1,
+          "0a6cd655b4c04126": 1,
+          "21e0b4a35500b930": 1,
+          "0ea8ee13b7c04126": 1,
+          "15e45fbc96c04126": 1,
+          "2782e1815600b930": 1
+        },
+        "server_name": {
+          "www.bing.com": 4,
+          "assets.msn.com": 2,
+          "th.bing.com": 1
+        },
+        "client_protocol": {
+          "h3": 7
+        },
+        "history": {
+          "IISiishhHhHOooOoOOooO": 1,
+          "IISiishIHOOoooOoOo": 1,
+          "IISiishIHOOOOoooooOoOoOoO": 1,
+          "IISiishhIHhHOOoooOo": 1,
+          "IISiishhHhHHOOohooOoOoOoOo": 1,
+          "IISiishIHhhHHOOhoooOoOoO": 1,
+          "IISiishIHOOooOooOoOo": 1
+        }
+      }
+    },
+    "smb_files": {
+      "records": 1,
+      "top_values": {
+        "action": {
+          "SMB::FILE_OPEN": 1
+        },
+        "path": {
+          "\\\\win-dql4wfwjxq4\\Shared": 1
+        },
+        "name": {
+          "<share_root>": 1
+        },
+        "size": {
+          "4096": 1
+        },
+        "times.modified": {
+          "1749788203.0427418": 1
+        },
+        "times.accessed": {
+          "1749788203.073946": 1
+        },
+        "times.created": {
+          "1749772197.4404316": 1
+        },
+        "times.changed": {
+          "1749788203.0427418": 1
+        }
+      }
+    },
+    "smb_mapping": {
+      "records": 6,
+      "top_values": {
+        "path": {
+          "\\\\WIN-DQL4WFWJXQ4.massfriction.com\\IPC$": 4,
+          "\\\\win-dql4wfwjxq4\\Shared": 1,
+          "\\\\win-dql4wfwjxq4\\IPC$": 1
+        },
+        "share_type": {
+          "PIPE": 5,
+          "DISK": 1
+        }
+      }
+    },
+    "weird": {
+      "records": 4,
+      "top_values": {
+        "name": {
+          "window_recision": 3,
+          "netlogon_dce_rpc_auth_type": 1
+        },
+        "addl": {
+          "68": 1
+        },
+        "notice": {
+          "False": 4
+        },
+        "peer": {
+          "zeek": 4
+        },
+        "source": {
+          "DCE_RPC": 1
+        }
+      }
+    },
+    "x509": {
+      "records": 24,
+      "top_values": {
+        "fingerprint": {
+          "7bd685522774e53e320ef561e0d6dbad44e754e897cefddb210eb571ac1f814b": 1,
+          "511c1c41cb7eb2a10078c32c82f17925ba786de46c633921d038e7409e15a5ea": 1,
+          "58f6bac3332c184f90ccaabc0a04d1d9a5fab62c097930a561fe3c25f766769b": 1,
+          "e39f93f3b2b40fd3c41de7dfa7d0b0cb6c4d8f97cbab2bb81c178f4b5f3c7eed": 1,
+          "73a716831ff6328e475b864735143c33f66a71160117617cd171c7c62285dc7a": 1,
+          "724247794951c93f3e41711617e95ce143263e3196c345a1da78f6639749ec03": 1,
+          "d9c485b271c0e3fe331c93d906aaff4403bc0533387787c08baea18f16accb41": 1,
+          "c1ad7778796d20bca65c889a2655021156528bb62ff5fa43e1b8e5a83e3d2eaa": 1,
+          "c9685be46cd35737436d84154df0a155879304101cedd134edb18acf435ced62": 1,
+          "b734d1dbf1d221ddd86d60d48aa034dd9b64c94dca1e4cb9d757ff2bd6cf13ac": 1
+        },
+        "certificate.version": {
+          "3": 24
+        },
+        "certificate.serial": {
+          "330067452D170D9EFF927861F100000067452D": 1,
+          "0EFB7E547EDF0FF1069AEE57696D7BA0": 1,
+          "330000005327CD597143EFB877000000000053": 1,
+          "3300000009066CB601E4418E73000000000009": 1,
+          "3301D981E5F45868790BA5E852000001D981E5": 1,
+          "0A43A9509B01352F899579EC7208BA50": 1,
+          "0496F9876B115E6DC0D862571F9301AD": 1,
+          "02742EAA17CA8E21C717BB1FFCFD0CA0": 1,
+          "3301C154E1C3C79E1711A4AB99000001C154E1": 1,
+          "3301CFF36DADE5F5D7EDC78D55000001CFF36D": 1
+        },
+        "certificate.subject": {
+          "CN=settings-win.data.microsoft.com,OU=WSE,O=Microsoft,L=Redmond,ST=WA,C=US": 2,
+          "CN=cp601-prod.do.dsp.mp.microsoft.com,O=Microsoft Corporation,L=Redmond,ST=WA,C=US": 1,
+          "CN=Microsoft Azure RSA TLS Issuing CA 08,O=Microsoft Corporation,C=US": 1,
+          "CN=*.prod.do.dsp.mp.microsoft.com,OU=DSP,O=Microsoft,L=Redmond,ST=WA,C=US": 1,
+          "CN=Microsoft ECC Content Distribution Secure Server CA 2.1,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 1,
+          "CN=*.wns.windows.com,O=Microsoft Corporation,L=Redmond,ST=WA,C=US": 1,
+          "CN=Microsoft Azure RSA TLS Issuing CA 07,O=Microsoft Corporation,C=US": 1,
+          "CN=login.live.com,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 1,
+          "CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US": 1,
+          "CN=*.config.skype.com,O=Microsoft Corporation,L=Redmond,ST=WA,C=US": 1
+        },
+        "certificate.issuer": {
+          "CN=Microsoft Azure RSA TLS Issuing CA 08,O=Microsoft Corporation,C=US": 5,
+          "CN=DigiCert Global Root G2,OU=www.digicert.com,O=DigiCert Inc,C=US": 3,
+          "CN=Microsoft Secure Server CA 2011,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 3,
+          "CN=ISRG Root X1,O=Internet Security Research Group,C=US": 2,
+          "CN=Microsoft ECC Content Distribution Secure Server CA 2.1,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 1,
+          "CN=Microsoft ECC Product Root Certificate Authority 2018,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US": 1,
+          "CN=Microsoft Azure RSA TLS Issuing CA 07,O=Microsoft Corporation,C=US": 1,
+          "CN=DigiCert SHA2 Secure Server CA,O=DigiCert Inc,C=US": 1,
+          "CN=DigiCert Global Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US": 1,
+          "CN=R10,O=Let's Encrypt,C=US": 1
+        },
+        "certificate.not_valid_before": {
+          "1686182400.0": 2,
+          "1710288000.0": 2,
+          "1725573206.0": 1,
+          "1741120771.0": 1,
+          "1544213135.0": 1,
+          "1746784562.0": 1,
+          "1748217600.0": 1,
+          "1600819200.0": 1,
+          "1746493511.0": 1,
+          "1747426134.0": 1
+        },
+        "certificate.not_valid_after": {
+          "1787702399.0": 2,
+          "1804895999.0": 2,
+          "1756677206.0": 1,
+          "1772656771.0": 1,
+          "2017599335.0": 1,
+          "1777888562.0": 1,
+          "1764201599.0": 1,
+          "1916351999.0": 1,
+          "1777597511.0": 1,
+          "1778530134.0": 1
+        },
+        "certificate.key_alg": {
+          "rsaEncryption": 19,
+          "id-ecPublicKey": 5
+        },
+        "certificate.sig_alg": {
+          "sha256WithRSAEncryption": 12,
+          "sha384WithRSAEncryption": 8,
+          "ecdsa-with-SHA256": 2,
+          "ecdsa-with-SHA384": 2
+        },
+        "certificate.key_type": {
+          "rsa": 19,
+          "ecdsa": 5
+        },
+        "certificate.key_length": {
+          "2048": 15,
+          "4096": 3,
+          "256": 3,
+          "384": 2,
+          "3072": 1
+        },
+        "certificate.exponent": {
+          "65537": 19
+        },
+        "san.dns": {
+          "['settings-win.data.microsoft.com']": 2,
+          "['*.prod.do.dsp.mp.microsoft.com', 'cp601-prod.do.dsp.mp.microsoft.com']": 1,
+          "['*.prod.do.dsp.mp.microsoft.com']": 1,
+          "['*.wns.windows.com']": 1,
+          "['login.live.com', '*.login.live.com']": 1,
+          "['config.edge.skype.com', '*.config.skype.com']": 1,
+          "['edge.microsoft.com']": 1,
+          "['autodiscover.truglomedspa.com', 'cpanel.truglomedspa.com', 'truglomedspa.com', 'webdisk.truglomedspa.com', 'webmail.truglomedspa.com', 'www.truglomedspa.com']": 1,
+          "['b.clarity.ms', 'd.clarity.ms', 'e.clarity.ms', 'f.clarity.ms', 'g.clarity.ms', 'h.clarity.ms', 'i.clarity.ms', 'j.clarity.ms', 'k.clarity.ms', 'l.clarity.ms', 'm.clarity.ms', 'n.clarity.ms', 'o.clarity.ms', 'p.clarity.ms', 'q.clarity.ms', 'r.clarity.ms', 's.clarity.ms', 't.clarity.ms', 'u.clarity.ms', 'v.clarity.ms', 'w.clarity.ms', 'x.clarity.ms', 'y.clarity.ms', 'z.clarity.ms', 'a.clarity.ms']": 1,
+          "['dng-microsoftds.com', '*.dng-microsoftds.com']": 1
+        },
+        "basic_constraints.ca": {
+          "False": 14,
+          "True": 10
+        },
+        "host_cert": {
+          "True": 14,
+          "False": 10
+        },
+        "client_cert": {
+          "False": 24
+        }
+      }
+    }
+  }
+}

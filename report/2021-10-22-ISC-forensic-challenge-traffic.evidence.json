@@ -1394,20 +1394,22 @@
   "host_profiles": {
     "10.10.22.156": {
       "conns": 1543,
-      "mac": null,
+      "mac": "00:23:ae:fd:02:01",
       "scope": "internal",
       "hostname": "DESKTOP-CFA3367",
       "domain": "ENEMYWATCH",
       "user": "agnes.warren",
+      "realm": "enemywatch.net",
       "role": "host"
     },
     "10.10.22.157": {
       "conns": 1205,
-      "mac": null,
+      "mac": "00:18:71:3b:a8:69",
       "scope": "internal",
       "hostname": "DESKTOP-NZ875R4",
       "domain": "ENEMYWATCH",
       "user": "marcus.cobb",
+      "realm": "ENEMYWATCH.NET",
       "role": "host"
     },
     "10.10.22.22": {
@@ -1419,11 +1421,12 @@
     },
     "10.10.22.158": {
       "conns": 486,
-      "mac": null,
+      "mac": "00:0e:35:30:b7:21",
       "scope": "internal",
       "hostname": "DESKTOP-87WCE26",
       "domain": "ENEMYWATCH",
       "user": "kevin.henderson",
+      "realm": "enemywatch.net",
       "role": "host"
     },
     "10.10.22.1": {

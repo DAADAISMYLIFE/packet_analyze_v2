@@ -1156,13 +1156,15 @@
       "hostname": "DESKTOP-NIEE9LP",
       "domain": "SALTMOBSTERS",
       "user": "tommy.vega",
+      "realm": "saltmobsters.com",
       "role": "host"
     },
     "10.6.15.5": {
       "conns": 988,
       "mac": "00:19:b9:90:f7:43",
       "scope": "internal",
-      "role": "host"
+      "hostname": "SALTMOBSTERS-DC",
+      "role": "domain_controller"
     },
     "10.6.15.187": {
       "conns": 537,
@@ -1171,6 +1173,7 @@
       "hostname": "DESKTOP-YS6FZ2G",
       "domain": "SALTMOBSTERS",
       "user": "horace.maddox",
+      "realm": "saltmobsters.com",
       "role": "host"
     },
     "10.6.15.93": {
@@ -1180,6 +1183,7 @@
       "hostname": "DEKSTOP-A1CTJVY",
       "domain": "SALTMOBSTERS",
       "user": "raquel.anderson",
+      "realm": "saltmobsters.com",
       "role": "host"
     },
     "10.6.15.255": {
@@ -1209,10 +1213,38 @@
       "event": "캡처 세션 시작"
     },
     {
+      "ts": 1623854043.897,
+      "clock": "14:34:03",
+      "offset": "+9s",
+      "event": "비콘 패턴: 10.6.15.93 → 10.6.15.5:123 (11회, CV=0.0003)",
+      "evidence": "community_id:1:rIQ4LvkYw2yc4HNVJe6DwHT5jOs="
+    },
+    {
+      "ts": 1623854062.214,
+      "clock": "14:34:22",
+      "offset": "+28s",
+      "event": "비콘 패턴: 10.6.15.187 → 10.6.15.5:123 (11회, CV=0.0001)",
+      "evidence": "community_id:1:cWZv0QqnYkqsJsFXuqTMIXNMXt8="
+    },
+    {
+      "ts": 1623854079.435,
+      "clock": "14:34:39",
+      "offset": "+45s",
+      "event": "비콘 패턴: 10.6.15.119 → 10.6.15.5:123 (11회, CV=0.0)",
+      "evidence": "community_id:1:Rrg55ZWVe2uf9aEyfb3MvprfwcI="
+    },
+    {
       "ts": 1623854228.28,
       "clock": "14:37:08",
       "offset": "+194s",
       "event": "IDS 첫 탐지: ET MALWARE Tordal/Hancitor/Chanitor Checkin",
+      "evidence": "community_id:1:O0z+YALL3Fk7vjowQyO99CVj+Bg="
+    },
+    {
+      "ts": 1623854228.28,
+      "clock": "14:37:08",
+      "offset": "+194s",
+      "event": "비콘 패턴: 10.6.15.119 → 194.226.60.15:80 (78회, CV=0.0035)",
       "evidence": "community_id:1:O0z+YALL3Fk7vjowQyO99CVj+Bg="
     },
     {
@@ -1249,6 +1281,34 @@
       "offset": "+505s",
       "event": "IDS 첫 탐지: ET HUNTING GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1",
       "evidence": "community_id:1:G9CJG6sPjFK0hW36IJ4IN9QTeU0="
+    },
+    {
+      "ts": 1623854566.151,
+      "clock": "14:42:46",
+      "offset": "+532s",
+      "event": "측면이동 의심: 10.6.15.119 → 10.6.15.187:445 SMB",
+      "evidence": "community_id:1:ISK+dp+2zNVK9WtXv7SBJNHuz2Y="
+    },
+    {
+      "ts": 1623854566.152,
+      "clock": "14:42:46",
+      "offset": "+532s",
+      "event": "비콘 패턴: 10.6.15.119 → 10.6.15.1:445 (5회, CV=0.0209)",
+      "evidence": "community_id:1:zvN8qQ/lNxvUPxNmHVW9KKac8e0="
+    },
+    {
+      "ts": 1623854566.152,
+      "clock": "14:42:46",
+      "offset": "+532s",
+      "event": "측면이동 의심: 10.6.15.119 → 10.6.15.1:445 SMB",
+      "evidence": "community_id:1:zvN8qQ/lNxvUPxNmHVW9KKac8e0="
+    },
+    {
+      "ts": 1623854566.152,
+      "clock": "14:42:46",
+      "offset": "+532s",
+      "event": "측면이동 의심: 10.6.15.119 → 10.6.15.93:445 SMB",
+      "evidence": "community_id:1:QZjMpjlFL56oymcUojHRKrbUSEo="
     },
     {
       "ts": 1623854671.696,

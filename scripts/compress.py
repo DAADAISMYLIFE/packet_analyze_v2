@@ -214,12 +214,19 @@ def detect_ad_servers(conn):
        이걸 알아야 클라이언트→DC 정상 인증을 측면이동 오탐에서 분리할 수 있다.
        (hostname 기반 판정은 build_host_profiles가 별도로 하며, 둘은 상호 보완)."""
     fanin = defaultdict(lambda: defaultdict(set))  # dst -> port -> {src}
+    kdc = set()
     for c in conn:
         s, d, p = c.get("id.orig_h"), c.get("id.resp_h"), c.get("id.resp_p")
-        if s and d and is_private(s) and is_private(d) and p in (88, 389):
-            fanin[d][p].add(s)
-    return {d for d, ports in fanin.items()
-            if any(len(srcs) >= DC_FANIN_MIN for srcs in ports.values())}
+        if s and d and is_private(s) and is_private(d):
+            if p in (88, 389):
+                fanin[d][p].add(s)
+            # Kerberos(88) 응답자 = KDC = DC. 88은 KDC만 받으므로 단일 클라이언트에도 성립
+            # (fan-in≥3은 클라 1대뿐인 캡처에서 DC를 놓쳐 정상 인증을 측면이동으로 오탐시킴)
+            if p == 88:
+                kdc.add(d)
+    dcs = {d for d, ports in fanin.items()
+           if any(len(srcs) >= DC_FANIN_MIN for srcs in ports.values())}
+    return dcs | kdc
 
 
 def compress_conn(conn, top, dc_ips=None):
@@ -327,9 +334,9 @@ def _fmt_clock(ts):
     return time.strftime("%H:%M:%S", time.gmtime(ts))
 
 
-def build_host_profiles(conn, ntlm, kerberos, top):
+def build_host_profiles(conn, ntlm, kerberos, dhcp, top):
     """IP별 신원 통합 (가볍게, 내부 호스트만).
-       conn에서 MAC/연결수, ntlm/kerberos에서 호스트명·도메인·유저를 모은다."""
+       conn에서 MAC/연결수, ntlm/kerberos/dhcp에서 호스트명·도메인·유저·realm을 모은다."""
     prof = {}
 
     def get(ip):
@@ -354,11 +361,34 @@ def build_host_profiles(conn, ntlm, kerberos, top):
                 if n.get(src):
                     prof[ip].setdefault(dst, n[src])
 
-    # Kerberos에서 유저 (호스트명 못 구한 경우 보조)
+    # Kerberos client principal 분리 (orig_h=클라이언트 기준).
+    #   "DESKTOP-5AVE44C$/MASSFRICTION.COM" → 머신계정 → hostname=DESKTOP-5AVE44C, realm=MASSFRICTION.COM
+    #   "rgaines/MASSFRICTION.COM"          → 사용자계정 → user=rgaines, realm=MASSFRICTION.COM
+    #   (예전엔 먼저 잡힌 머신계정을 그대로 user에 박아 실제 user/hostname을 둘 다 날렸음)
     for k in kerberos:
         ip = k.get("id.orig_h")
-        if ip in prof and k.get("client") and "user" not in prof[ip]:
-            prof[ip]["user"] = k["client"]
+        client = k.get("client") or ""
+        if ip not in prof or not client:
+            continue
+        name = re.split(r"[/@]", client)[0]
+        realm = client[len(name) + 1:] if len(client) > len(name) else ""
+        if realm:
+            prof[ip].setdefault("realm", realm)
+        if name.endswith("$"):                       # 머신계정 → 호스트명
+            prof[ip].setdefault("hostname", name[:-1].upper())
+        elif name:                                   # 사용자계정
+            prof[ip].setdefault("user", name)
+
+    # DHCP에서 호스트명/MAC 보강 (Kerberos/NTLM 없는 호스트도 식별)
+    for d in dhcp:
+        ip = d.get("assigned_addr") or d.get("client_addr")
+        if not is_real_host(ip):
+            continue
+        p = prof.setdefault(ip, {"conns": 0, "mac": None, "scope": "internal"})
+        if d.get("host_name"):
+            p.setdefault("hostname", str(d["host_name"]).upper())
+        if d.get("mac") and not p.get("mac"):
+            p["mac"] = d["mac"]
 
     # Kerberos service(SPN)에서 서버(주로 DC) 호스트명 — resp_h(서버) 기준.
     #   예: "ldap/enemywatch-dc.enemywatch.net" → 10.10.22.22 = ENEMYWATCH-DC
@@ -588,7 +618,8 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     # 작은 캡처(fan-in 부족)에서도 DC를 놓치지 않게 한다. (AD 정상 인증 오탐 방지의 핵심)
     host_profiles = build_host_profiles(
         conn, read_zeek_log(os.path.join(zeek_dir, "ntlm.log")),
-        read_zeek_log(os.path.join(zeek_dir, "kerberos.log")), top)
+        read_zeek_log(os.path.join(zeek_dir, "kerberos.log")),
+        read_zeek_log(os.path.join(zeek_dir, "dhcp.log")), top)
     dc_ips = detect_ad_servers(conn) | {ip for ip, p in host_profiles.items()
                                         if p.get("role") == "domain_controller"}
 
