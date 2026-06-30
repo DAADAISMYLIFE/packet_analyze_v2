@@ -23,6 +23,7 @@ import ipaddress
 import json
 import math
 import os
+import re
 import statistics
 from collections import Counter, defaultdict
 
@@ -358,6 +359,15 @@ def build_host_profiles(conn, ntlm, kerberos, top):
         ip = k.get("id.orig_h")
         if ip in prof and k.get("client") and "user" not in prof[ip]:
             prof[ip]["user"] = k["client"]
+
+    # Kerberos service(SPN)에서 서버(주로 DC) 호스트명 — resp_h(서버) 기준.
+    #   예: "ldap/enemywatch-dc.enemywatch.net" → 10.10.22.22 = ENEMYWATCH-DC
+    #   (DC는 클라이언트가 아니라 서버라 client/NTLM엔 자기 이름이 안 떠서 SPN에서 보강)
+    for k in kerberos:
+        ip = k.get("id.resp_h")
+        m = re.match(r"(?:ldap|cifs|host|http|gc|dns)/([^/\s@]+)", k.get("service") or "", re.I)
+        if ip in prof and m and not prof[ip].get("hostname"):
+            prof[ip]["hostname"] = m.group(1).split(".")[0].upper()
 
     # 역할 추정 (아주 단순): 호스트명에 DC 들어가면 도메인컨트롤러
     for ip, p in prof.items():

@@ -1414,7 +1414,8 @@
       "conns": 997,
       "mac": null,
       "scope": "internal",
-      "role": "host"
+      "hostname": "ENEMYWATCH-DC",
+      "role": "domain_controller"
     },
     "10.10.22.158": {
       "conns": 486,
@@ -1436,18 +1437,6 @@
       "mac": null,
       "scope": "internal",
       "role": "host"
-    },
-    "255.255.255.255": {
-      "conns": 4,
-      "mac": null,
-      "scope": "internal",
-      "role": "host"
-    },
-    "0.0.0.0": {
-      "conns": 2,
-      "mac": null,
-      "scope": "internal",
-      "role": "host"
     }
   },
   "timeline": [
@@ -1456,6 +1445,48 @@
       "clock": "14:30:51",
       "offset": "+0s",
       "event": "캡처 세션 시작"
+    },
+    {
+      "ts": 1634913052.11,
+      "clock": "14:30:52",
+      "offset": "+0s",
+      "event": "비콘 패턴: 10.10.22.157 → 224.0.0.251:5353 (7회, CV=0.0004)",
+      "evidence": "community_id:1:YQxsgmU9/jrgEwnE6/nytNhZsA8="
+    },
+    {
+      "ts": 1634913064.43,
+      "clock": "14:31:04",
+      "offset": "+12s",
+      "event": "비콘 패턴: 10.10.22.157 → 10.10.22.22:123 (6회, CV=0.0)",
+      "evidence": "community_id:1:bwLnZw1XPj9aXGT61W7yD0fKKkk="
+    },
+    {
+      "ts": 1634913112.822,
+      "clock": "14:31:52",
+      "offset": "+61s",
+      "event": "비콘 패턴: 10.10.22.156 → 224.0.0.251:5353 (7회, CV=0.0004)",
+      "evidence": "community_id:1:S8zKd7cRT4S4jZWu8+3LOaTGkGI="
+    },
+    {
+      "ts": 1634913112.848,
+      "clock": "14:31:52",
+      "offset": "+61s",
+      "event": "비콘 패턴: 10.10.22.156 → 224.0.0.252:5355 (7회, CV=0.0004)",
+      "evidence": "community_id:1:egWhTdd4Sjeya9NUMPCxKJD++lE="
+    },
+    {
+      "ts": 1634913125.411,
+      "clock": "14:32:05",
+      "offset": "+73s",
+      "event": "비콘 패턴: 10.10.22.156 → 10.10.22.22:123 (6회, CV=0.0004)",
+      "evidence": "community_id:1:bAzA23+ZwUu8Zuw6w1JoFOY43qY="
+    },
+    {
+      "ts": 1634913156.178,
+      "clock": "14:32:36",
+      "offset": "+104s",
+      "event": "비콘 패턴: 10.10.22.158 → 10.10.22.22:123 (6회, CV=0.0003)",
+      "evidence": "community_id:1:QX6JuO9yfl9r8rqnj842kWicgHs="
     },
     {
       "ts": 1634913296.194,
@@ -1549,6 +1580,13 @@
       "evidence": "community_id:1:DYKPH5DxAQmGRPEff7W4J7iEylo="
     },
     {
+      "ts": 1634915852.262,
+      "clock": "15:17:32",
+      "offset": "+2800s",
+      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.158:445 SMB",
+      "evidence": "community_id:1:oTA+x7WjWt/dkEVRa4YPAhFqMlo="
+    },
+    {
       "ts": 1634915852.423,
       "clock": "15:17:32",
       "offset": "+2800s",
@@ -1556,31 +1594,60 @@
       "evidence": "community_id:1:igvUvwQGvPsvt1q3sEl+nIMC0QE="
     },
     {
+      "ts": 1634915852.423,
+      "clock": "15:17:32",
+      "offset": "+2800s",
+      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.158:135 RPC",
+      "evidence": "community_id:1:igvUvwQGvPsvt1q3sEl+nIMC0QE="
+    },
+    {
+      "ts": 1634915852.445,
+      "clock": "15:17:32",
+      "offset": "+2800s",
+      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.157:445 SMB",
+      "evidence": "community_id:1:cJqKI4nDmp5Z58KsIFrYc5LSIrU="
+    },
+    {
+      "ts": 1634915852.579,
+      "clock": "15:17:32",
+      "offset": "+2801s",
+      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.157:135 RPC",
+      "evidence": "community_id:1:Dshgi0RZRpKOGQokBVBxdpCk4Nk="
+    },
+    {
+      "ts": 1634916764.25,
+      "clock": "15:32:44",
+      "offset": "+3712s",
+      "event": "비콘 패턴: 10.10.22.156 → 10.10.22.1:445 (5회, CV=0.0106)",
+      "evidence": "community_id:1:yij6clGHMI20NOPLIQfrO9tjGQE="
+    },
+    {
+      "ts": 1634916764.25,
+      "clock": "15:32:44",
+      "offset": "+3712s",
+      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.1:445 SMB",
+      "evidence": "community_id:1:yij6clGHMI20NOPLIQfrO9tjGQE="
+    },
+    {
+      "ts": 1634916765.356,
+      "clock": "15:32:45",
+      "offset": "+3713s",
+      "event": "비콘 패턴: 10.10.22.156 → 10.10.22.1:139 (5회, CV=0.0036)",
+      "evidence": "community_id:1:U7oxhnd4sILtoESoTOuz2DTuJl8="
+    },
+    {
+      "ts": 1634916772.197,
+      "clock": "15:32:52",
+      "offset": "+3720s",
+      "event": "비콘 패턴: 10.10.22.156 → 10.10.22.1:80 (5회, CV=0.0154)",
+      "evidence": "community_id:1:WVcrvbmCMzQk3TT3uR2we8oXt2w="
+    },
+    {
       "ts": 1634916791.498,
       "clock": "15:33:11",
       "offset": "+3740s",
       "event": "IDS 첫 탐지: ET MALWARE VNCStartServer USR Variant CnC Beacon",
       "evidence": "community_id:1:WoLVdQa3cet63zLC3th9Vt4ScXA="
-    },
-    {
-      "ts": 1634916791.527,
-      "clock": "15:33:11",
-      "offset": "+3740s",
-      "event": "IDS 첫 탐지: ET MALWARE VNCStartServer BOT Variant CnC Beacon",
-      "evidence": "community_id:1:jkY8kORhP1R1n3IOLGnBAtDy2E4="
-    },
-    {
-      "ts": 1634917432.453,
-      "clock": "15:43:52",
-      "offset": "+4380s",
-      "event": "IDS 첫 탐지: ET DNS Query for .cc TLD",
-      "evidence": "community_id:1:W9P2k8LiocDgt2bO5ym/TxcCCbQ="
-    },
-    {
-      "ts": 1634918596.604,
-      "clock": "16:03:16",
-      "offset": "+5545s",
-      "event": "캡처 세션 종료"
     }
   ],
   "enrichment": {
