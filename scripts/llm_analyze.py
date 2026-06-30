@@ -23,7 +23,7 @@ import os
 import re
 
 import tools as tools_mod
-from compress import LATERAL_PORTS  # victim 내부이동 판정에 재사용 (단일 출처)
+from compress import LATERAL_PORTS, git_commit  # victim 내부이동 판정·버전스탬프 재사용 (단일 출처)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -367,6 +367,20 @@ def enforce_review(verdict, ev=None):
         if verdict.get("is_attack"):
             _backfill_iocs(verdict, ev)
         _strip_unfounded(verdict, ev)
+
+    # item4: SLM 자기보고 confidence 맹신 금지. 가설레이어가 드러낸 불확실성을 반영한다 (ev 무관).
+    #   미확정 가설(confidence<high 또는 how_to_confirm 열림)이 있는데 high면 → medium 강등.
+    hyps = verdict.get("hypotheses") or []
+    uncertain = any(isinstance(h, dict) and (h.get("confidence") != "high" or h.get("how_to_confirm"))
+                    for h in hyps)
+    if uncertain and verdict.get("confidence") == "high":
+        verdict["confidence"] = "medium"
+        verdict.setdefault("rule_overrides", []).append(
+            "미확정 가설 존재(confidence<high or how_to_confirm) → confidence high→medium (item4)")
+    # needs_review 최종 — 조정된 confidence/classification + 가설 불확실성 반영
+    if (verdict.get("confidence") != "high" or verdict.get("classification") == "unknown_anomaly"
+            or uncertain):
+        verdict["needs_review"] = True
     return verdict
 
 
@@ -663,6 +677,14 @@ def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
     p(f"\n{'=' * 60}")
     p(f"  LLM 분석 시작: {name}")
     p(f"  model={model}  max_rounds={max_rounds}  tools={len(tools_mod.TOOL_SCHEMAS)}개")
+    # stale 가드 — evidence/코드 버전 불일치나 item3 이전 evidence를 조용히 통과시키지 않는다
+    code_c, ev_c = git_commit(), ev.get("meta", {}).get("git_commit")
+    p(f"  [버전] code={code_c}  evidence={ev_c}")
+    if ev_c and ev_c != code_c:
+        p(f"  ⚠️  STALE 의심 — code≠evidence 커밋. analyze.sh로 evidence 재생성 권장")
+    lm = ev.get("conn", {}).get("lateral_movement") or []
+    if lm and not any(isinstance(r, dict) and "completion" in r for r in lm):
+        p("  ⚠️  STALE evidence — lateral에 item3 태그(completion) 없음. 재생성 필요")
     p(f"{'=' * 60}")
 
     # 강제 사전조사 — 모델이 추측하기 전에 코드가 필수 드릴다운을 먼저 돌려 근거를 깔아둔다
@@ -795,6 +817,9 @@ def main():
     else:
         verdict = run_live(args.name, ev, args.base_url, args.api_key,
                            args.model, args.max_rounds, args.temperature)
+    # 버전 스탬프 — 이 verdict가 어느 코드/evidence로 나왔는지 박아 stale 런을 사후 식별
+    verdict["code_commit"] = git_commit()
+    verdict["evidence_commit"] = ev.get("meta", {}).get("git_commit")
     out = os.path.join(ROOT, "report", f"{args.name}.verdict.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(verdict, f, ensure_ascii=False, indent=2)

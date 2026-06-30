@@ -29,6 +29,17 @@ from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def git_commit():
+    """현재 코드의 git short hash (stale 런 추적용). 없으면 'unknown'."""
+    import subprocess
+    try:
+        return subprocess.check_output(
+            ["git", "-C", ROOT, "rev-parse", "--short", "HEAD"],
+            stderr=subprocess.DEVNULL, text=True).strip() or "unknown"
+    except Exception:
+        return "unknown"
+
 # ── 탐지 임계값 (한 곳에서 관리, 발표 때 근거로 제시) ──────────────
 BEACON_MIN_CONNS = 5      # 비콘 판정 최소 연결 수
 BEACON_CV_MAX    = 0.10   # 간격 변동계수(CV) 이하면 '규칙적' = 비콘
@@ -724,6 +735,7 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     pkg = {
         "meta": {
             "pcap": name,
+            "git_commit": git_commit(),   # 이 evidence를 만든 코드 버전 (stale 런 탐지)
             "input_packets": pkts,
             "flows": len(conn),
             "alert_events": len(alerts),
