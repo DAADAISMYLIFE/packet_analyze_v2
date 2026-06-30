@@ -94,6 +94,17 @@ def is_private(ip):
         return False
 
 
+def is_real_host(ip):
+    """프로파일 대상이 되는 '진짜 내부 호스트'인지 — broadcast/unspecified/multicast/reserved 제외.
+       (0.0.0.0, 255.255.255.255 같은 가짜가 host_profiles에 끼는 것 방지.)"""
+    try:
+        a = ipaddress.ip_address(ip)
+    except ValueError:
+        return False
+    return a.is_private and not (a.is_multicast or a.is_unspecified
+                                 or a.is_reserved or a.is_loopback)
+
+
 def shannon_entropy(s):
     """문자열 엔트로피 — DGA(랜덤 도메인) 탐지용."""
     if not s:
@@ -326,7 +337,7 @@ def build_host_profiles(conn, ntlm, kerberos, top):
     for c in conn:
         for ip, mac in ((c.get("id.orig_h"), c.get("orig_l2_addr")),
                         (c.get("id.resp_h"), c.get("resp_l2_addr"))):
-            if not ip or not is_private(ip):   # 내부 호스트만 프로파일
+            if not is_real_host(ip):   # 내부 '진짜' 호스트만 (broadcast/0.0.0.0 등 제외)
                 continue
             p = get(ip)
             p["conns"] += 1
@@ -563,19 +574,22 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     eve = read_eve(eve_path)
     alerts = eve.get("alert", [])
 
+    # 호스트 신원 프로파일 먼저 — DC를 '행위(Kerberos/LDAP fan-in)'와 'hostname' 둘 다로 식별해
+    # 작은 캡처(fan-in 부족)에서도 DC를 놓치지 않게 한다. (AD 정상 인증 오탐 방지의 핵심)
+    host_profiles = build_host_profiles(
+        conn, read_zeek_log(os.path.join(zeek_dir, "ntlm.log")),
+        read_zeek_log(os.path.join(zeek_dir, "kerberos.log")), top)
+    dc_ips = detect_ad_servers(conn) | {ip for ip, p in host_profiles.items()
+                                        if p.get("role") == "domain_controller"}
+
     # 1층 백본
     alerts_pkg = compress_alerts(alerts, top)
     alerts_pkg["by_flow"] = join_alert_to_flow(alerts_pkg["by_flow"], conn)
-    conn_summary = compress_conn(conn, top)
+    conn_summary = compress_conn(conn, top, dc_ips=dc_ips)
 
     # 타임라인 뼈대 (실제 ts 기반 — LLM은 해석만)
     files_raw = read_zeek_log(os.path.join(zeek_dir, "files.log"))
     timeline = build_timeline(conn, alerts, files_raw, top, conn_summary)
-
-    # 호스트 신원 프로파일 (IP → 호스트명/유저/MAC)
-    host_profiles = build_host_profiles(
-        conn, read_zeek_log(os.path.join(zeek_dir, "ntlm.log")),
-        read_zeek_log(os.path.join(zeek_dir, "kerberos.log")), top)
 
     zeek_log_count = len([f for f in os.listdir(zeek_dir)
                           if f.endswith(".log") and f[:-4] not in
@@ -644,14 +658,21 @@ def build_drilldown(zeek_dir, eve_path):
     # 위협/의심 alert가 가리키는 flow는 반드시 포함
     ref_cids = {a.get("community_id") for a in alerts if is_sig_relevant(a) and a.get("community_id")}
 
-    # conn: 외부통신 / 위협 flow / 내부 측면이동(관리포트) 만 추림 (내부 AD 잡음 제거)
-    kept_conn = []
+    # conn: 외부통신 / 위협 flow / 내부 측면이동(관리포트) 만 추림 (내부 AD 잡음 제거).
+    # 잘림 우선순위 중요: 위협참조·측면이동은 rare·high-value라 무조건 보존하고,
+    # 대량 외부통신만 남는 예산으로 자른다(원본 순서대로 자르면 측면이동이 외부통신에 밀려 사라짐).
+    ref_conn, lat_conn, ext_conn = [], [], []
     for c in conn:
         o, r, dp = c.get("id.orig_h"), c.get("id.resp_h"), c.get("id.resp_p")
-        lateral = o and r and is_private(o) and is_private(r) and dp in LATERAL_PORTS
-        if _external_flow(c) or c.get("community_id") in ref_cids or lateral:
-            kept_conn.append(c)
-    kept_conn = kept_conn[:DRILL_CAPS["conn"]]
+        if c.get("community_id") in ref_cids:
+            ref_conn.append(c)
+        elif o and r and is_private(o) and is_private(r) and dp in LATERAL_PORTS:
+            lat_conn.append(c)
+        elif _external_flow(c):
+            ext_conn.append(c)
+    cap = DRILL_CAPS["conn"]
+    priority = ref_conn + lat_conn
+    kept_conn = priority[:cap] + ext_conn[:max(0, cap - len(priority))]
     kept_uids = {c.get("uid") for c in kept_conn}
 
     def link(logname, cap, extra=None):

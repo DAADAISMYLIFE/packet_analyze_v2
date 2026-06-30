@@ -23,6 +23,7 @@ import os
 import re
 
 import tools as tools_mod
+from compress import LATERAL_PORTS  # victim 내부이동 판정에 재사용 (단일 출처)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -59,6 +60,14 @@ occurred and what it is.
   when they can be found. Pull them from host_profiles (hostname / user) for that IP, or via
   get_host_info(ip). If a hostname or username is genuinely unknown, leave it as an empty
   string — never guess it.
+
+[PRE-VERIFIED FACTS — 이미 확인된 사실]
+  The user message includes a PRE-VERIFIED FACTS block: drill-down results the code already
+  ran for you (malware files, threat/beacon flows, victim identity & internal connections,
+  suspicious DNS/HTTP). Treat these as PRIMARY ground truth.
+  - Where a field says "없음 / 0건 / none", judge by that — do NOT fill it with guesses.
+  - Report lateral movement ONLY if a victim's internal_admin_targets is non-empty.
+  - Identify malware family from the verified malware_files / flow contents, not from guessing.
 
 [HALLUCINATION PREVENTION — hard rules]
   - CVE: include a CVE number ONLY if it appears explicitly in a Suricata alert or the raw
@@ -193,12 +202,17 @@ def slim_evidence(ev):
     }
 
 
-def build_messages(ev):
+def build_messages(ev, preinvest=None):
     slim = slim_evidence(ev)
-    user = ("Analyze the evidence package below and submit your verdict via submit_verdict.\n\n"
-            "```json\n" + json.dumps(slim, ensure_ascii=False) + "\n```")
+    parts = ["Analyze the evidence package below and submit your verdict via submit_verdict.",
+             "", "```json", json.dumps(slim, ensure_ascii=False), "```"]
+    if preinvest:
+        parts += ["",
+                  "[PRE-VERIFIED FACTS] 코드가 드릴다운으로 이미 확인한 사실이다. 1차 근거로 삼아라. "
+                  "'없음/0건'인 항목은 추측으로 채우지 말 것.",
+                  "```json", json.dumps(preinvest, ensure_ascii=False), "```"]
     return [{"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user}]
+            {"role": "user", "content": "\n".join(parts)}]
 
 
 # 이 접두사 시그니처가 떴으면 '알려진 악성'이 결정론적 사실 → LLM이 benign으로 못 뒤집음
@@ -313,7 +327,34 @@ def enforce_review(verdict, ev=None):
         # 공격 판정이면 C2/victim을 결정론적으로 백필 (모델이 빼먹어도 IOC 보장)
         if verdict.get("is_attack"):
             _backfill_iocs(verdict, ev)
+        _strip_unfounded(verdict, ev)
     return verdict
+
+
+def _strip_unfounded(verdict, ev):
+    """evidence로 검증 가능한 환각만 결정론적으로 제거 (사건유형 무관 일반 가드).
+       - 측면이동 주장: conn.lateral_movement가 비어 있으면 해당 MITRE 항목 제거
+       - CVE: 어떤 시그니처에도 없는 CVE는 제거 (프롬프트 규칙을 코드로 승격)."""
+    # 1) 측면이동 무근거 제거
+    if not ev.get("conn", {}).get("lateral_movement"):
+        mitre = verdict.get("mitre_attack")
+        if isinstance(mitre, list):
+            kept = [m for m in mitre if isinstance(m, dict) and
+                    "lateral" not in (str(m.get("tactic", "")) + str(m.get("technique", ""))).lower()]
+            if len(kept) != len(mitre):
+                verdict["mitre_attack"] = kept
+                verdict.setdefault("rule_overrides", []).append(
+                    "측면이동 근거(conn.lateral_movement) 없음 → 해당 MITRE 제거")
+    # 2) 근거 없는 CVE 제거
+    cves = verdict.get("cve")
+    if isinstance(cves, list) and cves:
+        sigs = " ".join(str(a.get("signature") or "")
+                        for a in ev.get("ids_alerts", {}).get("by_signature", []))
+        present = {c.upper() for c in re.findall(r"CVE-\d{4}-\d+", sigs, re.I)}
+        bad = [c for c in cves if isinstance(c, str) and c.upper() not in present]
+        if bad:
+            verdict["cve"] = [c for c in cves if c not in bad]
+            verdict.setdefault("rule_overrides", []).append("근거 없는 CVE 제거: " + ", ".join(bad))
 
 
 def p(*a):
@@ -440,16 +481,154 @@ def _chat(base_url, api_key, model, messages, tools, temperature, tool_choice="r
         return json.loads(r.read())
 
 
+# ── 강제 사전조사(mandatory pre-investigation) ──────────────────────────
+# 모델 의지에 안 맡기고, evidence에 '있는 신호'만 보고 코드가 필수 드릴다운을 먼저 돌린다.
+# 사건유형(악성코드/스캔/유출/웹공격…)에 하드코딩하지 않음 — 신호 있으면 조사, 없으면 스킵.
+PREINVEST_CAPS = {"total": 24, "malware": 6, "flows": 6, "victims": 5, "dns": 5, "http": 5}
+
+
+def _sum_flow(r):
+    """get_flow_detail 결과를 토큰 절약용으로 압축 (원본 배열 통째로 안 넣음)."""
+    if not isinstance(r, dict) or r.get("error"):
+        return r
+    c = (r.get("conn") or [{}])[0]
+    return {
+        "community_id": r.get("community_id"),
+        "conn": {k: c.get(k) for k in ("id.orig_h", "id.resp_h", "id.resp_p",
+                                       "proto", "service", "orig_bytes", "resp_bytes", "conn_state")},
+        "http": [{"host": h.get("host"), "uri": (h.get("uri") or "")[:80],
+                  "method": h.get("method"), "status": h.get("status_code"),
+                  "mime": h.get("resp_mime_types")} for h in (r.get("http") or [])[:5]],
+        "dns": [d.get("query") for d in (r.get("dns") or [])[:5]],
+        "files": [{"sha256": f.get("sha256"), "mime": f.get("mime_type")}
+                  for f in (r.get("files") or [])[:5]],
+    }
+
+
+def _sum_search(r, fields, n=5):
+    """search_http/search_dns 결과 압축: matched 수 + 상위 일부 레코드."""
+    if not isinstance(r, dict):
+        return r
+    recs = r.get("records") or []
+    return {"matched": r.get("matched", len(recs)),
+            "sample": [{k: rec.get(k) for k in fields if rec.get(k) is not None}
+                       for rec in recs[:n]]}
+
+
+def essential_investigation(ev, drill, trace):
+    """evidence 신호 → 필수 드릴다운을 결정론적으로 강제 실행.
+       hit과 negative('확인했으나 없음')를 함께 반환해 모델 추측을 억제한다. 전역 예산으로 상한."""
+    caps = PREINVEST_CAPS
+    budget = [caps["total"]]
+
+    def run(tool, fn, **args):
+        if budget[0] <= 0:
+            return None
+        budget[0] -= 1
+        res = fn(**args)
+        trace.append({"round": -1, "tool": tool, "args": args,
+                      "result_size": len(json.dumps(res, ensure_ascii=False))})
+        return res
+
+    out = {}
+
+    # 1) 멀웨어 파일 확정 (sha256 있을 때만)
+    mals = ev.get("enrichment", {}).get("files", {}).get("malware_candidates", [])
+    fres = []
+    for m in mals[:caps["malware"]]:
+        if m.get("sha256"):
+            r = run("get_malware_file", drill.get_malware_file, sha256=m["sha256"])
+            if r is not None:
+                fres.append({k: r.get(k) for k in
+                             ("sha256", "md5", "mime_type", "seen_bytes", "download_count")}
+                            if isinstance(r, dict) and not r.get("error") else r)
+    out["malware_files"] = fres or {"checked": 0, "note": "악성 파일 후보 없음"}
+
+    # 2) 위협/비콘 flow 상세 (C2 실체 vs 다운로드 소스 구분 등)
+    cids, seen, flows = [], set(), []
+    for a in ev.get("ids_alerts", {}).get("by_flow", []):
+        if a.get("community_id"):
+            cids.append(a["community_id"])
+    for b in ev.get("conn", {}).get("beaconing", []):
+        if b.get("community_id"):
+            cids.append(b["community_id"])
+    for cid in cids:
+        if cid in seen or len(flows) >= caps["flows"]:
+            continue
+        seen.add(cid)
+        r = run("get_flow_detail", drill.get_flow_detail, community_id=cid)
+        if r is not None:
+            flows.append(_sum_flow(r))
+    out["flows"] = flows or {"checked": 0, "note": "위협/비콘 flow 없음"}
+
+    # 3) victim 신원 + 내부 이동 검증 (측면이동 오탐/누락을 직접 막는 핵심)
+    victims, _ = _derive_iocs(ev)
+    dc_set = set(ev.get("conn", {}).get("ad_servers", []))  # →DC 인증은 정상 → 측면이동에서 제외
+    vres = {}
+    for ip in list(victims)[:caps["victims"]]:
+        host = run("get_host_info", drill.get_host_info, ip=ip)
+        # limit 크게 — 기본 20이면 DC 인증 flow가 먼저 차서 내부 측면이동 대상이 잘림
+        conns = run("get_connections_by_ip", drill.get_connections_by_ip, ip=ip, limit=500)
+        targets = set()
+        if isinstance(conns, dict):
+            for rec in conns.get("records", []):
+                d, port = rec.get("id.resp_h"), rec.get("id.resp_p")
+                if d and d != ip and d not in dc_set and _is_private(d) and port in LATERAL_PORTS:
+                    targets.add(f"{d}:{port}")
+        # evidence의 결정론적 lateral_movement(전체 로그 기반)도 합침 — 번들 잘림에 안전
+        for lm in ev.get("conn", {}).get("lateral_movement", []):
+            if lm.get("src") == ip and lm.get("dst"):
+                targets.add(f"{lm['dst']}:{lm.get('dport')}")
+        vres[ip] = {
+            "host_info": {k: host.get(k) for k in ("hostname", "domain", "user", "mac", "role")}
+                         if isinstance(host, dict) else host,
+            "internal_admin_targets": sorted(targets) or "없음(내부 관리포트 연결 없음)",
+        }
+    out["victims"] = vres or {"checked": 0, "note": "위협 alert 기반 victim 없음"}
+
+    # 4) 의심 도메인 확인
+    dres = []
+    for d in ev.get("enrichment", {}).get("dns", {}).get("suspicious", [])[:caps["dns"]]:
+        if d.get("query"):
+            r = run("search_dns", drill.search_dns, query_contains=d["query"])
+            if r is not None:
+                dres.append({"query": d["query"], "result": _sum_search(r, ("query", "answers"))})
+    out["dns"] = dres or {"checked": 0, "note": "의심 도메인 없음"}
+
+    # 5) 의심 HTTP 확인
+    hres = []
+    for h in ev.get("enrichment", {}).get("http", {}).get("suspicious", [])[:caps["http"]]:
+        if h.get("host"):
+            r = run("search_http", drill.search_http, host=h["host"])
+            if r is not None:
+                hres.append({"host": h["host"],
+                             "result": _sum_search(r, ("host", "uri", "method", "resp_mime_types"))})
+    out["http"] = hres or {"checked": 0, "note": "의심 HTTP 없음"}
+
+    out["_calls"] = caps["total"] - budget[0]
+    if budget[0] <= 0:
+        out["_note"] = f"사전조사 예산 {caps['total']}회 소진 — 일부 신호 미조사(상한)"
+    return out
+
+
 def run_live(name, ev, base_url, api_key, model, max_rounds, temperature):
     drill = tools_mod.DrillDownTools(name)
     all_tools = tools_mod.TOOL_SCHEMAS + [SUBMIT_VERDICT_TOOL]
-    messages = build_messages(ev)
     trace = []   # tool 호출 기록 → verdict에 저장(사후 측정용)
 
     p(f"\n{'=' * 60}")
     p(f"  LLM 분석 시작: {name}")
     p(f"  model={model}  max_rounds={max_rounds}  tools={len(tools_mod.TOOL_SCHEMAS)}개")
     p(f"{'=' * 60}")
+
+    # 강제 사전조사 — 모델이 추측하기 전에 코드가 필수 드릴다운을 먼저 돌려 근거를 깔아둔다
+    p("\n  [사전조사] evidence 신호 기반 필수 드릴다운 강제 실행…")
+    preinvest = essential_investigation(ev, drill, trace)
+    _n = lambda v: len(v) if isinstance(v, list) else (len(v) if isinstance(v, dict) and "note" not in v else 0)
+    p(f"  [사전조사] {preinvest.get('_calls', 0)}회 — malware {_n(preinvest['malware_files'])} / "
+      f"flows {_n(preinvest['flows'])} / victims {_n(preinvest['victims'])} / "
+      f"dns {_n(preinvest['dns'])} / http {_n(preinvest['http'])}")
+    messages = build_messages(ev, preinvest)
 
     def finalize(args, r, note=None):
         v = enforce_review(dict(args), ev)
