@@ -990,7 +990,6 @@
         "conn_state": "RSTR",
         "rpc_op": null,
         "share_type": [
-          "C$",
           "IPC$"
         ],
         "file_dropped": false,
@@ -1010,7 +1009,6 @@
         "conn_state": "RSTR",
         "rpc_op": null,
         "share_type": [
-          "C$",
           "IPC$"
         ],
         "file_dropped": false,

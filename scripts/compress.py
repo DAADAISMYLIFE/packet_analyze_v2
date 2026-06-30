@@ -352,9 +352,11 @@ def tag_lateral_movement(lateral, conn, dce_rpc, smb_mapping, smb_files, alerts)
     shares = defaultdict(set)
     for m in smb_mapping:
         path = (m.get("path") or "").upper()
-        for tok in ("IPC$", "ADMIN$", "C$"):
-            if tok in path:
-                shares[(m.get("id.orig_h"), m.get("id.resp_h"))].add(tok)
+        share = path.rsplit("\\", 1)[-1] if path else ""   # \\HOST\IPC$ → "IPC$"
+        # 공유명 '정확' 매칭 (substring 금지: "C$"가 "IPC$"에 딸려붙던 버그).
+        # 관리공유만: IPC$ / ADMIN$ / 드라이브 관리공유(C$,D$…)
+        if share in ("IPC$", "ADMIN$") or re.fullmatch(r"[A-Z]\$", share):
+            shares[(m.get("id.orig_h"), m.get("id.resp_h"))].add(share)
 
     dropped = set()
     for f in smb_files:
