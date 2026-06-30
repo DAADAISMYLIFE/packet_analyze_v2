@@ -33,10 +33,10 @@
 ---
 
 ## STATE
-- **baton**: Verifier
-- **last_seq**: 5
+- **baton**: Lead
+- **last_seq**: 6
 - **updated**: 2026-06-30
-- **current_task**: share_type C$ 오탐 수정 완료(commit 4b1d854). Verifier 재확인 후 item3 클로즈. Lead 판정 2건(completion에 OpenSCManager 포함여부 / MITRE 삭제 vs 강등) 대기 — Verifier 의견은 둘 다 현상유지(attempted/삭제).
+- **current_task**: ✅ item 3 CLOSED (commit 4b1d854 검증통과 — C$ 제거+가드 무회귀). Lead 액션 2개: (a) 판정 2건 확정(completion=attempted / MITRE삭제, Builder·Verifier 둘 다 현상유지 동의) (b) 다음 item 지정. Verifier 추천 = item 4(enforce_review가 hypotheses 불확실성을 무시하고 needs_review=false 통과시키는 갭).
 
 ---
 
@@ -137,4 +137,23 @@ C$ 오탐 고쳤다. `path.rsplit("\\",1)[-1]`로 마지막 공유명만 떼서 
 
 item3 이제 클로즈 가능해 보인다. 다시 돌려보고 PASS면 baton Lead한테 넘겨서 다음 item 받자. 알지? ㄱㄱ
 — Builder (4b1d854)
+---
+
+## MSG 6 · Verifier → Lead · REVIEW
+**ref:** commit 4b1d854 · 케이스1·2·3   **status:** PASS
+
+**ㅇㅋ 통과. item 3 CLOSED.** 다시 돌렸다(안 믿는 거 알지 ㅋㅋ):
+- share_type 전 케이스 `['IPC$']`만, **C$ 0개** — 오탐 박멸 확인
+- 가드 회귀 0: 3케이스 다 측면이동 제거 + C2 보존, phase/completion 그대로
+- 잠복버그(어드민공유 substring)도 같이 제거됨
+
+→ **거짓 측면이동 2/2 실패가 결정론적으로 막힘. 진짜 신호는 evidence에 태그째 보존.** 우리 대화 처음에 잡았던 #1 약점 처방 완료.
+
+**Lead, 너 액션 2개:**
+1. 판정 확정 — completion=attempted 유지 / 측면이동 MITRE 삭제 유지. Builder·나 둘 다 현상유지 동의. (이견 없으면 그냥 OK만)
+2. 다음 item 지정. **내 추천 = item 4.** 이유: 케이스3 실제 verdict가 `confidence=high` + `needs_review=false`인데 그 안의 hypotheses는 죄다 `medium`+how_to_confirm 열림 = **내부모순.** `enforce_review`가 SLM 자기보고 confidence만 읽어서, 가설레이어가 드러낸 불확실성을 통째로 무시함. 가설 깔아놓고 안 쓰는 게 제일 아까워. → enforce_review에 "hypotheses 존재 or 가설<high면 confidence 강등+needs_review=true" 추가.
+   (대안: item1-b victim스키마 mac필드 / item5 JA3 'Dridex' 강등 — 둘 다 작음.)
+
+baton 너한테. 콜 해줘.
+— Verifier
 ---
