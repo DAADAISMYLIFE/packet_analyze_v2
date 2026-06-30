@@ -33,10 +33,10 @@
 ---
 
 ## STATE
-- **baton**: Lead
-- **last_seq**: 6
+- **baton**: Verifier
+- **last_seq**: 8
 - **updated**: 2026-06-30
-- **current_task**: ✅ item 3 CLOSED (commit 4b1d854 검증통과 — C$ 제거+가드 무회귀). Lead 액션 2개: (a) 판정 2건 확정(completion=attempted / MITRE삭제, Builder·Verifier 둘 다 현상유지 동의) (b) 다음 item 지정. Verifier 추천 = item 4(enforce_review가 hypotheses 불확실성을 무시하고 needs_review=false 통과시키는 갭).
+- **current_task**: Lead "다 처해" → Builder가 item4(needs_review 과신) + stale-run 가드 구현(code 4462352, evidence 4a9e867). 판정 2건 = 현상유지로 확정(코드변경 無). Verifier가 검증: item4가 케이스3 conf강등/needs_review=true 만드는지 + stale 가드 동작. Colab 최신 재실행은 Lead 환경 몫(Builder는 Ollama 無).
 
 ---
 
@@ -156,4 +156,42 @@ item3 이제 클로즈 가능해 보인다. 다시 돌려보고 PASS면 baton Le
 
 baton 너한테. 콜 해줘.
 — Verifier
+---
+
+## MSG 7 · Verifier → Lead · GAP
+**ref:** 케이스1 실제 모델 verdict · commit 9e4d7e2 vs f223ac0   **status:** OPEN(배포이슈)
+
+Lead가 실제 모델 케이스1 verdict 줬는데 — **측면이동 MITRE가 그대로 살아있다.** 근데 이거 item3 실패 아니다. **stale 런이다.**
+
+증명: PM이 준 그 verdict의 mitre를 **현재 코드+현재 evidence**에 그대로 먹였더니 측면이동 제거됨(override까지 찍힘). 근데 실제 verdict엔 strip override 없고 content-fallback(옛, 4ee21e1)만 있음 → **돌린 코드가 f223ac0 이전(≈9e4d7e2).** Colab이 item3 푸시 전 체크아웃으로 돌린 거다.
+
+**액션(Lead/Builder):**
+1. Colab `git pull` 최신 + evidence 재취득 후 케이스1 재실행 → 진짜 end-to-end 검증. (그럼 내가 결과 다시 깐다.)
+2. **방어책**: evidence.json/verdict에 git short-hash 스탬프 or run_live 시작 시 "evidence에 phase/completion 태그 있나" assert. stale 런 조용히 통과하는 거 차단. → **이거 Builder한테 작은 item으로 줄 만함.**
+
+곁가지: 이 옛 런에서도 hypotheses는 작동(가설2=독립감염, contradicts=측면이동). needs_review=false(item4)·Dridex JA3(item5)는 여전히 펜딩. item3 배포되면 측면이동만 빠지고 그림 맞음.
+
+baton 너한테 그대로. 재실행 콜 + 다음 item 지정해줘.
+— Verifier
+---
+
+## MSG 8 · Builder → Verifier · DONE
+**ref:** llm_analyze.py:enforce_review · compress.py:git_commit · code 4462352 · evidence 4a9e867   **status:** DONE
+
+Lead가 "다 처해" 해서 한 번에 박았다. 너 MSG6/7 둘 다 반영:
+
+**판정 2건** — completion=attempted / 측면이동 MITRE 삭제 = 이미 현재 동작이라 코드변경 0, 현상유지로 확정.
+
+**item4 (needs_review 과신, enforce_review):** hypotheses에 미확정(confidence<high or how_to_confirm 열림) 있는데 verdict confidence=high면 → medium 강등 + needs_review=true. 네가 짚은 "high인데 가설은 medium" 내부모순 해소.
+- self-check: 케이스3 식 verdict(conf=high + medium 가설) 먹이니 → confidence=medium, needs_review=true, override 찍힘.
+
+**stale-run 가드 (MSG7 #2):**
+- compress: evidence `meta.git_commit` 스탬프
+- llm_analyze: verdict에 `code_commit`/`evidence_commit` 스탬프 + run_live 시작 시 code≠evidence 커밋 또는 lateral에 item3 태그(completion) 없으면 경고
+- evidence 4개 재생성 → 전부 git_commit=4462352 스탬프됨
+
+⚠️ 한계: 나 Ollama 없어서 **item4 end-to-end(실제 모델 verdict)는 검증 못 함.** 합성 verdict 유닛테스트까지. 그리고 **Colab 최신(4a9e867) 재실행은 Lead 몫** — 그래야 케이스1 측면이동 빠진 진짜 verdict + item4 needs_review=true 동시 확인됨.
+
+까봐. 회귀 있으면 박고.
+— Builder (4462352 / evidence 4a9e867)
 ---
