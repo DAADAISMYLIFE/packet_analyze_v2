@@ -986,7 +986,10 @@
         "bytes": 0,
         "community_id": "1:zvN8qQ/lNxvUPxNmHVW9KKac8e0=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "REJ",
+        "completion": "attempted",
+        "phase": "post_infection"
       },
       {
         "src": "10.6.15.119",
@@ -997,7 +1000,10 @@
         "bytes": 4945,
         "community_id": "1:ISK+dp+2zNVK9WtXv7SBJNHuz2Y=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "RSTR",
+        "completion": "attempted",
+        "phase": "post_infection"
       },
       {
         "src": "10.6.15.119",
@@ -1008,7 +1014,10 @@
         "bytes": 4939,
         "community_id": "1:QZjMpjlFL56oymcUojHRKrbUSEo=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "RSTR",
+        "completion": "attempted",
+        "phase": "post_infection"
       }
     ],
     "ad_baseline": [

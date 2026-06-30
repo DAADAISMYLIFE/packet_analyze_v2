@@ -328,6 +328,61 @@ def join_alert_to_flow(alert_rows, conn):
     return alert_rows
 
 
+# 원격 실행/제어 계열 RPC (PsExec=svcctl, 스케줄작업=atsvc/tsch, 원격레지스트리=winreg).
+# 이게 동반되면 단순 SMB 접속이 아니라 '확정된 원격 제어' = 진짜 측면이동.
+LATERAL_CONFIRM_RPC = ("svcctl", "atsvc", "tsch", "itaskschedulerservice", "winreg")
+
+
+def tag_lateral_movement(lateral, conn, dce_rpc, alerts):
+    """각 측면이동 레코드에 결정론적 태그 부착 (item 3):
+         completion: confirmed(원격제어 RPC 동반) | attempted
+         conn_state: 해당 flow의 conn 상태(SF/RSTO/S0…) — failed 판별용
+         phase     : post_infection(src 감염 이후) | pre_infection | unknown
+       SLM이 '미수/감염후 행위'를 '감염 전파'로 오해하는 걸 막을 사실을 깔아준다.
+       (소비처: llm_analyze의 킬체인 가드 — 여기선 사실만 부착, 판단은 안 함)"""
+    # 원격제어 RPC 발생한 (src,dst) 쌍
+    confirm_pairs = set()
+    for e in dce_rpc:
+        ep = (e.get("endpoint") or "").lower()
+        if any(a in ep for a in LATERAL_CONFIRM_RPC):
+            confirm_pairs.add((e.get("id.orig_h"), e.get("id.resp_h")))
+
+    # community_id -> 최초 ts, conn_state 집합
+    ts_by_cid, states = {}, defaultdict(set)
+    for c in conn:
+        cid, t = c.get("community_id"), c.get("ts")
+        if cid:
+            states[cid].add(c.get("conn_state"))
+            if t is not None and (cid not in ts_by_cid or t < ts_by_cid[cid]):
+                ts_by_cid[cid] = t
+
+    # 호스트(src)별 최초 위협 활동 ts (phase 기준선)
+    first_mal = {}
+    for a in alerts:
+        al = a.get("alert", {})
+        if classify_alert(al.get("signature"), al.get("severity")) not in ("threat", "suspicious"):
+            continue
+        src, t = a.get("src_ip"), ts_by_cid.get(a.get("community_id"))
+        if src and t is not None and (src not in first_mal or t < first_mal[src]):
+            first_mal[src] = t
+
+    for r in lateral:
+        src, dst, cid = r.get("src"), r.get("dst"), r.get("community_id")
+        st = sorted(s for s in states.get(cid, set()) if s)
+        r["conn_state"] = ",".join(st) or None
+        if (src, dst) in confirm_pairs:
+            r["completion"] = "confirmed"
+            r["why_completion"] = "원격 서비스제어/작업 RPC 동반"
+        else:
+            r["completion"] = "attempted"
+        lt, ft = ts_by_cid.get(cid), first_mal.get(src)
+        if lt is not None and ft is not None:
+            r["phase"] = "post_infection" if lt >= ft else "pre_infection"
+        else:
+            r["phase"] = "unknown"
+    return lateral
+
+
 def _fmt_clock(ts):
     """epoch -> HH:MM:SS (UTC). 타임라인 표기용."""
     import time
@@ -627,6 +682,10 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     alerts_pkg = compress_alerts(alerts, top)
     alerts_pkg["by_flow"] = join_alert_to_flow(alerts_pkg["by_flow"], conn)
     conn_summary = compress_conn(conn, top, dc_ips=dc_ips)
+    # item 3: 측면이동에 completion/conn_state/phase 결정론 태그 부착
+    conn_summary["lateral_movement"] = tag_lateral_movement(
+        conn_summary["lateral_movement"], conn,
+        read_zeek_log(os.path.join(zeek_dir, "dce_rpc.log")), alerts)
 
     # 타임라인 뼈대 (실제 ts 기반 — LLM은 해석만)
     files_raw = read_zeek_log(os.path.join(zeek_dir, "files.log"))

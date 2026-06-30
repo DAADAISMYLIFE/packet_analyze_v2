@@ -1207,7 +1207,11 @@
         "bytes": 3138,
         "community_id": "1:cJqKI4nDmp5Z58KsIFrYc5LSIrU=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "RSTO",
+        "completion": "confirmed",
+        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "phase": "post_infection"
       },
       {
         "src": "10.10.22.156",
@@ -1218,7 +1222,11 @@
         "bytes": 3138,
         "community_id": "1:oTA+x7WjWt/dkEVRa4YPAhFqMlo=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "RSTO",
+        "completion": "confirmed",
+        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "phase": "post_infection"
       },
       {
         "src": "10.10.22.156",
@@ -1229,7 +1237,11 @@
         "bytes": 508,
         "community_id": "1:Dshgi0RZRpKOGQokBVBxdpCk4Nk=",
         "tech": "RPC",
-        "why": "내부->내부호스트 RPC(135)"
+        "why": "내부->내부호스트 RPC(135)",
+        "conn_state": "SF",
+        "completion": "confirmed",
+        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "phase": "post_infection"
       },
       {
         "src": "10.10.22.156",
@@ -1240,7 +1252,11 @@
         "bytes": 508,
         "community_id": "1:igvUvwQGvPsvt1q3sEl+nIMC0QE=",
         "tech": "RPC",
-        "why": "내부->내부호스트 RPC(135)"
+        "why": "내부->내부호스트 RPC(135)",
+        "conn_state": "SF",
+        "completion": "confirmed",
+        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "phase": "post_infection"
       },
       {
         "src": "10.10.22.156",
@@ -1251,7 +1267,10 @@
         "bytes": 0,
         "community_id": "1:yij6clGHMI20NOPLIQfrO9tjGQE=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->내부호스트 SMB(445)",
+        "conn_state": "REJ",
+        "completion": "attempted",
+        "phase": "post_infection"
       }
     ],
     "ad_baseline": [
