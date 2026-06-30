@@ -979,20 +979,6 @@
     "lateral_movement": [
       {
         "src": "10.6.15.119",
-        "dst": "10.6.15.1",
-        "dport": 445,
-        "service": "tcp",
-        "conns": 5,
-        "bytes": 0,
-        "community_id": "1:zvN8qQ/lNxvUPxNmHVW9KKac8e0=",
-        "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)",
-        "conn_state": "REJ",
-        "completion": "attempted",
-        "phase": "post_infection"
-      },
-      {
-        "src": "10.6.15.119",
         "dst": "10.6.15.187",
         "dport": 445,
         "service": "tcp",
@@ -1002,8 +988,14 @@
         "tech": "SMB",
         "why": "내부->내부호스트 SMB(445)",
         "conn_state": "RSTR",
+        "rpc_op": null,
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
         "completion": "attempted",
-        "phase": "post_infection"
+        "phase": "pre_infection"
       },
       {
         "src": "10.6.15.119",
@@ -1016,8 +1008,14 @@
         "tech": "SMB",
         "why": "내부->내부호스트 SMB(445)",
         "conn_state": "RSTR",
+        "rpc_op": null,
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
         "completion": "attempted",
-        "phase": "post_infection"
+        "phase": "pre_infection"
       }
     ],
     "ad_baseline": [
@@ -1303,13 +1301,6 @@
       "clock": "14:42:46",
       "offset": "+532s",
       "event": "비콘 패턴: 10.6.15.119 → 10.6.15.1:445 (5회, CV=0.0209)",
-      "evidence": "community_id:1:zvN8qQ/lNxvUPxNmHVW9KKac8e0="
-    },
-    {
-      "ts": 1623854566.152,
-      "clock": "14:42:46",
-      "offset": "+532s",
-      "event": "측면이동 의심: 10.6.15.119 → 10.6.15.1:445 SMB",
       "evidence": "community_id:1:zvN8qQ/lNxvUPxNmHVW9KKac8e0="
     },
     {

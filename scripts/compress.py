@@ -328,26 +328,39 @@ def join_alert_to_flow(alert_rows, conn):
     return alert_rows
 
 
-# 원격 실행/제어 계열 RPC (PsExec=svcctl, 스케줄작업=atsvc/tsch, 원격레지스트리=winreg).
-# 이게 동반되면 단순 SMB 접속이 아니라 '확정된 원격 제어' = 진짜 측면이동.
-LATERAL_CONFIRM_RPC = ("svcctl", "atsvc", "tsch", "itaskschedulerservice", "winreg")
+# 원격 '실행' 확정 신호 = 실제 서비스 생성. OpenSCManager(SCM 열기)만으론 미수.
+CONFIRM_RPC_OPS = ("createservice",)            # CreateServiceA/W
+# 데이터 0 + 순수 실패 상태 = 게이트웨이 probe 등 노이즈 → lateral에서 제외
+FAILED_STATES = ("REJ", "S0", "RSTRH", "SH", "RSTOS0")
 
 
-def tag_lateral_movement(lateral, conn, dce_rpc, alerts):
-    """각 측면이동 레코드에 결정론적 태그 부착 (item 3):
-         completion: confirmed(원격제어 RPC 동반) | attempted
-         conn_state: 해당 flow의 conn 상태(SF/RSTO/S0…) — failed 판별용
-         phase     : post_infection(src 감염 이후) | pre_infection | unknown
-       SLM이 '미수/감염후 행위'를 '감염 전파'로 오해하는 걸 막을 사실을 깔아준다.
-       (소비처: llm_analyze의 킬체인 가드 — 여기선 사실만 부착, 판단은 안 함)"""
-    # 원격제어 RPC 발생한 (src,dst) 쌍
-    confirm_pairs = set()
+def tag_lateral_movement(lateral, conn, dce_rpc, smb_mapping, smb_files, alerts):
+    """각 측면이동 레코드에 결정론적 태그 부착 (item 3). 사실만 깔고 판단은 안 함
+       (소비처: llm_analyze _strip_unfounded — 감염 전파 vs 미수/침해후 구분).
+         share_type   : IPC$ / ADMIN$ / C$ ...  (smb_mapping)
+         file_dropped : 타겟에 파일 쓰기 있었나 (smb_files FILE_WRITE)
+         rpc_op       : 동반 dce_rpc 오퍼레이션 목록 (CreateService 등)
+         conn_state   : flow 상태(SF/RSTO/REJ…) — failed 판별
+         completion   : confirmed(파일드롭 or CreateService) | attempted
+         phase        : 타겟(dst) 감염 시각 기준 pre/post_infection (인과 핵심)
+       게이트웨이 0바이트 노이즈는 제외."""
+    rpc_ops = defaultdict(set)
     for e in dce_rpc:
-        ep = (e.get("endpoint") or "").lower()
-        if any(a in ep for a in LATERAL_CONFIRM_RPC):
-            confirm_pairs.add((e.get("id.orig_h"), e.get("id.resp_h")))
+        if e.get("operation"):
+            rpc_ops[(e.get("id.orig_h"), e.get("id.resp_h"))].add(e["operation"])
 
-    # community_id -> 최초 ts, conn_state 집합
+    shares = defaultdict(set)
+    for m in smb_mapping:
+        path = (m.get("path") or "").upper()
+        for tok in ("IPC$", "ADMIN$", "C$"):
+            if tok in path:
+                shares[(m.get("id.orig_h"), m.get("id.resp_h"))].add(tok)
+
+    dropped = set()
+    for f in smb_files:
+        if "WRITE" in (f.get("action") or "").upper():
+            dropped.add((f.get("id.orig_h"), f.get("id.resp_h")))
+
     ts_by_cid, states = {}, defaultdict(set)
     for c in conn:
         cid, t = c.get("community_id"), c.get("ts")
@@ -356,7 +369,7 @@ def tag_lateral_movement(lateral, conn, dce_rpc, alerts):
             if t is not None and (cid not in ts_by_cid or t < ts_by_cid[cid]):
                 ts_by_cid[cid] = t
 
-    # 호스트(src)별 최초 위협 활동 ts (phase 기준선)
+    # 호스트별 최초 위협 활동 ts (= 그 호스트의 감염 시각). phase는 '타겟(dst)' 기준.
     first_mal = {}
     for a in alerts:
         al = a.get("alert", {})
@@ -366,21 +379,30 @@ def tag_lateral_movement(lateral, conn, dce_rpc, alerts):
         if src and t is not None and (src not in first_mal or t < first_mal[src]):
             first_mal[src] = t
 
+    out = []
     for r in lateral:
         src, dst, cid = r.get("src"), r.get("dst"), r.get("community_id")
         st = sorted(s for s in states.get(cid, set()) if s)
+        # 노이즈 제외: 데이터 0 + 순수 실패 (게이트웨이 REJ 등)
+        if (r.get("bytes") or 0) == 0 and st and all(s in FAILED_STATES for s in st):
+            continue
+        ops = rpc_ops.get((src, dst), set())
+        fd = (src, dst) in dropped
         r["conn_state"] = ",".join(st) or None
-        if (src, dst) in confirm_pairs:
-            r["completion"] = "confirmed"
-            r["why_completion"] = "원격 서비스제어/작업 RPC 동반"
-        else:
-            r["completion"] = "attempted"
-        lt, ft = ts_by_cid.get(cid), first_mal.get(src)
-        if lt is not None and ft is not None:
-            r["phase"] = "post_infection" if lt >= ft else "pre_infection"
-        else:
+        r["rpc_op"] = sorted(ops) or None
+        r["share_type"] = sorted(shares.get((src, dst), set())) or None
+        r["file_dropped"] = fd
+        confirmed = fd or any(c in o.lower() for o in ops for c in CONFIRM_RPC_OPS)
+        r["completion"] = "confirmed" if confirmed else "attempted"
+        lt, ft = ts_by_cid.get(cid), first_mal.get(dst)   # ★ 타겟(dst) 감염 기준
+        if ft is None:
+            r["phase"] = "target_uninfected"
+        elif lt is None:
             r["phase"] = "unknown"
-    return lateral
+        else:
+            r["phase"] = "post_infection" if lt >= ft else "pre_infection"
+        out.append(r)
+    return out
 
 
 def _fmt_clock(ts):
@@ -682,10 +704,12 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
     alerts_pkg = compress_alerts(alerts, top)
     alerts_pkg["by_flow"] = join_alert_to_flow(alerts_pkg["by_flow"], conn)
     conn_summary = compress_conn(conn, top, dc_ips=dc_ips)
-    # item 3: 측면이동에 completion/conn_state/phase 결정론 태그 부착
+    # item 3: 측면이동에 share_type/file_dropped/rpc_op/conn_state/completion/phase 태그 부착
     conn_summary["lateral_movement"] = tag_lateral_movement(
         conn_summary["lateral_movement"], conn,
-        read_zeek_log(os.path.join(zeek_dir, "dce_rpc.log")), alerts)
+        read_zeek_log(os.path.join(zeek_dir, "dce_rpc.log")),
+        read_zeek_log(os.path.join(zeek_dir, "smb_mapping.log")),
+        read_zeek_log(os.path.join(zeek_dir, "smb_files.log")), alerts)
 
     # 타임라인 뼈대 (실제 ts 기반 — LLM은 해석만)
     files_raw = read_zeek_log(os.path.join(zeek_dir, "files.log"))

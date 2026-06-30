@@ -372,18 +372,23 @@ def enforce_review(verdict, ev=None):
 
 def _strip_unfounded(verdict, ev):
     """evidence로 검증 가능한 환각만 결정론적으로 제거 (사건유형 무관 일반 가드).
-       - 측면이동 주장: conn.lateral_movement가 비어 있으면 해당 MITRE 항목 제거
+       - 측면이동 주장: 감염 전파의 근거(confirmed+pre_infection lateral)가 없으면 MITRE 제거.
+         미수(attempted)·감염후(post_infection)뿐이면 '전파'가 아니므로 제거 (item3 태그 소비).
        - CVE: 어떤 시그니처에도 없는 CVE는 제거 (프롬프트 규칙을 코드로 승격)."""
-    # 1) 측면이동 무근거 제거
-    if not ev.get("conn", {}).get("lateral_movement"):
+    # 1) 측면이동 전파 근거 검증 — confirmed AND pre_infection 만 진짜 전파로 인정
+    lm = ev.get("conn", {}).get("lateral_movement") or []
+    real_spread = [r for r in lm if isinstance(r, dict)
+                   and r.get("completion") == "confirmed" and r.get("phase") == "pre_infection"]
+    if not real_spread:
         mitre = verdict.get("mitre_attack")
         if isinstance(mitre, list):
             kept = [m for m in mitre if isinstance(m, dict) and
                     "lateral" not in (str(m.get("tactic", "")) + str(m.get("technique", ""))).lower()]
             if len(kept) != len(mitre):
                 verdict["mitre_attack"] = kept
-                verdict.setdefault("rule_overrides", []).append(
-                    "측면이동 근거(conn.lateral_movement) 없음 → 해당 MITRE 제거")
+                reason = ("측면이동 근거 없음" if not lm
+                          else "측면이동이 전부 미수/감염후(confirmed+pre_infection 없음)")
+                verdict.setdefault("rule_overrides", []).append(reason + " → 측면이동 MITRE 제거")
     # 2) 근거 없는 CVE 제거
     cves = verdict.get("cve")
     if isinstance(cves, list) and cves:

@@ -1209,8 +1209,16 @@
         "tech": "SMB",
         "why": "내부->내부호스트 SMB(445)",
         "conn_state": "RSTO",
-        "completion": "confirmed",
-        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "rpc_op": [
+          "OpenSCManager2",
+          "ept_map"
+        ],
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
+        "completion": "attempted",
         "phase": "post_infection"
       },
       {
@@ -1224,8 +1232,16 @@
         "tech": "SMB",
         "why": "내부->내부호스트 SMB(445)",
         "conn_state": "RSTO",
-        "completion": "confirmed",
-        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "rpc_op": [
+          "OpenSCManager2",
+          "ept_map"
+        ],
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
+        "completion": "attempted",
         "phase": "post_infection"
       },
       {
@@ -1239,8 +1255,16 @@
         "tech": "RPC",
         "why": "내부->내부호스트 RPC(135)",
         "conn_state": "SF",
-        "completion": "confirmed",
-        "why_completion": "원격 서비스제어/작업 RPC 동반",
+        "rpc_op": [
+          "OpenSCManager2",
+          "ept_map"
+        ],
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
+        "completion": "attempted",
         "phase": "post_infection"
       },
       {
@@ -1254,21 +1278,15 @@
         "tech": "RPC",
         "why": "내부->내부호스트 RPC(135)",
         "conn_state": "SF",
-        "completion": "confirmed",
-        "why_completion": "원격 서비스제어/작업 RPC 동반",
-        "phase": "post_infection"
-      },
-      {
-        "src": "10.10.22.156",
-        "dst": "10.10.22.1",
-        "dport": 445,
-        "service": "tcp",
-        "conns": 5,
-        "bytes": 0,
-        "community_id": "1:yij6clGHMI20NOPLIQfrO9tjGQE=",
-        "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)",
-        "conn_state": "REJ",
+        "rpc_op": [
+          "OpenSCManager2",
+          "ept_map"
+        ],
+        "share_type": [
+          "C$",
+          "IPC$"
+        ],
+        "file_dropped": false,
         "completion": "attempted",
         "phase": "post_infection"
       }
@@ -1644,13 +1662,6 @@
       "evidence": "community_id:1:yij6clGHMI20NOPLIQfrO9tjGQE="
     },
     {
-      "ts": 1634916764.25,
-      "clock": "15:32:44",
-      "offset": "+3712s",
-      "event": "측면이동 의심: 10.10.22.156 → 10.10.22.1:445 SMB",
-      "evidence": "community_id:1:yij6clGHMI20NOPLIQfrO9tjGQE="
-    },
-    {
       "ts": 1634916765.356,
       "clock": "15:32:45",
       "offset": "+3713s",
@@ -1670,6 +1681,13 @@
       "offset": "+3740s",
       "event": "IDS 첫 탐지: ET MALWARE VNCStartServer USR Variant CnC Beacon",
       "evidence": "community_id:1:WoLVdQa3cet63zLC3th9Vt4ScXA="
+    },
+    {
+      "ts": 1634916791.527,
+      "clock": "15:33:11",
+      "offset": "+3740s",
+      "event": "IDS 첫 탐지: ET MALWARE VNCStartServer BOT Variant CnC Beacon",
+      "evidence": "community_id:1:jkY8kORhP1R1n3IOLGnBAtDy2E4="
     }
   ],
   "enrichment": {
