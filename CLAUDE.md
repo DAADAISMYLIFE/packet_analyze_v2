@@ -21,7 +21,7 @@ python3 scripts/compress.py <name> --pkts <N> --md
 
 # LLM verdict (requires Ollama running, e.g. on Colab)
 python3 scripts/llm_analyze.py <name> --base-url http://localhost:11434/v1 \
-    --model qwen2.5:14b
+    --model gemma4:26b
 
 # Dry-run: validate prompt wiring without an LLM
 python3 scripts/llm_analyze.py <name> --dry-run
@@ -90,4 +90,4 @@ These prevent a broken input from appearing as a clean "no threats found" result
 - Zeek 8.2.0 via Docker (`zeek/zeek:latest`)
 - Python 3 (stdlib only — no pip installs needed)
 - `tcpdump` for packet count in `analyze.sh`
-- Colab with T4 GPU for LLM verdict step (`notebooks/colab_llm.ipynb` bootstraps Ollama + qwen2.5:14b)
+- Colab with T4 GPU for LLM verdict step (`notebooks/colab_llm.ipynb` bootstraps Ollama + gemma4:26b)

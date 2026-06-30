@@ -190,45 +190,51 @@ class DrillDownTools:
             return False
 
 
-# ── OpenAI 호환 function-calling 스키마 (Ollama/Qwen이 이 형식 사용) ──
+# ── OpenAI 호환 function-calling 스키마 (Ollama/Gemma가 이 형식 사용) ──
 TOOL_SCHEMAS = [
     {"type": "function", "function": {
         "name": "get_flow_detail",
         "description": "community_id로 특정 flow의 conn/http/dns/ssl/files 원본 레코드를 모두 조회",
-        "parameters": {"type": "object", "properties": {
-            "community_id": {"type": "string", "description": "조회할 flow의 community_id"}},
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "community_id": {"type": "string",
+                             "description": "조회할 flow의 community_id (evidence의 timeline/alert에 있는 값)"}},
             "required": ["community_id"]}}},
     {"type": "function", "function": {
         "name": "search_http",
-        "description": "host 또는 URI 키워드로 HTTP 요청 원본 검색",
-        "parameters": {"type": "object", "properties": {
-            "host": {"type": "string"}, "uri_contains": {"type": "string"}}}}},
+        "description": "host 또는 URI 키워드로 HTTP 요청 원본 검색 (둘 다 선택, 부분일치)",
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "host": {"type": "string", "description": "HTTP Host 헤더 부분일치 키워드 (예: example.com)"},
+            "uri_contains": {"type": "string", "description": "요청 URI에 포함된 부분일치 키워드 (예: /gate.php)"}}}}},
     {"type": "function", "function": {
         "name": "search_dns",
-        "description": "도메인 질의 키워드로 DNS 원본 검색",
-        "parameters": {"type": "object", "properties": {
-            "query_contains": {"type": "string"}}}}},
+        "description": "도메인 질의 키워드로 DNS 원본 검색 (부분일치)",
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "query_contains": {"type": "string", "description": "DNS 질의 도메인에 포함된 부분일치 키워드"}}}}},
     {"type": "function", "function": {
         "name": "search_alerts",
         "description": "시그니처 키워드 또는 출발/도착 IP로 Suricata alert 원문 검색",
-        "parameters": {"type": "object", "properties": {
-            "signature_contains": {"type": "string"}, "src": {"type": "string"},
-            "dst": {"type": "string"}}}}},
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "signature_contains": {"type": "string", "description": "시그니처명 부분일치 키워드 (예: Cobalt Strike)"},
+            "src": {"type": "string", "description": "출발 IP 정확일치 (예: 10.6.15.119)"},
+            "dst": {"type": "string", "description": "도착 IP 정확일치"}}}}},
     {"type": "function", "function": {
         "name": "get_connections_by_ip",
-        "description": "특정 IP가 관여한 모든 flow 조회",
-        "parameters": {"type": "object", "properties": {
-            "ip": {"type": "string"}}, "required": ["ip"]}}},
+        "description": "특정 IP가 출발이든 도착이든 관여한 모든 flow 조회",
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "ip": {"type": "string", "description": "조회할 IP 주소 (내부/외부 무관)"}},
+            "required": ["ip"]}}},
     {"type": "function", "function": {
         "name": "get_malware_file",
         "description": "sha256으로 추출된 멀웨어 파일의 메타데이터와 디스크 경로 조회",
-        "parameters": {"type": "object", "properties": {
-            "sha256": {"type": "string"}}, "required": ["sha256"]}}},
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "sha256": {"type": "string", "description": "조회할 파일의 SHA256 해시 (evidence의 malware_files에 있는 값)"}},
+            "required": ["sha256"]}}},
     {"type": "function", "function": {
         "name": "get_host_info",
-        "description": "IP 또는 MAC으로 호스트 신원(호스트명/도메인/유저/MAC) 조회",
-        "parameters": {"type": "object", "properties": {
-            "ip": {"type": "string"}, "mac": {"type": "string"}}}}},
+        "description": "IP 또는 MAC으로 호스트 신원(호스트명/도메인/유저/MAC) 조회. 피해자·공격자 신원 확정에 사용",
+        "parameters": {"type": "object", "additionalProperties": False, "properties": {
+            "ip": {"type": "string", "description": "조회할 내부 호스트 IP (ip/mac 중 하나는 필수)"},
+            "mac": {"type": "string", "description": "조회할 MAC 주소 (ip를 모를 때)"}}}}},
 ]
 
 
@@ -248,7 +254,7 @@ if __name__ == "__main__":
     import sys
     name = sys.argv[1] if len(sys.argv) > 1 else "2021-06-16-ISC-forensic-contest"
     t = DrillDownTools(name)
-
+ 
     # evidence.json에서 테스트용 community_id / sha256 자동 추출
     ev_path = os.path.join(ROOT, "report", f"{name}.evidence.json")
     cid = sha = None

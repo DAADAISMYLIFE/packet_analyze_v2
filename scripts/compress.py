@@ -357,11 +357,11 @@ def build_host_profiles(conn, ntlm, kerberos, top):
     return dict(sorted(prof.items(), key=lambda kv: -kv[1]["conns"])[:top])
 
 
-def build_timeline(conn, alerts, files, top):
+def build_timeline(conn, alerts, files, top, conn_summary=None):
     """실제 ts로 공격 흐름 뼈대를 구성 (결정론적).
        LLM은 이 뼈대를 '해석'만 한다 — 시간을 지어내지 않는다.
-       이벤트 출처: 세션범위 / 멀웨어 다운로드 / 위협시그니처 첫발생 / 비콘 첫시각 / 측면이동.
-       alert는 community_id로 conn의 실제 ts에 앵커링(시간 일관성 유지)."""
+       이벤트 출처: 세션범위 / 멀웨어 다운로드 / 위협시그니처 첫발생 / 비콘 / 측면이동.
+       alert·비콘·측면이동은 community_id로 conn의 실제 ts에 앵커링(시간 일관성 유지)."""
     conn_ts = [c["ts"] for c in conn if "ts" in c]
     if not conn_ts:
         return []
@@ -410,6 +410,18 @@ def build_timeline(conn, alerts, files, top):
             sig_first[name] = (t, a.get("community_id"))
     for name, (t, cid) in sig_first.items():
         add(t, f"IDS 첫 탐지: {name}", f"community_id:{cid}")
+
+    # 비콘 시작 시각 / 측면이동 — community_id로 conn 실제 ts에 앵커링 (docstring·프롬프트 약속 이행)
+    cs = conn_summary or {}
+    for b in cs.get("beaconing", []):
+        add(ts_by_cid.get(b.get("community_id")),
+            f"비콘 패턴: {b.get('src')} → {b.get('dst')}:{b.get('dport')} "
+            f"({b.get('conns')}회, CV={b.get('interval_cv')})",
+            f"community_id:{b.get('community_id')}")
+    for lm in cs.get("lateral_movement", []):
+        add(ts_by_cid.get(lm.get("community_id")),
+            f"측면이동 의심: {lm.get('src')} → {lm.get('dst')}:{lm.get('dport')} {lm.get('tech')}",
+            f"community_id:{lm.get('community_id')}")
 
     # 정렬 + 중복 정리 + 상한
     events.sort(key=lambda e: e["ts"])
@@ -558,7 +570,7 @@ def build_evidence(name, zeek_dir, eve_path, top, pkts=None):
 
     # 타임라인 뼈대 (실제 ts 기반 — LLM은 해석만)
     files_raw = read_zeek_log(os.path.join(zeek_dir, "files.log"))
-    timeline = build_timeline(conn, alerts, files_raw, top)
+    timeline = build_timeline(conn, alerts, files_raw, top, conn_summary)
 
     # 호스트 신원 프로파일 (IP → 호스트명/유저/MAC)
     host_profiles = build_host_profiles(
