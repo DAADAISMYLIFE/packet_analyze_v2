@@ -1,14 +1,15 @@
 {
   "meta": {
     "pcap": "2022-03-21-traffic-analysis-exercise",
-    "input_packets": 16296,
+    "git_commit": "4462352",
+    "input_packets": null,
     "flows": 924,
-    "alert_events": 235,
+    "alert_events": 232,
     "alert_buckets": {
-      "info": 219,
-      "engine": 3,
       "threat": 2,
-      "suspicious": 11
+      "engine": 3,
+      "info": 219,
+      "suspicious": 8
     },
     "alert_signatures": 9,
     "status": "OK",
@@ -55,8 +56,8 @@
         "bucket": "suspicious",
         "severity": 2,
         "category": "Potentially Bad Traffic",
-        "count": 10,
-        "distinct_flows": 10,
+        "count": 7,
+        "distinct_flows": 7,
         "src_ips": [
           "10.0.19.14"
         ],
@@ -234,55 +235,7 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:ruPusTEmib2uWrCY9hS1l13m94c=",
-        "src": "10.0.19.14",
-        "dst": "10.0.19.9",
-        "dport": 53,
-        "flow": {
-          "service": "dns",
-          "duration_s": 0.07,
-          "bytes": 80,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
-        "bucket": "suspicious",
-        "severity": 2,
-        "community_id": "1:tDfnTH3aoKdEPmwhRUig384pvtQ=",
-        "src": "10.0.19.14",
-        "dst": "10.0.19.9",
-        "dport": 53,
-        "flow": {
-          "service": "dns",
-          "duration_s": 0.0,
-          "bytes": 80,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
-        "bucket": "suspicious",
-        "severity": 2,
-        "community_id": "1:9Ozu3pRYVdX5+ulSnHFK6WeSQIs=",
-        "src": "10.0.19.14",
-        "dst": "10.0.19.9",
-        "dport": 53,
-        "flow": {
-          "service": "dns",
-          "duration_s": 0.0,
-          "bytes": 80,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
-        "bucket": "suspicious",
-        "severity": 2,
-        "community_id": "1:lUij4c4RnX6dbFw6U7biftN1NrE=",
+        "community_id": "1:XBEl4FKlwOFyl14yaxCc2OiKOPQ=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
@@ -298,23 +251,7 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:Im8Xwu8cFi4/D6bLnJDa9DWln0A=",
-        "src": "10.0.19.14",
-        "dst": "10.0.19.9",
-        "dport": 53,
-        "flow": {
-          "service": "dns",
-          "duration_s": 0.09,
-          "bytes": 80,
-          "conn_state": "SF"
-        }
-      },
-      {
-        "count": 1,
-        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
-        "bucket": "suspicious",
-        "severity": 2,
-        "community_id": "1:oUWmMdX17aUIIjJtWkrKE0mAzBM=",
+        "community_id": "1:1xO9B9+kSfqkdipVVd76YngAZd8=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
@@ -330,14 +267,14 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:1cCxr2kXKTja5CNcqe5SLNb7qh0=",
+        "community_id": "1:7UYJpHBlo4PUnuqaydImOru/l98=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
         "flow": {
           "service": "dns",
-          "duration_s": 0.07,
-          "bytes": 80,
+          "duration_s": 0.1,
+          "bytes": 112,
           "conn_state": "SF"
         }
       },
@@ -346,13 +283,13 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
-        "community_id": "1:E2sRhIPcr/WLaTutmZ/Gbbf/Zag=",
+        "community_id": "1:i2tMXrkKnIGhnogqqiLFSoUYDtc=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
         "dport": 53,
         "flow": {
           "service": "dns",
-          "duration_s": 0.08,
+          "duration_s": 0.07,
           "bytes": 80,
           "conn_state": "SF"
         }
@@ -378,6 +315,22 @@
         "signature": "ET DNS Query to a *.top domain - Likely Hostile",
         "bucket": "suspicious",
         "severity": 2,
+        "community_id": "1:SEs0ldfL8sQ1isG6LnGI1z5P/pc=",
+        "src": "10.0.19.14",
+        "dst": "10.0.19.9",
+        "dport": 53,
+        "flow": {
+          "service": "dns",
+          "duration_s": 0.0,
+          "bytes": 80,
+          "conn_state": "SF"
+        }
+      },
+      {
+        "count": 1,
+        "signature": "ET DNS Query to a *.top domain - Likely Hostile",
+        "bucket": "suspicious",
+        "severity": 2,
         "community_id": "1:UpFCldhp7K5OtcKhGyXzouR64A4=",
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
@@ -391,16 +344,18 @@
       }
     ],
     "bucket_counts": {
-      "info": 219,
-      "engine": 3,
       "threat": 2,
-      "suspicious": 11
+      "engine": 3,
+      "info": 219,
+      "suspicious": 8
     },
     "noise_truncated": 0
   },
   "conn": {
     "flow_groups": 78,
-    "ad_servers": [],
+    "ad_servers": [
+      "10.0.19.9"
+    ],
     "beaconing": [],
     "top_talkers_external": [
       {
@@ -604,7 +559,8 @@
         "external": true
       }
     ],
-    "lateral_movement": [
+    "lateral_movement": [],
+    "ad_baseline": [
       {
         "src": "10.0.19.14",
         "dst": "10.0.19.9",
@@ -614,7 +570,7 @@
         "bytes": 331566,
         "community_id": "1:60mTwfJXdJNkwrdLeKSstaSfgEE=",
         "tech": "SMB",
-        "why": "내부->내부호스트 SMB(445)"
+        "why": "내부->DC SMB(445) 정상 인증"
       },
       {
         "src": "10.0.19.14",
@@ -625,7 +581,7 @@
         "bytes": 17644,
         "community_id": "1:bdF8PDQXoiQ7rFO++fq/ethZGdU=",
         "tech": "RPC",
-        "why": "내부->내부호스트 RPC(135)"
+        "why": "내부->DC RPC(135) 정상 인증"
       },
       {
         "src": "10.0.19.14",
@@ -636,7 +592,7 @@
         "bytes": 550014,
         "community_id": "1:n1nWeY9DQSD8YJpZnxGIEXxBlEo=",
         "tech": "LDAP",
-        "why": "내부->내부호스트 LDAP(389)"
+        "why": "내부->DC LDAP(389) 정상 인증"
       },
       {
         "src": "10.0.19.14",
@@ -647,11 +603,10 @@
         "bytes": 54279,
         "community_id": "1:rRaWB0ZA9Ctak8ptdAbiri8OWUk=",
         "tech": "Kerberos",
-        "why": "내부->내부호스트 Kerberos(88)"
+        "why": "내부->DC Kerberos(88) 정상 인증"
       }
     ],
-    "ad_baseline": [],
-    "ad_baseline_count": 0,
+    "ad_baseline_count": 4,
     "port_scans": []
   },
   "host_profiles": {
@@ -660,7 +615,8 @@
       "mac": "00:60:52:b7:33:0f",
       "scope": "internal",
       "hostname": "DESKTOP-5QS3D5D",
-      "user": "patrick.zimmerman/BURNINCANDLE.COM",
+      "realm": "BURNINCANDLE.COM",
+      "user": "patrick.zimmerman",
       "role": "host"
     },
     "10.0.19.9": {
@@ -684,18 +640,6 @@
     },
     "169.254.255.255": {
       "conns": 2,
-      "mac": "ff:ff:ff:ff:ff:ff",
-      "scope": "internal",
-      "role": "host"
-    },
-    "0.0.0.0": {
-      "conns": 1,
-      "mac": "00:60:52:b7:33:0f",
-      "scope": "internal",
-      "role": "host"
-    },
-    "255.255.255.255": {
-      "conns": 1,
       "mac": "ff:ff:ff:ff:ff:ff",
       "scope": "internal",
       "role": "host"
@@ -736,11 +680,11 @@
       "evidence": "community_id:1:611zLtP7N471qhgDX887m6SWaFc="
     },
     {
-      "ts": 1647908503.229,
-      "clock": "00:21:43",
-      "offset": "+12212s",
+      "ts": 1647909423.949,
+      "clock": "00:37:03",
+      "offset": "+13133s",
       "event": "IDS 첫 탐지: ET DNS Query to a *.top domain - Likely Hostile",
-      "evidence": "community_id:1:tDfnTH3aoKdEPmwhRUig384pvtQ="
+      "evidence": "community_id:1:XBEl4FKlwOFyl14yaxCc2OiKOPQ="
     },
     {
       "ts": 1647919036.749,
@@ -914,7 +858,7 @@
       "records": 1,
       "top_values": {
         "uids": {
-          "['CVHASrjC5JyfPsPY', 'CFh5HWEJFLGDMgLRa']": 1
+          "['CrLUJr1YLZCcDWGwmd', 'CsKyiW1GuUKNS1jcK3']": 1
         },
         "client_addr": {
           "10.0.19.14": 1

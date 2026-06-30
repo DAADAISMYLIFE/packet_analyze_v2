@@ -1,6 +1,7 @@
 {
   "meta": {
     "pcap": "2021-10-22-ISC-forensic-challenge-traffic",
+    "git_commit": "4462352",
     "input_packets": null,
     "flows": 3230,
     "alert_events": 1073,

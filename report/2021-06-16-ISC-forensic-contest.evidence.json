@@ -1,6 +1,7 @@
 {
   "meta": {
     "pcap": "2021-06-16-ISC-forensic-contest",
+    "git_commit": "4462352",
     "input_packets": null,
     "flows": 15998,
     "alert_events": 14383,

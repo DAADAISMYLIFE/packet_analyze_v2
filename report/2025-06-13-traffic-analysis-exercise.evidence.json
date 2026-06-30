@@ -1,6 +1,7 @@
 {
   "meta": {
     "pcap": "2025-06-13-traffic-analysis-exercise",
+    "git_commit": "4462352",
     "input_packets": null,
     "flows": 433,
     "alert_events": 20,
